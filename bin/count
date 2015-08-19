@@ -1,0 +1,26 @@
+#!/bin/bash
+# count -- counts the number of non-whitespace lines in a file or directory
+#   -- i.e., count how many lines of actual code you've written
+# ~ Mark J. Duvall ~ mjduvall@hawaii.edu ~ #
+
+# Copyright (C) 2015 Mark J. Duvall
+#
+#    This program is free software: you can redistribute it and/or modify
+#    it under the terms of the GNU General Public License as published by
+#    the Free Software Foundation, either version 3 of the License, or
+#    (at your option) any later version.
+#
+#    This program is distributed in the hope that it will be useful,
+#    but WITHOUT ANY WARRANTY; without even the implied warranty of
+#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#    GNU General Public License for more details.
+#
+#    You should have received a copy of the GNU General Public License
+#    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+
+# original version using bc:
+#echo $(grep -Ec "./+" $1 | grep -Eo "[[:digit:]]\+") | sed s/" "/+/g | bc
+
+# new BASH-only version:
+echo $(( $(echo $(grep -c ".\+" $1 | grep -o "[[:digit:]]\+") | sed s/" "/+/g) ))

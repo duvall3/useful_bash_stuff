@@ -1,0 +1,13 @@
+set background=dark
+syn on
+set nowrap
+
+" spacebar to insert single character (from Normal mode)
+nmap <Space> i_^[r
+
+" syntax highlighting for lilypond:
+filetype off
+set runtimepath+=/usr/share/lilypond/2.14.2/vim
+filetype on
+
+
