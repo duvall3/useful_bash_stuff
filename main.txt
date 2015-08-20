@@ -1,0 +1,30 @@
+Useful BASH Stuff -- Tips, Tricks, & Other Delights
+==================================================================
+
+
+General
+~~~~~~~~~
+
+#0: tab completion & command history: you already know this
+
+#1: <Alt+.> -- argument history: paste recent arguments
+	-- example: start working on a new shell script: 'touch reallylongfilename.sh; chmod 755 <Alt+.>; vim <Alt+.>'
+
+#2: arrow-key command history search: waaaay better than default, instructions coming soon
+
+
+
+
+
+
+
+Vim
+~~~~~~~~~~
+
+- block insert: in normal mode, <Ctrl+V> -> highlight block -> <Shift+I> -> type -> <Esc>
+  block delete:          "         "             "          -> x
+
+- special characters: in insert mode, <Ctrl+k> -> mod key -> letter
+	-- example: <Ctrl+k>'e --> é
+
+
