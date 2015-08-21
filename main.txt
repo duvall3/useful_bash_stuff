@@ -2,18 +2,32 @@ Useful BASH Stuff -- Tips, Tricks, & Other Delights
 ==================================================================
 
 
-General
+Favorites
 ~~~~~~~~~
 
-#0: tab completion & command history: you already know this
+
+#0: tab completion & command history: if you're reading this document, you already know about these
 
 #1: <Alt+.> -- argument history: paste recent arguments
-	-- example: start working on a new shell script: 'touch reallylongfilename.sh; chmod 755 <Alt+.>; vim <Alt+.>'
+  -- example: starting work on a new shell script: "touch reallylongfilename.sh; chmod 755 <Alt+.>; vim <Alt+.>"
 
-#2: arrow-key command history search: waaaay better than default, instructions coming soon
+#2: arrow-key command history search -- <up/down> : waaay better than default behavior, instructions coming soon
 
 
+In no particular order:
 
+- find | xargs -- find files matching given criteria & operate on them; basic syntax is "find [path] [expression] -print0 | xargs -0 <command>"
+  -- books have been written on this, but as a very basic example:
+    "find ~ -ctime -1 -print0 | xargs -0 stat" will find all files in your home folder
+    that have been accessed/modified in the last day and print their stats
+
+- Vim block insert/delete: use 
+  block insert: in normal mode, <Ctrl+V> -> highlight block using arrow keys -> <Shift+I> -> type -> <Esc>
+  block delete:          "         "                       "                 -> x (delete) or d (cut)
+
+- "target" option for copy & move: "cp -t <target_directory> <file1> [file2 file3 ...]" (same for "mv")
+  -- this helps prevent mixups when copying/moving multiple files (or directories)
+  -- especially useful when piping multiple files into cp/mv, since some piping syntaxes will screw up the order
 
 
 
@@ -21,10 +35,13 @@ General
 Vim
 ~~~~~~~~~~
 
-- block insert: in normal mode, <Ctrl+V> -> highlight block -> <Shift+I> -> type -> <Esc>
-  block delete:          "         "             "          -> x
+
+- repeat input: in normal mode, "." will repeat everything you typed the last time you were in input mode
+  -- can be prefixed with a number for repetition
+  -- example: normal mode -> "i" -> type a template for some records you want to enter -> <Esc> -> "5."
+      --> now you have 5 copies of your template, and you can just go fill in the blanks
 
 - special characters: in insert mode, <Ctrl+k> -> mod key -> letter
-	-- example: <Ctrl+k>'e --> é
+  -- example: <Ctrl+k>'e --> é
 
 

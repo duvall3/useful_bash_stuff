@@ -2,6 +2,7 @@
 # counttext -- identify text files and count the non-whitespace lines;
 #   the usual argument is "*" (including quotes),
 #   which will operate on all files in the current directory
+#   -- useful for "How many lines of code have I written for this &@*#& project?!"
 #   -- depends on common program 'bc' && other shell script 'count'
 # ~ Mark J. Duvall ~ mjduvall@hawaii.edu ~ #
 
