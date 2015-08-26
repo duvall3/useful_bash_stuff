@@ -13,6 +13,10 @@ Favorites
 
 #2: arrow-key command history search -- <up/down> : waaay better than default behavior, instructions coming soon
 
+#3: <Ctrl+/> -- "undo" for your command line -- works on typing, pasting, history search, pretty much everything!
+
+-- It's worth noting that all my top favorites listed so far are part of the GNU Readline library. Thanks, readline!!!
+
 
 In no particular order:
 
