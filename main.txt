@@ -35,6 +35,9 @@ In no particular order:
 Vim
 ~~~~~~~~~~
 
+- jump to line N: in normal mode, ":N"
+
+- jump to matching bracket -- works for all ([{}]) : in normal mode, "%"
 
 - repeat input: in normal mode, "." will repeat everything you typed the last time you were in input mode
   -- can be prefixed with a number for repetition
