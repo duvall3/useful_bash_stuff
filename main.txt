@@ -48,6 +48,8 @@ Vim
   -- example: normal mode -> "i" -> type a template for some records you want to enter -> <Esc> -> "5."
       --> now you have 5 copies of your template, and you can just go fill in the blanks
 
+- autocomplete: in insert mode, "<Ctrl+N>" (next) to start at top of list or "<Ctrl+P>" (previous) to start at bottom of list
+
 - special characters: in insert mode, <Ctrl+k> -> mod key -> letter
   -- example: <Ctrl+k>'e --> é
 
