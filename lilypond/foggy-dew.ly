@@ -121,8 +121,11 @@ foggy_verse_four = \markup {
 \markup{ \column{ \vspace #2.0 } }
 % remaining verses
 \foggy_verse_two
+\markup{ \column{ \vspace #1.0 } }
 \foggy_verse_instrumental
+\markup{ \column{ \vspace #1.0 } }
 \foggy_verse_three
+\markup{ \column{ \vspace #1.0 } }
 \foggy_verse_four
 
 
