@@ -46,15 +46,16 @@ wild_melody = \new Staff { \relative d' {
 
   \repeat volta 2 {
     
+    % verse
+    \mark \markup{\italic Verse}
     fs2 e8 d8~ d8 d8 | b8 d8~ d2 g8 a8 | d2 d8 b8~ b8 b8 | a8 b8~ b2 a8 b8 | \break
-    d2 b4 a4 | fs8 d8~ d2 e8 fs8 | g4. fs8 e8 d8~ d8 d8 | b8 d8~ d2 d8 b8 |
-    a2 b8 d8~ d4 | e8 d8~ d2 fs8 a8 | \bar "||" \break 
-  }
+    d2 b4 a4 | fs8 d8~ d2 e8 fs8 | g4. fs8 e8 d8 d4 | b8 d8~ d2 d8 b8 | \bar "||" \break 
 
-  \repeat volta 2 {
-
+    % chorus ^\markup{\italic Chorus}
+    \mark \markup{\italic Chorus}
+    a2 b8 d8~ d4 | e8 d8~ d2 fs8 a8 | 
     d2 d8 b8~ b8 b8 | a8 b8~ b2 a8 b8 | d2 b4 a4 | fs8 d8~ d2 e8 fs8 | \break
-    g4. fs8 e8 d8~ d8 d8 | b8 d8~ d2 d8 b8 |
+    g4. fs8 e8 d8 d4 | b8 d8~ d2 d8 b8 |
     a2 b8 d8~ d4 | e8 d8~ d2. | %\break 
 %   % two-bar tag:
 %   r1 | r1 | \break
@@ -90,7 +91,7 @@ wild_chords = \chords {
 wild_verse_one = \new Lyrics { \lyricmode {
 
 % \override VerticalAxisGroup.staff-affinity = #DOWN
-%\override LyricText.self-alignment-X = #CENTER
+%\with LyricText.self-alignment-X = #CENTER
   
   \partial 4 Well,8 the8
 

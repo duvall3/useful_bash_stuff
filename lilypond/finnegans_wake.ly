@@ -25,22 +25,26 @@
 
 %% header
 \header {
-title = ""
+title = "Finnegan's Wake (A)"
 %subtitle = ""
 %subsubtitle = ""
-composer = ""
-arranger = ""
+composer = "Traditional"
+arranger = "Arr. Mark Duvall via the Dubliners"
 %opus = ""
 }
 
+% caesura
+cae = \markup { \musicglyph #"scripts.caesura.straight" }
 
 
 %% melody
-piece_melody = \new Voice {
+fing_melody = \new Voice {
   
-  \relative %{note%} {
+  \relative e' {
   
-    % MUSIC GOES HERE
+    \mark \markup{\italic Verse}
+%   cs4 cs8 b8 cs8 fs8[ fs8] -\markup{\musicglyph #"scripts.caesura.straight"} gs8 | a8 gs8 fs8 e8 d8 b8   | fs4 fs8 e8 fs8 gs8 a4 \bar "||" %\break
+    cs4 cs8 b8 cs8 fs8[ fs8] gs8 | a8 gs8 fs8 e8 d8 b8 b4 | fs'4 fs8 e8 fs8 gs8 a4 \bar "||" %\break
   
   }  % end \relative
 
@@ -49,7 +53,7 @@ piece_melody = \new Voice {
 
 
 %% chords
-piece_chords = \new ChordNames {
+fing_chords = \new ChordNames {
   
   \chordmode {
     
@@ -63,7 +67,7 @@ piece_chords = \new ChordNames {
 
 %% lyrics
 % first verse
-piece_verse_one = \new Lyrics {
+fing_verse_one = \new Lyrics {
   
   \lyricmode {
     
@@ -74,7 +78,7 @@ piece_verse_one = \new Lyrics {
 } % end \Lyrics
 
 % additional verses
-piece_verse_two = \markup {
+fing_verse_two = \markup {
   \italic{ Verse 2 }
   \wordwrap-string #"
   LYRICS GO HERE, DOUBLE-SPACED AT LINE BREAKS
@@ -84,19 +88,20 @@ piece_verse_two = \markup {
 
 
 %% MAIN
-\score { %piece = ""
+\score { %fing = ""
   \new Staff {
+    \key a \major
     <<
-      \piece_melody
-      \piece_chords
-      \piece_verse_one
+      \fing_melody
+      \fing_chords
+      \fing_verse_one
     >>
   } % end Staff
   \layout { }
 } %end \score
 
 % additional verses below:
-%\piece_verse_two
+%\fing_verse_two
 
 
 
