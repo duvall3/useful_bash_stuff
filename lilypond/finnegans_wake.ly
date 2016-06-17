@@ -1,4 +1,4 @@
-\version "2.16.2"
+\version "2.18.2"
 \language "english"
 
 
@@ -37,6 +37,7 @@ arranger = "Arr. Mark Duvall via the Dubliners"
 cae = \markup { \musicglyph #"scripts.caesura.straight" }
 
 
+
 %% melody
 fing_melody = \new Voice {
   
@@ -44,7 +45,13 @@ fing_melody = \new Voice {
   
     \mark \markup{\italic Verse}
 %   cs4 cs8 b8 cs8 fs8[ fs8] -\markup{\musicglyph #"scripts.caesura.straight"} gs8 | a8 gs8 fs8 e8 d8 b8   | fs4 fs8 e8 fs8 gs8 a4 \bar "||" %\break
-    cs4 cs8 b8 cs8 fs8[ fs8] gs8 | a8 gs8 fs8 e8 d8 b8 b4 | fs'4 fs8 e8 fs8 gs8 a4 \bar "||" %\break
+    cs4 cs8 b8 cs8 fs8 fs8 gs8 | a8 gs8 fs8 e8 d8 b8 b4 | cs4 cs8 b8 cs8 fs8 fs8 gs8 | a8 gs8 fs8 e8 fs8 gs8 a4 | \break  %a8 gs8 fs8 e8 d8 b8 b4 | fs'4 fs8 e8 fs8 gs8 a4 \bar "||" %\break
+%   cs4 cs8 b8 cs8 fs8 fs8 gs8 | a8 gs8 fs8 e8 fs8 gs8 a4 | %fs'4 fs8 e8 fs8 gs8 a4 \bar "||" %\break
+    cs,4 cs8 b8 cs8 fs8 fs8 gs8 | a8 gs8 fs8 e8 d8 b8 b4 | cs4 cs8 b8 cs8 fs8 fs8 gs8 | a8 gs8 fs8 e8 fs8 gs8 a4 | \bar "||" \break
+
+    \mark \markup{\italic Chorus}
+    cs4 cs8 b8 cs8 fs8 fs8 gs8 | a8 gs8 fs8 e8 d8 b8 b4 | cs4 cs8 b8 cs8 fs8 fs8 gs8 | a8 gs8 fs8 e8 fs8 gs8 a4 | \break
+    cs,4 cs8 b8 cs8 fs8 fs8 gs8 | a8 gs8 fs8 e8 d8 b8 b4 | cs4 cs8 b8 cs8 fs8 fs8 gs8 | a8 gs8 fs8 e8 fs8 gs8 a4 | \bar "|." \break
   
   }  % end \relative
 
@@ -57,7 +64,7 @@ fing_chords = \new ChordNames {
   
   \chordmode {
     
-    % CHORDS GO HERE
+   a2 fs2:m | d2 e2 |  
     
   } % end \chordmode
 
@@ -92,12 +99,12 @@ fing_verse_two = \markup {
   \new Staff {
     \key a \major
     <<
-      \fing_melody
       \fing_chords
-      \fing_verse_one
+      \fing_melody
+      %\fing_verse_one
     >>
   } % end Staff
-  \layout { }
+  \layout { indent = 0\cm }
 } %end \score
 
 % additional verses below:
