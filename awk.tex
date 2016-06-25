@@ -1,0 +1,182 @@
+\documentclass[12pt]{article}
+\usepackage[utf8]{inputenc}
+
+\usepackage{xcolor}
+\usepackage[most]{tcolorbox}
+\usepackage[margin=64pt]{geometry}
+\usepackage{varwidth}
+
+\setlength\parindent{0pt}
+\setlength{\parskip}{12pt}
+\pagenumbering{gobble}
+\definecolor{lavender}{rgb}{.8,.4,.9}
+
+
+
+\begin{document}
+
+% title
+\title{AWK Mini-Primer}
+\author{Mark~J.~Duvall\\
+\texttt{mjduvall@hawaii.edu}\\
+%\textit{University of Hawai'i at M\={a}noa, Department of Physics \& Astronomy}}
+University of Hawai'i at M\={a}noa, Department of Physics \& Astronomy}
+\date{}
+\maketitle
+
+
+%% main
+
+
+\emph{This is a modification of an email I recently wrote for a colleague. I like awk, but many people -- even other physicists -- seem unfamiliar with it, so I figured I'd post it here just in case anyone finds it useful. Welcome to awk!}
+
+
+% intro
+\section*{Introduction}
+
+
+Awk is a simple but very fast \& powerful language for processing text files. (If you're familiar with grep, it's a lot like that, but a whole language!). Its basic function is to test each line in the input file against a pattern you provide, and if the line matches your pattern, awk will execute the commands you specify.
+
+
+Basic Syntax: \,\, \ttfamily awk '[matching test(s)] \{commands\}' $<$filename$>$ \normalfont
+
+Matching tests usually look something like:  \,  \$0 $\sim$ /pattern/
+
+Awk sees files as ``records,'' containing ``fields.'' By default, each line of the input file is considered a record, and fields are separated by spaces/tabs within that record. (These default delimiters can be changed if needed). The ``\$'' indicates a field number; \$1 is the first field, \$2 is the second field, etc.; and \$0 means all fields -- i.e., the entire line. The ``$\sim$'' means ``matches to.'' The /pattern/ is often a regular expression. In my experience, having a basic knowledge of regular expressions can increase awk's power \& usefulness tremendously.
+
+The \texttt{\{commands\}} section is often something as simple as:    \texttt{\{print \$1\}}, which would print the first field.
+
+To see how these come together, see the example below.
+
+
+\pagebreak
+
+
+% basic example
+\section*{Basic Example}
+
+Suppose our input file is called ``heights.txt'' and looks like this:
+
+\ttfamily
+\colorbox{black}{\color{white}{
+\begin{tabular}{l}
+Alice 188cm\\
+Bill 177cm\\
+Clarice 175cm
+\end{tabular} }}
+\normalfont
+
+It has 3 records, each having 2 fields. Suppose we want to find and print Alice's height; this means we want the first field (the ``name'' field) to match her name. We want to tell awk, ``If the first field matches 'Alice,' then print the second field.'' That code would look like this:
+
+\ttfamily
+\colorbox{black}{\color{white}{
+\begin{tabular}{l}
+user@host:$\sim$\$  awk '\textcolor{red}{\$1} $\sim$ \textcolor{lavender}{/Alice/} \{\textcolor{yellow}{print} \textcolor{red}{\$2}\}' heights.txt\\
+188cm\\
+user@host:$\sim$\$\\
+\end{tabular} }}
+\normalfont
+
+Okay, so Alice is evidently 188 cm tall. Or, we could print the whole line by changing ``print \$2'' to ``print \$0,'' just to make sure we got the right information:
+
+\ttfamily
+\colorbox{black}{\color{white}{
+\begin{tabular}{l}
+user@host:$\sim$\$  awk '\textcolor{red}{\$1} $\sim$ \textcolor{lavender}{/Alice/} \{{\textcolor{yellow}{print} \textcolor{red}{\$0}}\}' heights.txt\\
+Alice 188cm\\
+user@host:$\sim$\$\\
+\end{tabular} }}
+\normalfont
+
+So it worked! In case you're wondering, we've enclosed ``Alice'' in slashes (in this particular case, double quotes would also have been fine) to indicate that it's supposed to be taken as a whole and not just a series of characters. Without doing this, awk would read 'Alice' as 'A or l or i or c or e,' and since all 3 names happen to contain an ``i,'' we'd end up printing everyone's heights:
+
+\ttfamily
+\colorbox{black}{\color{white}{
+\begin{tabular}{l}
+user@host:$\sim$\$  awk '\textcolor{red}{\$1} $\sim$ \textcolor{lavender}{Alice} {print \textcolor{red}{\$2}}' heights.txt\\
+188cm\\
+177cm\\
+175cm\\
+user@host:$\sim$\$\\
+\end{tabular} }}
+\normalfont
+
+This is obviously not what we wanted; that's why we need to use /Alice/ or ``Alice''. A tiny example of regular expressions (``regexes''): If we wanted to find Bill's height but there was also a ``Billy'' on the list, we'd be in trouble, since ``Billy'' contains a match for the pattern ``Bill''. We'd avoid this by using the regex special characters ``$\wedge$'' for ``beginning of string'' and ``\$'' for ``end of string'': the pattern /$\wedge$Bill\$/ would match only ``Bill'' and not ``Billy''.
+
+
+That's it! Those are the bare-bones basics of how awk works. Once you get a bit used to it, you'll likely find yourself using it quite regularly if you work with text files a lot. For a more serious demonstration of awk's power, see the advanced example below. Happy awking!
+
+
+
+\# \# \# \# \#
+
+\pagebreak
+
+%DEMO
+%
+%
+%A more advanced use of awk would be, for example, to strip the ``cm'' from each line, perhaps to prepare heights.txt for importing into a spreadsheet or data analysis program.  In this case, we'll want to write awk's output to a new file, which we'll do via the usual shell output redirection ``> newfilename'' at the end of the command line. And while we're at it, let's make the file a little easier to read by putting a couple of tabs between the fields rather than just a space. I won't cover these details here, but just as a demonstration of awk's power, it would look like this:
+%
+%user@host:$\sim$\$  awk '{match(\$2, /[[:digit:]]*/, a); print \$1``\t\t''a[0]}' heights.txt > heights_without_units.txt
+%
+%If we now take a look at the new file, we'll see:
+%
+%user@host:$\sim$\$  cat heights_without_units.txt
+%Alice		188
+%Bill		177
+%Clarice		175
+%user@host:$\sim$\$
+%
+%There, that's much nicer. And now that the heights are pure numbers, we can even use awk to, say, print the names of all the people shorter than 180 cm:
+%
+%user@host:$\sim$\$  awk '\$2 < 180 {print \$1}' heights_without_units.txt 
+%Bill
+%Clarice
+%user@host:$\sim$\$
+%
+%Just for fun, let's see what that entire process might look like in a single line using pipes. So, in a single line, we'll take the original input file, strip the ``cm,'' then use the results to print the names of all people shorter than 180 cm:
+%
+%user@host:$\sim$\$  cat heights.txt | awk '{match(\$2, /[[:digit:]]*/, a); print \$1``\t\t''a[0]}' | awk '\$2 < 180 {print \$1}'
+%Bill
+%Clarice
+%user@host:$\sim$\$
+%
+%Done! In a real-world scenario where we might have hundreds of names instead of just 3, awk has just made our lives much, much easier.
+%
+%Finally, I'll note that you don't always have to enter all of your awk code on the command line. In fact, as your awk programs get more complex, you definitely won't want to do that. No problem! Just save your awk code in a text file ('.awk' extension is common for convenience but not necessary), and use the '-f' option when you call awk from the command line:  awk -f <codefile> <targetfile>
+%
+%For example, we could create a file called stripcm.awk that looks like this:
+%
+%{
+%match(\$2, /[[:digit:]]*/, a)
+%print \$1``\t\t''a[0]
+%}
+%
+%Then we would run it as follows:
+%
+%user@host:$\sim$\$  awk -f stripcm.awk heights.txt 
+%Alice		188
+%Bill		177
+%Clarice		175
+%user@host:$\sim$\$
+%
+%Units stripped \& columns aligned! Our whole process could now look like:
+%
+%user@host:$\sim$\$  cat heights.txt | awk -f stripcm.awk | awk '\$2 < 180 {print \$1}'
+%Bill
+%Clarice
+%user@host:$\sim$\$
+%
+%That cleans things up quite a bit. And just like that, we're pau.   ;D
+%
+%
+%\# \# \# \# \#
+%
+%
+%
+%There's a whole lot more to awk than this, but that's all for now. Enjoy!
+
+
+
+% all pau!
+\end{document}

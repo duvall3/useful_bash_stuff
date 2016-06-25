@@ -20,6 +20,7 @@
 
 
 %\paper { }
+\paper{ page-count = #1 }
 
 
 
@@ -27,7 +28,7 @@
 \header {
 title = "Finnegan's Wake (A)"
 %subtitle = ""
-%subsubtitle = ""
+subsubtitle = "CAPO 2"
 composer = "Traditional"
 arranger = "Arr. Mark Duvall via the Dubliners"
 %opus = ""
@@ -81,7 +82,7 @@ fing_capo-chords = \new ChordNames {
 
   \chordmode {
   
-  \mark \markup {\italic Capo 2:}
+% \mark \markup {\italic Capo 2:} %% can't use this method -- overtakes the "Verse" marking!!!
   % Verse
   %\override ChordName #'font-series=#'bold
   g2 e2:m | c2 d2 | g2 e2:m | c2 d4 g4 |
@@ -98,28 +99,112 @@ fing_capo-chords = \new ChordNames {
 
 %% lyrics
 % first verse
-fing_verse_one = \new Lyrics {
+% chorus
+fing_chorus = \new Lyrics {
   
   \lyricmode {
     
-  Tim8 Finnegan8 lived8 in8 Walk-8 en8 Street,8 a8 | gentleman4 Irish4 mighty4 odd;8 he |
-  had8 a8 brogue8 both8 rich8 and8 sweet8 and16 to16 | rise8 in16 the16 world,8 he8 carried8 a8 hod4 |
-  Tim8 had16 a16 bit8 of16 a16 tippler's4 way;8 for16 the16 | love8 of16 the16 liquor4 he8 was8 born;8 and16 to16 |
-  send8 him8 on8 his8 way8 each8 day8 he'd16 a16 | drop16 o'16 the8 craythur4 ev'ry4 morn.4 ||
+%  Tim8 Finnegan8 lived8 in8 Walk-8 en8 Street,8 a8 | gentleman4 Irish4 mighty4 odd;8 he |
+%  had8 a8 brogue8 both8 rich8 and8 sweet8 and16 to16 | rise8 in16 the16 world,8 he8 carried8 a8 hod4 |
+%  Tim8 had16 a16 bit8 of16 a16 tippler's4 way;8 for16 the16 | love8 of16 the16 liquor4 he8 was8 born;8 and16 to16 |
+%  send8 him8 on8 his8 way8 each8 day8 he'd16 a16 | drop16 o'16 the8 craythur4 ev'ry4 morn.4 ||
+  
+  " "1 | " "1 | " "1 | " "1 | 
+  " "1 | " "1 | " "1 | " "1 | 
+
 
   % Chorus
-  Whack8 fo'16 la16 da,8 will16 ye16 dance8 to16 your16 partner,4 | 'round8 the8 door8 your8 trotters4 shake,4 |
+  Whack8 fo'16 la16 da,8 will16 ye16 dance8 to16 your16 partner,4 | 'round8 the8 floor8 your8 trotters4 shake,4 |
   Isnt't8 it4 the8 truth8 I8 tell8 ye8 | lots8 of8 fun8 at8 Finnegan's4 wake!4 ||
     
   } % end \lyricmode
 
 } % end \Lyrics
 
+% first verse
+fing_verse_one = \markup {
+  
+  \italic{ Verse 1 }
+
+  \wordwrap-string #"
+
+  Tim Finnegan lived in Walken Street; a gentleman Irish, mighty odd
+
+  He had a brogue both rich and sweet; and to rise in the world, he carried a hod
+
+  Tim had a bit of a tippler's way; for the love of the liquor he was born
+
+  To send him on his way each day, he'd a drop o' the craythur every morn. 
+
+  "
+  
+} % end \markup
+
 % additional verses
+
+% Verse 2
 fing_verse_two = \markup {
   \italic{ Verse 2 }
+% \markup{ \column{ \vspace #1.0 } }
   \wordwrap-string #"
-  LYRICS GO HERE, DOUBLE-SPACED AT LINE BREAKS
+
+  One morning Tim got rather full; his head felt heavy, which made him shake
+
+  He fell off the ladder and he broke his skull; and they carried him home, his corpse to wake
+
+  They wrapped him up in a nice clean sheet, and laid him out upon the bed,
+
+  A bottle of whiskey at his feet, and a barrel of porter at his head
+
+  "
+} % end \markup
+
+
+fing_verse_three = \markup {
+  \italic{ Verse 3 }
+% \markup{ \column{ \vspace #1.0 } }
+  \wordwrap-string #"
+
+  His friends assembled at the wake, and Mrs. Finnegan called for lunch
+
+  First they brought out tea and cake; then pipes, tobacco, and brandy punch
+
+  Then the widow Malone began to cry, \"Such a lovely corpse, did ya ever see,
+
+  Musha Tim, avorneen, why did ya die?\" -- \"Will ye hold your gob?\" said Molly McGee
+
+  "
+} % end \markup
+
+
+fing_verse_four= \markup {
+  \italic{ Verse 4 }
+  \wordwrap-string #"
+
+  Mary Murphy took up the job; \"Ah, Biddy,\" said she, \"You're wrong, I'm sure\"
+
+  Biddy fetched her a belt in the gob, and left her sprawling on the floor
+
+  A civil war did then engage; 'twas woman-to-woman and man-to-man
+
+  Shilelagh Law was all the rage, and a row and a ruction soon began
+
+  "
+} % end \markup
+
+
+fing_verse_five = \markup {
+  \italic{ Verse 4 }
+  \wordwrap-string #"
+
+  Tim Maloney ducked his head, when a bottle of whiskey flew at him
+
+  He ducked, and landing on the bed, the whiskey scatters over Tim
+
+  Bedad, he revives, and see how he rises; Tim Finnegan rising in the bed
+
+  Saying, \"Twiddle your whiskey around like the blazes -- Thunderin' Jesus, do ye think I'm dead!?\"
+
   "
 } % end \markup
 
@@ -133,14 +218,25 @@ fing_verse_two = \markup {
       \fing_capo-chords
       \fing_chords
       \fing_melody
-      \fing_verse_one
+      \fing_chorus
     >>
   } % end Staff
   \layout { indent = 0\cm }
 } %end \score
 
-% additional verses below:
-%\fing_verse_two
+% a bit of whitespace
+\markup{ \column{ \vspace #2.0 } }
+
+% verses below:
+\fing_verse_one
+\markup{ \column{ \vspace #1.0 } }
+\fing_verse_two
+\markup{ \column{ \vspace #1.0 } }
+\fing_verse_three
+\markup{ \column{ \vspace #1.0 } }
+\fing_verse_four
+\markup{ \column{ \vspace #1.0 } }
+\fing_verse_five
 
 
 
