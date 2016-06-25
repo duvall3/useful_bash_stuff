@@ -1,4 +1,4 @@
-\documentclass[12pt]{article}
+\documentclass[10pt]{article}
 \usepackage[utf8]{inputenc}
 
 \usepackage{xcolor}
@@ -28,7 +28,7 @@ University of Hawai'i at M\={a}noa, Department of Physics \& Astronomy}
 %% main
 
 
-\emph{This is a modification of an email I recently wrote for a colleague. I like awk, but many people -- even other physicists -- seem unfamiliar with it, so I figured I'd post it here just in case anyone finds it useful. Welcome to awk!}
+\emph{This is a modification of an email I wrote for a colleague. I like awk, but many people -- even other physicists -- seem unfamiliar with it, so I figured I'd write this up in case anyone finds it useful. Welcome to awk!}
 
 
 % intro
@@ -73,7 +73,7 @@ It has 3 records, each having 2 fields. Suppose we want to find and print Alice'
 \begin{tabular}{l}
 user@host:$\sim$\$  awk '\textcolor{red}{\$1} $\sim$ \textcolor{lavender}{/Alice/} \{\textcolor{yellow}{print} \textcolor{red}{\$2}\}' heights.txt\\
 188cm\\
-user@host:$\sim$\$\\
+%user@host:$\sim$\$\\
 \end{tabular} }}
 \normalfont
 
@@ -84,7 +84,7 @@ Okay, so Alice is evidently 188 cm tall. Or, we could print the whole line by ch
 \begin{tabular}{l}
 user@host:$\sim$\$  awk '\textcolor{red}{\$1} $\sim$ \textcolor{lavender}{/Alice/} \{{\textcolor{yellow}{print} \textcolor{red}{\$0}}\}' heights.txt\\
 Alice 188cm\\
-user@host:$\sim$\$\\
+%user@host:$\sim$\$\\
 \end{tabular} }}
 \normalfont
 
@@ -93,11 +93,11 @@ So it worked! In case you're wondering, we've enclosed ``Alice'' in slashes (in 
 \ttfamily
 \colorbox{black}{\color{white}{
 \begin{tabular}{l}
-user@host:$\sim$\$  awk '\textcolor{red}{\$1} $\sim$ \textcolor{lavender}{Alice} {print \textcolor{red}{\$2}}' heights.txt\\
+user@host:$\sim$\$  awk '\textcolor{red}{\$1} $\sim$ \textcolor{lavender}{Alice} \{\textcolor{yellow}{print} \textcolor{red}{\$2}\}' heights.txt\\
 188cm\\
 177cm\\
 175cm\\
-user@host:$\sim$\$\\
+%user@host:$\sim$\$\\
 \end{tabular} }}
 \normalfont
 
@@ -112,30 +112,50 @@ That's it! Those are the bare-bones basics of how awk works. Once you get a bit 
 
 \pagebreak
 
-%DEMO
-%
-%
-%A more advanced use of awk would be, for example, to strip the ``cm'' from each line, perhaps to prepare heights.txt for importing into a spreadsheet or data analysis program.  In this case, we'll want to write awk's output to a new file, which we'll do via the usual shell output redirection ``> newfilename'' at the end of the command line. And while we're at it, let's make the file a little easier to read by putting a couple of tabs between the fields rather than just a space. I won't cover these details here, but just as a demonstration of awk's power, it would look like this:
-%
-%user@host:$\sim$\$  awk '{match(\$2, /[[:digit:]]*/, a); print \$1``\t\t''a[0]}' heights.txt > heights_without_units.txt
-%
-%If we now take a look at the new file, we'll see:
-%
-%user@host:$\sim$\$  cat heights_without_units.txt
-%Alice		188
-%Bill		177
-%Clarice		175
+\section*{Advanced Example}
+
+A more advanced use of awk would be, for example, to strip the ``cm'' from each line, perhaps to prepare heights.txt for importing into a spreadsheet or data analysis program.  In this case, we'll want to write awk's output to a new file, which we'll do via the usual shell output redirection ``$>$ \emph{newfilename}'' at the end of the command line. And while we're at it, let's make the file a little easier to read by putting a couple of tabs between the fields rather than just a space. I won't cover these details here, but just as a demonstration of awk's power, it would look like this:
+
+\ttfamily
+\colorbox{black}{\color{white}{
+%\begin{tabular}{l}
+%user@host:$\sim$\$  awk '\{match(\textcolor{red}{\$2}, \textcolor{lavender}{/[}\textcolor{yellow}{[:digit:]}\textcolor{lavender}{]}\textcolor{red}{*}\textcolor{lavender}{/}, a); \textcolor{yellow}{print} \textcolor{red}{\$1}``\textcolor{red}{\t\t}''a[0]\}' heights.txt > heights_without_units.txt
+\small
+user@host:$\sim$\$  awk '\{\textcolor{cyan}{match}(\textcolor{red}{\$2}, \textcolor{lavender}{/[}\textcolor{yellow}{[:digit:]}\textcolor{lavender}{]}\textcolor{red}{$\ast$}\textcolor{lavender}{/}, a); \textcolor{yellow}{print} \textcolor{red}{\$1}``\textcolor{red}{\textbackslash t\textbackslash t}''a[0]\}' heights.txt $>$ heights\_without\_units.txt
+%\end{tabular} }}
+}}
+\normalfont
+
+If we now take a look at the new file, we'll see:
+
+\ttfamily
+\colorbox{black}{\color{white}{
+user@host:$\sim$\$  cat heights\_without\_units.txt\\
+}}
+
+\colorbox{black}{\color{white}{
+\begin{tabular}{l l l}
+Alice	& & 	188\\
+Bill	& & 	177\\
+Clarice	& & 	175\\
 %user@host:$\sim$\$
-%
-%There, that's much nicer. And now that the heights are pure numbers, we can even use awk to, say, print the names of all the people shorter than 180 cm:
-%
-%user@host:$\sim$\$  awk '\$2 < 180 {print \$1}' heights_without_units.txt 
-%Bill
-%Clarice
+\end{tabular} }}
+\normalfont
+
+There, that's much nicer. And now that the heights are pure numbers rather than character strings, we can even use awk to, say, print the names of all the people shorter than 180 cm:
+
+\ttfamily
+\colorbox{black}{\color{white}{
+\begin{tabular}{l}
+user@host:$\sim$\$  awk '\textcolor{red}{\$2} $<$ \textcolor{lavender}{180} \{\textcolor{yellow}{print} \textcolor{red}{\$1}\}' heights\_without\_units.txt\\
+Bill\\
+Clarice\\
 %user@host:$\sim$\$
-%
-%Just for fun, let's see what that entire process might look like in a single line using pipes. So, in a single line, we'll take the original input file, strip the ``cm,'' then use the results to print the names of all people shorter than 180 cm:
-%
+\end{tabular} }}
+\normalfont
+
+Just for fun, let's see what that entire process might look like in a single line using pipes. So, in a single line, we'll take the original input file, strip the ``cm,'' then use the results to print the names of all people shorter than 180 cm:
+
 %user@host:$\sim$\$  cat heights.txt | awk '{match(\$2, /[[:digit:]]*/, a); print \$1``\t\t''a[0]}' | awk '\$2 < 180 {print \$1}'
 %Bill
 %Clarice
