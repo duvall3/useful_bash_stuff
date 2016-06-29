@@ -1,4 +1,4 @@
-\documentclass[10pt]{article}
+\documentclass[10pt,a4]{article}
 \usepackage[utf8]{inputenc}
 
 \usepackage{xcolor}
@@ -16,7 +16,7 @@
 \begin{document}
 
 % title
-\title{AWK Mini-Primer}
+\title{AWK Primer}
 \author{Mark~J.~Duvall\\
 \texttt{mjduvall@hawaii.edu}\\
 %\textit{University of Hawai'i at M\={a}noa, Department of Physics \& Astronomy}}
@@ -29,7 +29,7 @@ UH M\={a}noa Department of Physics \& Astronomy}
 %% main
 
 
-\emph{This is a modification of an email I wrote for a colleague. I like AWK, but many people -- even other physicists -- seem unfamiliar with it, so I figured I'd write this up in case anyone finds it useful. Welcome to AWK!}
+\emph{This is a modification of an email I wrote for a colleague. I like AWK, but many people -- even other physicists -- seem unfamiliar with it, so I decided to write this up in case anyone finds it useful. Welcome to AWK!}
 
 
 % intro
@@ -40,15 +40,25 @@ AWK is a simple but very fast and powerful language for processing text files. I
 
 \textbf{AWK's basic function is to test each line in the input file against a provided pattern and execute specified commands whenever a match is found.}
 
-AWK sees files as ``records,'' containing ``fields.'' By default, each line of the input file is considered a record, and fields are separated by spaces / tabs within that record. (These default delimiters can be changed if needed). AWK uses ``\$'' to indicate a field number; \$1 is the first field, \$2 is the second field, etc.; and \$0 means all fields -- i.e., the entire line. For matching, AWK uses ``$\sim$'' to mean ``matches to.'' The pattern is often provided as a regular expression. In my experience, having a basic knowledge of regular expressions can increase AWK's power \& usefulness tremendously; but more on that later.
+\textbf{A typical AWK program is therefore essentially just a series of IF-THEN statements:\\
+IF /pattern/, THEN \{commands\}.}
 
-Basic Syntax: \,\, \ttfamily awk '[matching test] \{$<$commands$>$\}' $<$filename$>$ \normalfont
+AWK sees files as ``records,'' containing ``fields.'' By default, each line of the input file is considered a record, and fields are separated by whitespace (i.e., spaces / tabs) within that record. Both these default delimiters can be changed if needed.
+AWK uses ``\$'' to indicate a field number; \$1 is the first field, \$2 is the second field, etc.; and \$0 means all fields -- i.e., the entire line.
+For matching, AWK uses ``$\sim$'' to mean ``matches to'', and the pattern is often provided as a regular expression.
+In my experience, having a basic knowledge of regular expressions can increase AWK's power \& usefulness tremendously, but more on that later.
+
+\textbf{Basic Syntax:} \,\, \ttfamily awk '[matching test] \{$<$commands$>$\}' $<$filename$>$ \normalfont
 
 Matching tests usually look something like: \$0 $\sim$ /pattern/, which would check each line for any matches to your /pattern/.
 
-The \texttt{\{commands\}} section is often something as simple as:    \texttt{\{print \$1\}}, which would print the first field.
+The \texttt{\{commands\}} section is often something as simple as: \texttt{\{print \$1\}}, which would print the first field.
 
-To see how all of this comes together in actual usage, see the example below.
+To see how all of this comes together in the actual usage of AWK, see the example below.
+
+\large
+$\sim \, \sim \, \sim$
+\normalsize
 
 
 \pagebreak
@@ -106,7 +116,7 @@ So it worked! In case you're wondering, we've enclosed ``Alice'' in slashes (in 
 This is obviously not what we wanted; that's why we need to use /Alice/ or ``Alice''. A tiny example of regular expressions (``regexes''): If we wanted to find Bill's height but there was also a ``Billy'' on the list, we'd be in trouble, since ``Billy'' contains a match for the pattern ``Bill''. We'd avoid this by using the regex special characters ``$\wedge$'' for ``beginning of string'' and ``\$'' for ``end of string'': the pattern /$\wedge$Bill\$/ would match only ``Bill'' and not ``Billy''.
 
 
-That's it! Those are the bare-bones basics of how AWK works. Once you get a bit used to it, you'll likely find yourself using it quite regularly if you work with text files a lot. Furthermore, this only scratches the surface of what this language can do; for a \emph{slightly} deeper demonstration of AWK's power, see the more advanced examples below. Happy AWKing!
+That's it! Those are the basics of how AWK works. Once you get a bit used to it, you'll likely find yourself using it quite regularly if you work with text files a lot. Furthermore, this example only scratches the surface of what this language can do; for a \emph{slightly} deeper demonstration of AWK's power, see the more advanced examples below. Happy AWKing!
 
 
 
@@ -119,7 +129,7 @@ That's it! Those are the bare-bones basics of how AWK works. Once you get a bit 
 \section*{Intermediate Example}
 
 Suppose we received a message from Clarice that there's been a mistake somewhere (not our fault, of course), and her height in our database is incorrect. Specifically, let's say her height is actually 185~cm, not 175~cm as listed in our file.
-No worries! One of AWK's most powerful features is the ability to reassign new values to fields.
+No worries! One of AWK's most useful features is the ability to reassign new values to fields.
 In this case, we'll correct the file usign the following steps:
 \begin{enumerate}
   \item For any record(s) \emph{not} matching ``Clarice'', print the whole record without modification.
@@ -131,13 +141,13 @@ We can accomplish this by giving AWK two sets of matching tests: one for ``does 
 \begin{enumerate}
   \item We use the ``!'' character to negate the match for \emph{Clarice}:\\
   \texttt{\$1 !$\sim$ /Clarice/ \{print \$0\}}\\
-  This means, ``For any record (i.e., line) whose name does not contain a match for `Clarice,' print the whole line.''
-  \item We use ``\$2=185cm'' to reassign the height field:\\
+  This means, ``For any record whose name field does not contain a match for `Clarice,' print the whole line.''
+  \item We change the height field with the following command: ``\$2=185cm'':\\
   \texttt{\$1 $\sim$ /Clarice/ \{\$2 = ``185cm''; print \$0\}}\\
-  This means, ``Find a record whose name field matches `Clarice,' then replace the height field with her corrected height and print the new record.''\\
+  This means, ``Find a record whose name field matches `Clarice,' then replace the height field with her corrected height and print the new record.''
 \end{enumerate}
 
-This would all be done at once, writing the output to a new file \texttt{heights\_corrected.txt}, as follows:
+This would all be done at once, writing the output to a new file \textit{heights\_corrected.txt}, as follows:
 
 \ttfamily
 \colorbox{black}{\textcolor{white}{
@@ -147,10 +157,39 @@ This would all be done at once, writing the output to a new file \texttt{heights
 \end{tabular} }}
 \normalfont
 
+Checking our work (original file for reference):
+
+\ttfamily
+\colorbox{black}{\color{white}{
+\textcolor{gray}{user@host:~\$} cat heights.txt; echo; cat heights\_corrected.txt}}
+\normalfont
+
+\ttfamily
+\colorbox{black}{\color{white}{
+\begin{tabular}{l}
+Alice 188cm\\
+Bill 177cm\\
+Clarice 175cm
+\end{tabular} }}
+\normalfont
+
+\ttfamily
+\colorbox{black}{\color{white}{
+\begin{tabular}{l}
+Alice 188cm\\
+Bill 177cm\\
+Clarice 185cm
+\end{tabular} }}
+\normalfont
+
+
+\large
+$\sim \, \sim \, \sim$
+\normalsize
 
 
 
-%\pagebreak
+\pagebreak
 
 
 \section*{Advanced Example}
@@ -164,8 +203,8 @@ I won't cover these details here, but just as a demonstration of AWK's power, it
 \ttfamily
 \colorbox{black}{\color{white}{
 \begin{tabular}{l}
-\textcolor{gray}{user@host:$\sim$\$}  awk '\{\textcolor{cyan}{match}(\textcolor{red}{\$2}, \textcolor{lavender}{/[}\textcolor{yellow}{[:digit:]}\textcolor{lavender}{]}\textcolor{red}{$\ast$}\textcolor{lavender}{/}, a); \textcolor{yellow}{print} \textcolor{red}{\$1}``\textcolor{red}{\textbackslash t\textbackslash t}''a[0]\}' \textbackslash \\
-\textcolor{gray}{$>$} heights.txt $>$ heights\_without\_units.txt
+\textcolor{gray}{user@host:$\sim$\$} cat heights.txt | awk '\{\textcolor{cyan}{match}(\textcolor{red}{\$2}, \textcolor{lavender}{/[}\textcolor{yellow}{[:digit:]}\textcolor{lavender}{]}\textcolor{red}{$\ast$}\textcolor{lavender}{/}, a); \textbackslash\\
+\textcolor{gray}{$>$} \textcolor{yellow}{print} \textcolor{red}{\$1}``\textcolor{red}{\textbackslash t\textbackslash t}''a[0]\}' $>$ heights\_without\_units.txt
 \end{tabular}
 }}
 \normalfont
@@ -220,7 +259,16 @@ Clarice
 
 Done! In a real-world scenario where we might have hundreds of names instead of just three, AWK has just made our lives \emph{much, much easier}.
 
-%\pagebreak
+
+\large
+$\sim \, \sim \, \sim$
+\normalsize
+
+
+
+\pagebreak
+
+
 
 \section*{AWK Scripting}
 
@@ -276,7 +324,7 @@ That cleans things up quite a bit. And just like that, we're pau!
 
 
 
-There's a whole lot more to AWK than this, but that's all for now. Enjoy!
+There's a whole lot more to AWK than this -- the most important elements probably being the 'BEGIN' \& 'END' blocks and AWK's ability to use variables -- but that's all for now. Enjoy!
 
 
 \emph{Mark~J.~Duvall $\sim$ mjduvall@hawaii.edu}
