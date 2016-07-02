@@ -377,7 +377,7 @@ We can use \texttt{ls *.dat} with options \textit{long, time, reverse, human-rea
 \end{tabular} }}
 \normalfont
 
-The ordering guarantees that the last line will be the entry for our most recently-modified data file.
+The time ordering guarantees that the last line will be the entry for our most recently-modified data file.
 We can quickly isolate this last line by piping the output of \texttt{ls} into the \texttt{tail} command with option \textit{1}:
 
 \ttfamily
@@ -434,7 +434,7 @@ Success! Automated backup of the newest data file -- \emph{in only two lines} --
 \# \# \# \# \#
 
 
-And just like that, we're pau! There's a whole lot more to AWK than this -- notably the BEGIN \& END blocks and AWK's ability to use variables and arrays -- but that's all for now. Enjoy!
+And we're pau! There's a whole lot more to AWK than this -- notably the BEGIN \& END blocks and AWK's ability to use variables and arrays -- but that's all for now. Enjoy!
 
 
 \emph{Mark~J.~Duvall $\sim$ mjduvall@hawaii.edu}
