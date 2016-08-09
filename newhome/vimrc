@@ -1,13 +1,35 @@
-set background=dark
-syn on
+" basics
+set background=dark	" set syntax highlighting for dark terminal backgrounds
+syn on			" activate syntax highlighting
+set shiftwidth=2	" indentation defaults to 2 spaces
+set autoindent		" automatic indentation
+cabbrev p prev
+" ^ set 'p' as 'prev', so that ':n' and ':p' scroll forwards & backwards through open files
+set ignorecase		" ignore case in searches
+set smartcase		" don't ignore case when search string contains any uppercase
+
+" wrapping:
 set nowrap
+"" alternate option: set wrap linebreak nolist -- hopefully, this will display breaks at words w/o altering the actual file
+"" in a single command, 'Wrap':
+command! Wrap set wrap linebreak nolist " 'list' is off by default; just making sure
 
 " spacebar to insert single character (from Normal mode)
-nmap <Space> i_^[r
+nmap <Space> i_<C-[>r
 
-" syntax highlighting for lilypond:
-filetype off
-set runtimepath+=/usr/share/lilypond/2.14.2/vim
-filetype on
+" create 'comment' and 'uncomment' macros for various filetypes
+" uncomment:
+let @u='^/^\s*$kx'
+" comments:
+" # languages
+au filetypedetect FileType sh,awk,python let @c='^/^\s*$kI#'
+" % languages
+au filetypedetect FileType tex,matlab let @c='^/^\s*$kI#'
+" " languages
+au filetypedetect FileType vim let @c='^/^\s*$kI"'
+" ! languages
+au filetypedetect FileType fortran let @c='^/^\s*$kI!'
+" // languages
+au filetypedetect FileType c,cpp let @c='^/^\s*$kI//'
 
-
+" all pau!   )
