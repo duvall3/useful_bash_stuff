@@ -24,7 +24,7 @@ let @u='^/^\s*$kx'
 " # languages
 au filetypedetect FileType sh,awk,python let @c='^/^\s*$kI#'
 " % languages
-au filetypedetect FileType tex,matlab let @c='^/^\s*$kI#'
+au filetypedetect FileType tex,matlab let @c='^/^\s*$kI%'
 " " languages
 au filetypedetect FileType vim let @c='^/^\s*$kI"'
 " ! languages
