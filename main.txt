@@ -25,10 +25,6 @@ In no particular order:
     "find ~ -ctime -1 -print0 | xargs -0 stat" will find all files in your home folder
     that have been accessed/modified in the last day and print their stats
 
-- Vim block insert/delete: use 
-  block insert: in normal mode, <Ctrl+V> -> highlight block using arrow keys -> <Shift+I> -> type -> <Esc>
-  block delete:          "         "                       "                 -> x (delete) or d (cut)
-
 - "target" option for copy & move: "cp -t <target_directory> <file1> [file2 file3 ...]" (same for "mv")
   -- this helps prevent mixups when copying/moving multiple files (or directories)
   -- especially useful when piping multiple files into cp/mv, since some piping syntaxes will screw up the order
@@ -36,6 +32,10 @@ In no particular order:
 - ssh escape control: terminate frozen ssh connection via "<Return>~."
 
 - terminate other login (e.g., frozen shell session): pkill -9 -t <tty>
+
+- rename tool for multiple files: rename s/<pattern1>/<pattern2>/[flags] <files>
+  -- example: rename all .png files in current directory to have any spaces in their names replaced with underscores:
+     user@host:~$ rename s/" "/_/g *.png
 
 
 
@@ -56,5 +56,9 @@ Vim
 
 - special characters: in insert mode, <Ctrl+k> -> mod key -> letter
   -- example: <Ctrl+k>'e --> é
+
+- Vim block insert/delete: use 
+  block insert: in normal mode, <Ctrl+V> -> highlight block using arrow keys -> <Shift+I> -> type -> <Esc>
+  block delete:          "         "                       "                 -> x (delete) or d (cut)
 
 
