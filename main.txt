@@ -61,4 +61,8 @@ Vim
   block insert: in normal mode, <Ctrl+V> -> highlight block using arrow keys -> <Shift+I> -> type -> <Esc>
   block delete:          "         "                       "                 -> x (delete) or d (cut)
 
+- quick command: while in insert mode, <Ctrl+O> -> "command"
+  -- vim will execute a single command, then drop you back into insert mode
+  -- example: this is great for saving while editing: <Ctrl+O>:w<Enter> will save your work, then you can resume instantly
+
 
