@@ -20,6 +20,8 @@ Favorites
 
 In no particular order:
 
+- quickly & easily add current folder to command path: PATH=$PATH:$(pwd)
+
 - find | xargs -- find files matching given criteria & operate on them; basic syntax is "find [path] [expression] -print0 | xargs -0 <command>"
   -- books have been written on this, but as a very basic example:
     "find ~ -ctime -1 -print0 | xargs -0 stat" will find all files in your home folder
