@@ -67,4 +67,8 @@ Vim
   -- vim will execute a single command, then drop you back into insert mode
   -- example: this is great for saving while editing: <Ctrl+O>:w<Enter> will save your work, then you can resume instantly
 
+- indent / de-indent: in both Normal AND Visual mode: ">>" or "<<:"
+  -- this works great with highlighting lines in Visual mode (Ctrl+V followed by up/down to highlight lines)
+  -- in Normal mode, this can be preceeded by the number of lines -- i.e., "5>>" will indent 5 lines
+
 
