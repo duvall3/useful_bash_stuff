@@ -40,11 +40,11 @@ done
 # prepare list
 LIST_NAME="Todo"
 COLUMN="Task"
-WIDTH=500
-HEIGHT=500
+WIDTH=300
+HEIGHT=300
 
 # MAIN
-USER_SELECTION=$(zenity --list --radiolist --title="Reminder" --width=$WIDTH --height=$HEIGHT\
+USER_SELECTION=$(zenity --list --checklist --title="Reminder" --width=$WIDTH --height=$HEIGHT\
   --text=$LIST_NAME --column="Selection" --column=$COLUMN \
   $(for (( ITEM=1; ITEM<=$NUM_ITEMS; ITEM++ )); do
      echo "FALSE ${LIST[$ITEM]}"
