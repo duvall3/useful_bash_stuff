@@ -44,13 +44,18 @@ WIDTH=500
 HEIGHT=500
 
 # MAIN
-zenity --list --radiolist --title="Reminder" --width=$WIDTH --height=$HEIGHT\
+USER_SELECTION=$(zenity --list --radiolist --title="Reminder" --width=$WIDTH --height=$HEIGHT\
   --text=$LIST_NAME --column="Selection" --column=$COLUMN \
   $(for (( ITEM=1; ITEM<=$NUM_ITEMS; ITEM++ )); do
      echo "FALSE ${LIST[$ITEM]}"
     done
    )
+)
 
-     # awk '{print "FALSE " $0}' $LIST_FILE
+# planned next:
+# take $USER_SELECTION and update the $LIST_FILE,
+# probably via something like:
+# grep -v $USER_SELECTION > $HOME/temp_list && mv $HOME/temp_list $LIST_FILE
+
 # all pau!   )
 exit 0
