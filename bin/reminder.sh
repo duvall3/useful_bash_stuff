@@ -44,9 +44,6 @@ WIDTH=500
 HEIGHT=500
 
 # MAIN
-#zenity --list --checklist --title="Reminder" --column=$COLUMN --text=$LIST_NAME $(echo ${LIST[*]})
-#zenity --list --title="Reminder" --column=$COLUMN --text=$LIST_NAME $(echo ${LIST[*]})
-#zenity --list --title="Reminder" --text=$LIST_NAME --column="Status" --column=$COLUMN --separator=: $(echo ${LIST[*]})
 zenity --list --radiolist --title="Reminder" --width=$WIDTH --height=$HEIGHT\
   --text=$LIST_NAME --column="Selection" --column=$COLUMN \
   $(for (( ITEM=1; ITEM<=$NUM_ITEMS; ITEM++ )); do
