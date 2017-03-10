@@ -6,6 +6,7 @@
 #   -- recommended usage: place an entry in your crontab calling this script every so often,
 #         as in this example crontab line, which calls the script every 3 hours at the top of the hour from 0600 to 2100:
 #         0 6-21/3 * * *		export DISPLAY=:0; /home/mark/bin/reminder.sh
+#   -- for now, the user must update the source file manually, but auto-removal of checked items is a planned future feature
 
 
 ##Copyright (C) 2017 Mark J. Duvall
