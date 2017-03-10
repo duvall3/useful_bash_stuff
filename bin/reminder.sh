@@ -64,7 +64,7 @@ USER_SELECTION=$(zenity --list --checklist --title="Reminder" --width=$WIDTH --h
 # planned next: TODO
 # take $USER_SELECTION and update the $LIST_FILE,
 # probably via something like:
-# grep -v $USER_SELECTION > $HOME/temp_list && mv $HOME/temp_list $LIST_FILE
+# grep -v $USER_SELECTION $HOME/todo > $HOME/temp_todo && mv $HOME/temp_todo $LIST_FILE
 
 # all pau!   )
 exit 0
