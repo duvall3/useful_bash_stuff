@@ -1,5 +1,12 @@
 #!/bin/bash
 # reminder.sh -- general script to regularly remind the user of things
+#   -- this version looks for a to-do list in the user's home directory called "todo"
+#         and dispays a graphical checklist
+#   -- the checklist file is plain ASCII with one entry per line
+#   -- recommended usage: place an entry in your crontab calling this script every so often,
+#         as in this example crontab line, which calls the script every 3 hours at the top of the hour from 0600 to 2100:
+#         0 6-21/3 * * *		export DISPLAY=:0; /home/mark/bin/reminder.sh
+
 
 ##Copyright (C) 2017 Mark J. Duvall
 ##
@@ -30,6 +37,8 @@ NUM_ITEMS=$(wc -l $LIST_FILE | awk '{print $1}')
 for (( ITEM=1; ITEM<=$NUM_ITEMS; ITEM++ )); do
   LIST[$ITEM]=$(awk -v line=$ITEM 'NR ~ line {print $0}' $LIST_FILE | tr " " _)
 # LIST[$ITEM]=$(awk -v line=$ITEM 'NR ~ line {print $0}' $LIST_FILE)
+# ^ currently, zenity misinterperets spaces as delimiters instead of only newlines;
+#   replacing the spaces with underscores is a temporary workaround FIXME
 done
 
 ## debug
@@ -52,7 +61,7 @@ USER_SELECTION=$(zenity --list --checklist --title="Reminder" --width=$WIDTH --h
    )
 )
 
-# planned next:
+# planned next: TODO
 # take $USER_SELECTION and update the $LIST_FILE,
 # probably via something like:
 # grep -v $USER_SELECTION > $HOME/temp_list && mv $HOME/temp_list $LIST_FILE
