@@ -12,6 +12,7 @@ Favorites
   -- example: starting work on a new shell script: "touch reallylongfilename.sh; chmod 755 <Alt+.>; vim <Alt+.>"
 
 #2: arrow-key command history search -- <up/down> : waaay better than default behavior, instructions coming soon
+  -- short version: use the .inputrc given in the "newhome" directory of this repository
 
 #3: <Ctrl+/> -- "undo" for your command line -- works on typing, pasting, history search, pretty much everything!
 
