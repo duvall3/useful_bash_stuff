@@ -2,7 +2,7 @@
 # reminder.sh -- general script to regularly remind the user of things
 #   -- this version looks for a to-do list in the user's home directory called "todo"
 #         and dispays a graphical checklist
-#   -- the checklist source file is plain ASCII with one entry per line
+#   -- the checklist source file is plain ASCII with one entry per line (ex., "buy eggs today")
 #   -- recommended usage: place an entry in your crontab calling this script every so often,
 #         as in this example crontab line, which calls the script every 3 hours at the top of the hour from 0600 to 2100:
 #         0 6-21/3 * * *		export DISPLAY=:0; /home/mark/bin/reminder.sh
