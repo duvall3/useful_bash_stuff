@@ -14,8 +14,17 @@ set nowrap
 "" in a single command, 'Wrap':
 command! Wrap set wrap linebreak nolist " 'list' is off by default; just making sure
 
+" mapping
+" moving lines
+noremap - ddp
+noremap _ ddkP
 " spacebar to insert single character (from Normal mode)
-nmap <Space> i_<C-[>r
+nnoremap <Space> i_<C-[>r
+" editing and sourcing vimrc live
+nnoremap :ev :split $MYVIMRC<cr>
+nnoremap :sv :source $MYVIMRC<cr>
+" toggle search highlighting with Ctrl-H
+nnoremap <c-h> :set hlsearch! hlsearch?<cr>
 
 " create 'comment' and 'uncomment' macros for various filetypes
 " uncomment:
