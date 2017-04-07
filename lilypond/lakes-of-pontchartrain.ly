@@ -54,8 +54,8 @@ lakes_chords = \chordmode {
 %\set majorSevenSymbol = \markup { Maj7 }
   \partial 4 s4 |
   d2 g4 | fs2:m g4 | b2.:m | a2. | g2. | a2. | d2. | s2. |
-  d2. | d2.:/cs | b2.:m/d | a2.:/d | g2. | s2. | a2. | s2. |
-  d2. | d2.:/cs | b2.:m/d | a2.:/d | g2. | s2. | a2. | s2. |
+  d2. | d2.:/cs | b2.:m | a2. | g2. | s2. | a2. | s2. |
+  d2. | d2.:/cs | b2.:m | a2. | g2. | s2. | a2. | s2. |
   d2 g4 | fs2:m g4 | b2.:m | a2. | g2. | a2. || 
   %{4-bar tag starts here%} d2 g4 | fs2:m g4 | b2.:m | a2. | g2. | a2. | d2. % |.
 } % end \chords
@@ -85,7 +85,7 @@ lakes_verse_two = \markup {
   All strangers here, no friends to me, 'till a dark girl towards me came; 
   
   And I fell in love with a Creole girl on the lakes of Pontchartrain.
-  
+
   "
 } % end \markup
 lakes_verse_three = \markup {

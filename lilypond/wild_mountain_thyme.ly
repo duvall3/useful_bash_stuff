@@ -123,11 +123,6 @@ wild_verse_two = \markup {
   "
 } % end \markup
 
-wild_verse_inst = \markup {
-  \italic{ Verse: Instrumental }
-  \column{ \vspace #1.25 }
-} % end \markup
-
 wild_verse_three = \markup {
   \italic{ Verse: 3 }
   \wordwrap-string #"
@@ -141,6 +136,11 @@ wild_verse_three = \markup {
   Grows around the blooming heather
 
   "
+  \column{ \vspace #1.25 }
+} % end \markup
+
+wild_verse_inst = \markup {
+  \italic{ Verse: Instrumental }
   \column{ \vspace #1.25 }
 } % end \markup
 
@@ -174,8 +174,8 @@ wild_verse_four = \markup {
 \markup{ \column{ \vspace #2.0 } }
 % additional verses below:
 \wild_verse_two
-\wild_verse_inst
 \wild_verse_three
+\wild_verse_inst
 \wild_verse_four
 
 
