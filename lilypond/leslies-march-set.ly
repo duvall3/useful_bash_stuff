@@ -126,8 +126,10 @@ leslies_chords= \chords{
 % % Alternate chords:
 leslies_fancy =  \chords{
 % A section
- 	d2. | b4.:m a4. | g4. fs4.:m | e4.:m d4. |
- 	e2.:m | e2.:m | g2. | a2. |
+% 	d2. | b4.:m a4. | g4. fs4.:m | e4.:m d4. |
+%	e2.:m | e2.:m | g2. | a2. |
+ 	d2. | a2.:/cs | b2.:m | a2. |
+	e2.:m | fs2.:m | g2. | a2. |
 % B section
 	d2. | d2. | e2.:m | e2.:m | 
 	b2.:m | fs2.:m | g2. | a2. |
