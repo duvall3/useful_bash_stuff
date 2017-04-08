@@ -38,7 +38,7 @@ In no particular order:
 
 - rename tool for multiple files: rename s/<pattern1>/<pattern2>/[flags] <files>
   -- example: rename all .png files in current directory to have any spaces in their names replaced with underscores:
-     user@host:~$ rename s/" "/_/g *.png
+     rename s/" "/_/g *.png
 
 
 
