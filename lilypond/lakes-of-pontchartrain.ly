@@ -24,7 +24,7 @@
 
 %% header
 \header {
-title = "The Lakes of Pontchartrain"
+title = "The Lakes of Pontchartrain (D)"
 %subtitle = ""
 %subsubtitle = ""
 composer = "Traditional, Arr. Mark Duvall via Paul Brady"
