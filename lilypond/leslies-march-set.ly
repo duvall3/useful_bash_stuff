@@ -159,8 +159,8 @@ leslies_melody = \relative d'' {
 % Main:
 \score{
 <<
-%	\leslies_chords
-	\leslies_fancy
+	\leslies_chords
+%	\leslies_fancy
 	\leslies_melody
 >>
 \header { piece = "Leslie's March" opus = "Jig" }
