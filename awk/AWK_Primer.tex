@@ -412,7 +412,7 @@ Finally, to actually make this useful to our script, we want to store this outpu
 \ttfamily
 \colorbox{black}{\color{white}{
 \begin{tabular}{l}
-\textcolor{gray}{user@host:$\sim$/data\$} newest\_data\_file=\$(ls -ltrh *.dat | tail -1 | awk '\{\textcolor{yellow}{print} \textcolor{red}{\$9}\}')\\
+\textcolor{gray}{user@host:$\sim$/data\$} newest\_data\_file=\$(ls -ltrh /home/user/data/*.dat | tail -1 | awk '\{\textcolor{yellow}{print} \textcolor{red}{\$9}\}')\\
 \textcolor{gray}{user@host:$\sim$/data\$} scp \$newest\_data\_file user@remote-host:/data/backup/\\
 \end{tabular} }}
 
