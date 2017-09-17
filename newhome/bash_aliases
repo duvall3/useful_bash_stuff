@@ -14,5 +14,6 @@ alias dpq="dpkg-query -l"
 alias abr='avahi-browse -artf'
 alias less='less -S'
 alias lst="file * | grep text | awk -F : '{print \$1}'"
+alias cdl='cd $(ls -dt1 */ | head -1)'
 
 
