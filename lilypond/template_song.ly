@@ -2,7 +2,7 @@
 \language "english"
 
 
-%% Copyright (C) 2016 Mark J. Duvall
+%% Copyright (C) 2017 Mark J. Duvall
 %% 
 %%     This program is free software: you can redistribute it and/or modify
 %%     it under the terms of the GNU General Public License as published by
@@ -35,19 +35,6 @@ arranger = ""
 
 
 
-%% melody
-piece_melody = \new Voice {
-  
-  \relative %{note%} {
-  
-    % MUSIC GOES HERE
-  
-  }  % end \relative
-
-} % end \Voice
-
-
-
 %% chords
 piece_chords = \new ChordNames {
   
@@ -58,6 +45,19 @@ piece_chords = \new ChordNames {
   } % end \chordmode
 
 } % end \ChordNames
+
+
+
+%% melody
+piece_melody = \new Voice {
+  
+  \relative %{note%} {
+  
+    % MUSIC GOES HERE
+  
+  }  % end \relative
+
+} % end \Voice
 
 
 
@@ -87,12 +87,12 @@ piece_verse_two = \markup {
 \score { %piece = ""
   \new Staff {
     <<
-      \piece_melody
       \piece_chords
+      \piece_melody
       \piece_verse_one
     >>
   } % end Staff
-  \layout { }
+  \layout { %{indent = 0\cm%} }
 } %end \score
 
 % additional verses below:
