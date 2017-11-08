@@ -64,8 +64,8 @@ creggan_chords =  \chordmode {
   d2. | d2./cs | d4./b d4./a | g2. | g2. | g2. | a2. || } \break
 % fs2.:m | g2. | b4.:m a4. | g2. | g2. | g2. | a2. || \bar "||" \break   % alt: dain harmonic movement at the expense of the lowest tonic pedal tone
 
-  % a little whitespace
-  \mark \markup{ \column{ \vspace #1.0 } }
+%  % a little whitespace
+%  \mark \markup{ \column{ \vspace #1.0 } }
 
   % coda:
   d2. | d2./cs | d4./b d4./a | g2. | \bar "|."
@@ -122,8 +122,8 @@ creggan_verse_one = \lyricmode {
   In8 the8
   low4 -- lands4 of4 | Creg4 -- gan4 there4 | lives4 a4 white4 | hare2 As4 |
   swift4 as4 the4 | swal4 -- low4 that4 | flies4 through4 the4 | air2. | ""2 You8 may8 ||
-  tra'el4 the4 world4 | ov4 -- er4 but4 | none4 to4 com4 -- | pare2. | ""2 with8 the8 |
-  pride4 of4 the4 | Creg4 -- gan,4 that4 | bonnie4. white4. | hare2. | ""2. | ""2. | ""2. ||
+  tra'el4 the4 world4 | ov4 -- er4 but4 | none4 to4 com4 -- | pare2. | ""2 to8 the8 |
+  pride4 of4 old4 | Creg4 -- gan,4 that4 | bonnie4. white4. | hare2. | ""2. | ""2. | ""2. ||
 
   % coda:
   Up4 a4 good4 | health4 to4 the4 | Creggan4. white4. | hare2. ||
@@ -141,7 +141,7 @@ creggan_verse_two = \markup {
 
   The red, golden sun o'er the green mountain rose
 
-  Barney Conway came down and did loudly declare
+  Barney Conway came down, and he did declare
 
   \"This day I'll put an end to the bonnie white hare\"
 
@@ -188,7 +188,7 @@ creggan_verse_five = \markup {
 
   With our pedigree greyhounds, we've traveled from far
 
-  And come down to the Creggan in our fine motor car
+  And come down to the Creggan in our fine motorcar
 
   "
 } % end \markup
@@ -218,7 +218,7 @@ creggan_verse_seven = \markup {
 
   And there on the bog-bank, they all gathered 'round
 
-  Seven men and nine dogs did our poor hare surround
+  Seven dogs and nine men did our poor hare surround
 
   "
 } % end \markup
@@ -289,7 +289,7 @@ creggan_verse_twelve = \markup {
 
   And the chase, it went on, it was great for to see
 
-  The white hare and the black dog both run light and free
+  The white hare and black dog both run light and free
 
   'Til she traveled to Esker, where she knew the lands well
 
@@ -312,7 +312,7 @@ creggan_verse_final = \markup {
 
   If there's any amongst you in Carrickmore Fair
 
-  Drink up a good health to the Creggan white hare
+  Please drink up a good health to the Creggan white hare
 
   "
 
@@ -343,6 +343,7 @@ creggan_verse_final = \markup {
 \creggan_verse_ten \markup{ \column{ \vspace #1.0 } }
 \creggan_verse_eleven \markup{ \column{ \vspace #1.0 } }
 \creggan_verse_twelve \markup{ \column{ \vspace #1.0 } }
+\creggan_verse_instrumental \markup{ \column{ \vspace #1.0 } }
 \creggan_verse_final
 
 
