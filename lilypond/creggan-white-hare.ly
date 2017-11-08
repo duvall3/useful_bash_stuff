@@ -263,7 +263,7 @@ creggan_verse_ten = \markup {
 
   \"In search of the white hare, today I'll have fun
 
-  Here's fifty to one my black Bell will hart on\"
+  Here's fifteen to one my black Bell will hart on\"
 
   "
 } % end \markup
@@ -315,6 +315,7 @@ creggan_verse_final = \markup {
   Drink up a good health to the Creggan white hare
 
   "
+
 } % end \markup
 
 
