@@ -19,9 +19,11 @@
 
 
 
+%% document
 %\paper { }
 \paper{ page-count = #1 }
 \layout { indent = 0\cm }
+space = \markup{ \column{ \vspace #1.0 } }
 
 
 
@@ -29,7 +31,7 @@
 \header {
 title = "Finnegan's Wake (A)"
 subtitle = "Upper Chords: CAPO 2"
-%subsubtitle = "CAPO 2"
+%subsubtitle = ""
 composer = "Traditional"
 arranger = "Arr. Mark Duvall via the Dubliners"
 %opus = ""
@@ -46,7 +48,6 @@ fing_melody = \relative e' {
   \key a \major
 
   \mark \markup{\italic Verse}
-% cs4 cs8 b8 cs8 fs8[ fs8] -\markup{\musicglyph #"scripts.caesura.straight"} gs8 | a8 gs8 fs8 e8 d8 b8   | fs4 fs8 e8 fs8 gs8 a4 \bar "||" %\break
   cs4 cs8 b8 cs8 fs8 fs8 gs8 | a8 gs8 fs8 e8 d8 b8 b4 | cs4 cs8 b8 cs8 fs8 fs8 gs8 | a8 gs8 fs8 e8 fs8 gs8 a4 | \break  %a8 gs8 fs8 e8 d8 b8 b4 | fs'4 fs8 e8 fs8 gs8 a4 \bar "||" %\break
   a4 a8 b8 a8 gs8 fs4 | a4 a8 b8 a8 gs8 fs4 | a4 a8 b8 a8 gs8 fs8 e8 | fs4 fs8 e8 fs8 gs8 a4 | \bar "||" \break
   
@@ -59,7 +60,6 @@ fing_melody = \relative e' {
 
 %% chords
 % literal
-%fing_chords = \new ChordNames {
 fing_chords = \chordmode {
   
   % Verse
@@ -76,9 +76,7 @@ fing_chords = \chordmode {
 % capo 2 (i.e., in G)
 fing_capo-chords = \chordmode {
   
-% \mark \markup {\italic Capo 2:} %% can't use this method -- overtakes the "Verse" marking!!!
   % Verse
-  %\override ChordName #'font-series=#'bold
   g2 e2:m | c2 d2 | g2 e2:m | c2 d4 g4 |
   e2:m c2 | e2:m c2 | e2:m c2 | c2 d4 g4 |
 
@@ -90,15 +88,10 @@ fing_capo-chords = \chordmode {
 
 
 %% lyrics
-% first verse
 % chorus
 fing_chorus = \lyricmode {
     
-%  Tim8 Finnegan8 lived8 in8 Walk-8 en8 Street,8 a8 | gentleman4 Irish4 mighty4 odd;8 he |
-%  had8 a8 brogue8 both8 rich8 and8 sweet8 and16 to16 | rise8 in16 the16 world,8 he8 carried8 a8 hod4 |
-%  Tim8 had16 a16 bit8 of16 a16 tippler's4 way;8 for16 the16 | love8 of16 the16 liquor4 he8 was8 born;8 and16 to16 |
-%  send8 him8 on8 his8 way8 each8 day8 he'd16 a16 | drop16 o'16 the8 craythur4 ev'ry4 morn.4 ||
-  
+  % blanks for spacing (verse didn't fit well with written music, so all verses are below)
   " "1 | " "1 | " "1 | " "1 | 
   " "1 | " "1 | " "1 | " "1 | 
 
@@ -133,7 +126,6 @@ fing_verse_one = \markup {
 % Verse 2
 fing_verse_two = \markup {
   \italic{ Verse 2 }
-% \markup{ \column{ \vspace #1.0 } }
   \wordwrap-string #"
 
   One morning Tim got rather full; his head felt heavy, which made him shake
@@ -150,7 +142,6 @@ fing_verse_two = \markup {
 
 fing_verse_three = \markup {
   \italic{ Verse 3 }
-% \markup{ \column{ \vspace #1.0 } }
   \wordwrap-string #"
 
   His friends assembled at the wake, and Mrs. Finnegan called for lunch
@@ -212,10 +203,10 @@ fing_verse_five = \markup {
 \markup{ \column{ \vspace #2.0 } }
 
 % verses below:
-\fing_verse_one \markup{ \column{ \vspace #1.0 } }
-\fing_verse_two \markup{ \column{ \vspace #1.0 } }
-\fing_verse_three \markup{ \column{ \vspace #1.0 } }
-\fing_verse_four \markup{ \column{ \vspace #1.0 } }
+\fing_verse_one \space
+\fing_verse_two \space
+\fing_verse_three \space
+\fing_verse_four \space
 \fing_verse_five
 
 

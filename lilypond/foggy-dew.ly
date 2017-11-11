@@ -18,9 +18,10 @@
 %%     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
+%% document
 %\paper { }
 \layout { indent = 0\cm }
-
+space = \markup{ \column{ \vspace #1.0 } }
 
 \header {
 title = "The Foggy Dew (Dm)"
@@ -32,7 +33,7 @@ composer = "Traditional, Arr. Mark Duvall"
 }
 
 
-% melody
+%% melody
 foggy_melody = \relative c'' {\key d \minor
   \partial 4 a8 c | 
   d4 c8 a d4 c8 a | g4 g8 a c,4 d8 e | f a g f d4. d8 | d2. a'8 c | \break
@@ -42,7 +43,7 @@ foggy_melody = \relative c'' {\key d \minor
 } % end \relative
 
 
-% chords
+%% chords
 foggy_chords = \chords {
   \partial 4 s4
   d1:m | c | f2 c | d1:m |
@@ -52,16 +53,19 @@ foggy_chords = \chords {
 } %end \chords
 
 
-% lyrics
+%% lyrics
+
 % first verse
 foggy_verse_one = \lyrics {
   \partial 4 As4 |
-  Down4 the4 glen4 one4 | Eas-ter2 morn4 to8 a8 | ci-4-ty4 fair4. rode8 | I2. There4 |
-  Ar-med2 lines4 of4 | mar-ching2 men4 in4 | squa-drons2 passed4. me8 | by2. No4 |
-  Pipe4 did4 hum,4 no4 | bat-tle2 drum4 did4 | sound4 its4 loud4 tat-4 | -too;2. but8 the8 |
-  Angelus'2 bells4 o'er8 the8 | Lif-fey2 swells4 rang4 | out4 in8 the8 fog-gy2 | dew.1 |
+  Down4 the4 glen4 one4 | Eas4 -- ter4 morn4 to8 a8 | ci4 -- ty4 fair4. rode8 | I2. There4 |
+  Ar4 -- med4 lines4 of4 | mar4 -- ching4 men4 in4 | squa4 -- drons4 passed4. me8 | by2. No4 |
+  Pipe4 did4 hum,4 no4 | bat4 -- tle4 drum4 did4 | sound4 its4 loud4 tat4 -- | too;2. but8 the8 |
+  An4 -- gelus'4 bells4 o'er8 the8 | Lif4 -- fey4 swells4 rang4 | out4 in8 the8 fog4 -- gy4 | dew.1 |
 } % end \lyrics
+
 % remaining verses
+
 foggy_verse_two = \markup {
   \italic { Verse: 2 }
   \wordwrap-string #"
@@ -76,9 +80,11 @@ foggy_verse_two = \markup {
   
   "
 } % end \markup
+
 foggy_verse_instrumental = \markup {
   \italic { Verse: Instrumental }
 } % end \markup
+
 foggy_verse_three = \markup {
   \italic { Verse: 3 }
   \wordwrap-string #"
@@ -93,6 +99,7 @@ foggy_verse_three = \markup {
   
   "
 } % end \markup
+
 foggy_verse_four = \markup {
   \italic{ Verse: 4 }
   \wordwrap-string #"
@@ -109,7 +116,7 @@ foggy_verse_four = \markup {
 } % end \markup
 
 
-% main score block
+%% main score block
 \score {
 <<
   \foggy_chords
@@ -117,15 +124,13 @@ foggy_verse_four = \markup {
   \foggy_verse_one
 >>
 } %end \score
-% a bit of whitespace
-\markup{ \column{ \vspace #2.0 } }
+
+\space
+
 % remaining verses
-\foggy_verse_two
-\markup{ \column{ \vspace #1.0 } }
-\foggy_verse_instrumental
-\markup{ \column{ \vspace #1.0 } }
-\foggy_verse_three
-\markup{ \column{ \vspace #1.0 } }
+\foggy_verse_two		\space
+\foggy_verse_instrumental	\space
+\foggy_verse_three		\space
 \foggy_verse_four
 
 

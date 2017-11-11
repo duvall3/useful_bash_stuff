@@ -19,7 +19,9 @@
 
 
 
+%% document
 %\paper { }
+space = \markup{ \column{ \vpsace #1.0 } }
 
 
 

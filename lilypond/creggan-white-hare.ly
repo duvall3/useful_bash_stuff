@@ -21,6 +21,7 @@
 % marks: c(hords), m(elody), l(yrics), s(core), v(erses)
 
 
+%% document
 \paper { 
   system-system-spacing =
     #'((basic-distance . 16)
@@ -29,9 +30,8 @@
        (stretchability . 60))
   print-page-number = ##f
 }
-
 \layout { indent = 0\cm }
-
+blank_line = \markup{ \column{ \vspace #1.0 } }
 
 
 %% header
@@ -45,7 +45,7 @@ arranger = "Arr. Mark Duvall, via Daoirí Farrell / Andy Irvine"
 }
 
 % a little whitespace
-\markup{ \column{ \vspace #1.0 } }
+\blank_line
 
 
 %% chords
@@ -62,10 +62,7 @@ creggan_chords =  \chordmode {
   d2. | d2./cs | d2./b | a2. | a2. || \bar "||" \break
   b2.:m | b2.:m | b2.:m | d2.:5 | d2.:5 | \break
   d2. | d2./cs | d4./b d4./a | g2. | g2. | g2. | a2. || } \break
-% fs2.:m | g2. | b4.:m a4. | g2. | g2. | g2. | a2. || \bar "||" \break   % alt: dain harmonic movement at the expense of the lowest tonic pedal tone
-
-%  % a little whitespace
-%  \mark \markup{ \column{ \vspace #1.0 } }
+% fs2.:m | g2. | b4.:m a4. | g2. | g2. | g2. | a2. || \bar "||" \break   % alt: gain harmonic movement at the expense of the lowest tonic pedal tone
 
   % coda:
   d2. | d2./cs | d4./b d4./a | g2. | \bar "|."
@@ -102,7 +99,7 @@ creggan_melody = \relative d'' {
 
   d4 d4 d4 | d4 b4 a4 | g4 a4 b4 | g2 e4 |
   d4 e4 g4 | a4 b4 a4 | a4 g4 e4 | d2. | r2 d'4 ||
-  e4 d4 e4 | e4 d4 e4 | e4 d4 b4 | d2. | r2 d4 || \mark \markup{ \italic{"To Coda"} } %\musicglyph #"scripts.coda" }
+  e4 d4 e4 | e4 d4 e4 | e4 d4 b4 | d2. | r2 d4 || \mark \markup{ \italic{"To Coda"} }
   e4 d4 d4 | d4 b4 a4 | g4. fs4. | e2.~ | e2. | r2. | r2. ||
 
   % coda:
@@ -126,7 +123,7 @@ creggan_verse_one = \lyricmode {
   pride4 of4 old4 | Creg4 -- gan,4 that4 | bonnie4. white4. | hare2. | ""2. | ""2. | ""2. ||
 
   % coda:
-  Up4 a4 good4 | health4 to4 the4 | Creggan4. white4. | hare2. ||
+  Up4 a4 good4 | health4 to4 that4 | bonnie4. white4. | hare2. ||
 
 } % end \lyricmode
 
@@ -312,7 +309,7 @@ creggan_verse_final = \markup {
 
   If there's any amongst you in Carrickmore Fair
 
-  Please drink up a good health to the Creggan white hare
+  Please drink up a good health to that bonnie white hare
 
   "
 
@@ -331,19 +328,19 @@ creggan_verse_final = \markup {
 } % end \score
 
 % additional verses:
-\creggan_verse_two \markup{ \column{ \vspace #1.0 } }
-\creggan_verse_three \markup{ \column{ \vspace #1.0 } }
-\creggan_verse_four \markup{ \column{ \vspace #1.0 } }
-\creggan_verse_five \markup{ \column{ \vspace #1.0 } }
-\creggan_verse_six \markup{ \column{ \vspace #1.0 } }
-\creggan_verse_seven \markup{ \column{ \vspace #1.0 } }
-\creggan_verse_eight \markup{ \column{ \vspace #1.0 } }
-\creggan_verse_nine \markup{ \column{ \vspace #1.0 } }
-\creggan_verse_instrumental \markup{ \column{ \vspace #1.0 } }
-\creggan_verse_ten \markup{ \column{ \vspace #1.0 } }
-\creggan_verse_eleven \markup{ \column{ \vspace #1.0 } }
-\creggan_verse_twelve \markup{ \column{ \vspace #1.0 } }
-\creggan_verse_instrumental \markup{ \column{ \vspace #1.0 } }
+\creggan_verse_two		\blank_line
+\creggan_verse_three		\blank_line
+\creggan_verse_four		\blank_line
+\creggan_verse_five		\blank_line
+\creggan_verse_six		\blank_line
+\creggan_verse_seven		\blank_line
+\creggan_verse_eight		\blank_line
+\creggan_verse_nine		\blank_line
+\creggan_verse_instrumental	\blank_line
+\creggan_verse_ten		\blank_line
+\creggan_verse_eleven		\blank_line
+\creggan_verse_twelve		\blank_line
+\creggan_verse_instrumental	\blank_line
 \creggan_verse_final
 
 

@@ -20,6 +20,7 @@
 
 %\paper { }
 \layout { indent = 0\cm }
+space = \markup{ \column{ \vspace #1.0 } }
 
 
 %% header
@@ -35,7 +36,7 @@ arranger = \markup{ \column{ \right-align{ \line{"Arr. Mark Duvall, via"} \line{
 }
 
 % a bit of whitespace
-\markup{ \column{ \vspace #1.0 } }
+\space
 
 %% melody
 wild_melody = \new Staff { \relative d' {
@@ -53,10 +54,10 @@ wild_melody = \new Staff { \relative d' {
 
     % chorus ^\markup{\italic Chorus}
     \mark \markup{\italic Chorus}
-    a2 b8 d8~ d4 | e8 d8~ d2 fs8 a8 | 
+    a2 b8 e8~ e8 d8 | d2. fs8 a8 | 
     d2 d8 b8~ b8 b8 | a8 b8~ b2 a8 b8 | d2 b4 a4 | fs8 d8~ d2 e8 fs8 | \break
     g4. fs8 e8 d8 d4 | b8 d8~ d2 d8 b8 |
-    a2 b8 d8~ d4 | e8 d8~ d2. | %\break 
+    a2 b8 e8~ e8 d8 | d2. r4 | %\break 
 %   % two-bar tag:
 %   r1 | r1 | \break
 
@@ -96,14 +97,14 @@ wild_verse_one = \new Lyrics { \lyricmode {
   \partial 4 Well,8 the8
 
   % verse
-  summer2 ti-8 me8 \skip 8 is8 | co-8 ming8 \skip 2 and8 the8 | trees4. are8 swee-8 \skip 4 tly8 | bloo-8 ming8 \skip 2 where8 the8 |
+  summer2 time4 \skip 8 is8 | co8 -- ming8 \skip 2 and8 the8 | trees4. are8 swee8 -- \skip 4 tly8 | bloo8 -- ming8 \skip 2 where8 the8 |
 % summer2 time4 \skip 8 is8 | coming2. and8 the8 | trees4. are8 sweetly2 | blooming2. where8 the8 |
-  wild2 moun-4 tain4 | ti-8 me8 \skip 2 grows8 a-8 | round4. the8 bloo-4 ming4 | hea-8 ther8 \skip 2 Will8 ye8 |
+  wild2 moun4 -- tain4 | ti8 -- me8 \skip 2 grows8 a8 -- | round4. the8 bloo4 -- ming4 | hea8 -- ther8 \skip 2 Will8 ye8 |
   
   % chorus
-  go,2 las-8 sie8 \skip 4 | go2. And8 we'll8 | all2 go4. to-8 | ge-8 ther8 \skip 2 to8 pick8
-  wild2 moun-4 tain4 | ti-8 me8 \skip 2 all8 a-8 | round4. the8 bloo-4 ming4 | hea-8 ther8 \skip 2 Will8 ye8 |
-  go,2 las-8 sie8 \skip 4 | go1 |
+  go,2 las8 -- sie8 \skip 4 | go2. And8 we'll8 | all2 go4. to8 -- | ge8 -- ther8 \skip 2 to8 pick8 |
+  wild2 moun4 -- tain4 | ti8 -- me8 \skip 2 all8 a8 -- | round4. the8 bloo4 -- ming4 | hea8 -- ther8 \skip 2 Will8 ye8 |
+  go,2 las8 -- sie,8 \skip 4 | go1 |
 
 } } % end \lyricmode and Lyrics
 
@@ -136,12 +137,10 @@ wild_verse_three = \markup {
   Grows around the blooming heather
 
   "
-  \column{ \vspace #1.25 }
 } % end \markup
 
 wild_verse_inst = \markup {
   \italic{ Verse: Instrumental }
-  \column{ \vspace #1.25 }
 } % end \markup
 
 wild_verse_four = \markup {
@@ -157,7 +156,6 @@ wild_verse_four = \markup {
   Grows around the blooming heather
 
   "
-  \column{ \vspace #1.25 }
 } % end \markup
 
 
@@ -173,9 +171,9 @@ wild_verse_four = \markup {
 % a bit of whitespace:
 \markup{ \column{ \vspace #2.0 } }
 % additional verses below:
-\wild_verse_two
-\wild_verse_three
-\wild_verse_inst
+\wild_verse_two		\space
+\wild_verse_three	\space
+\wild_verse_inst	\space
 \wild_verse_four
 
 

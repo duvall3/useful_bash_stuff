@@ -21,7 +21,7 @@
 \layout { indent = 0\cm }
 
 \header {
-title = "Riverdance Jig"
+title = "Riverdance Jig (Em)"
 subtitle = "(Final Movement of Riverdance Main Theme)"
 composer = "Bill Whelan"
 arranger = "Arr. Mark Duvall"

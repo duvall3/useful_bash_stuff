@@ -18,8 +18,10 @@
 %%     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
+%% document
 \paper { page-count = #1 }
 \layout { indent = 0\cm }
+space = \markup{ \column{ \vspace #1.0 } }
 
 
 %% header
@@ -62,18 +64,21 @@ lakes_chords = \chordmode {
 
 
 %% lyrics
+
 % first verse
 lakes_verse_one = \lyricmode {
 %\once \override LyricText.self-alignment-X=#CENTER
 \time 3/4
   \partial 4 'Twas4 |
-  on2 one4 | bright2 March4 | mor-2. | ning2 I4 | bid2 Or-4 | leans2 a-4 | dieu,2. | _2 and8 I8 |
-  took2 the4 | road2 to4 | Jack-son2. | town2 my4 | for-4 tunes2 | _4 to4 re-4 | new.2. | _2 I4 |
-  cursed2 all4 | for-2 eign4 | mo-2. | ney,2 no4 | cre-4 dit2 | _4 could4 I4 | gain;2. | _2 and8 it8 |
-  filled2 me4 | heart2 with8 a8 | long-2 ing4 | for2 the4 | lakes2 of4 | Pontch-2 ar-4 |
+  on2 one4 | bright2 March4 | mor2. -- | ning,2 I4 | bid2 Or4 -- | leans2 a4 -- | dieu,2. | _2 and8 I8 |
+  took2 the4 | road2 to4 | Jackson2. | town2 my4 | for4 -- tunes2 | _4 to4 re4 -- | new.2. | _2 I4 |
+  cursed2 all4 | for2 -- eign4 | mo2. -- | ney,2 no4 | cre4 -- dit2 | _4 could4 I4 | gain;2. | _2 and8 it8 |
+  filled2 me4 | heart2 with8 a8 | long2 -- ing4 | for2 the4 | lakes2 of4 | Pontch2 -- ar4 -- |
   train.2. | % 4-bar tag
 } % end \lyrics
+
 % additional verses
+
 lakes_verse_two = \markup {
   \italic{ Verse: 2 }
   \wordwrap-string #"
@@ -88,6 +93,7 @@ lakes_verse_two = \markup {
 
   "
 } % end \markup
+
 lakes_verse_three = \markup {
   \italic{ Verse: 3 }
   \wordwrap-string #"
@@ -102,6 +108,7 @@ lakes_verse_three = \markup {
   
   "
 } % end \markup
+
 lakes_verse_four = \markup {
   \italic{ Verse: 4 }
   \wordwrap-string #"
@@ -116,9 +123,11 @@ lakes_verse_four = \markup {
   
   "
 } % end \markup
+
 lakes_verse_instrumental = \markup {
   \italic { Verse: Instrumental }
 } % end \markup
+
 lakes_verse_five = \markup {
   \italic{ Verse: 5 }
   \wordwrap-string #"
@@ -133,6 +142,7 @@ lakes_verse_five = \markup {
   
   "
 } % end \markup
+
 lakes_verse_six = \markup {
   \italic{ Verse: 6 }
   \wordwrap-string #"
@@ -153,19 +163,18 @@ lakes_verse_six = \markup {
 % set on staff:
 \score {
   <<
-    \new ChordNames {\lakes_chords }
-    \new Staff { \lakes_melody }
-    \new Lyrics { \lakes_verse_one }
+    \new ChordNames \lakes_chords
+    \new Staff \lakes_melody
+    \new Lyrics \lakes_verse_one
   >>
 }  %end \score
-%% a bit of whitespace
-%\markup{ \column{ \vspace #2.0 } }
+
 % additional verses below:
-\lakes_verse_two
-\lakes_verse_three
-\lakes_verse_four
-\lakes_verse_instrumental
-\lakes_verse_five
+\lakes_verse_two		\space
+\lakes_verse_three		\space
+\lakes_verse_four		\space
+\lakes_verse_instrumental	\space
+\lakes_verse_five		\space
 \lakes_verse_six
 
 
