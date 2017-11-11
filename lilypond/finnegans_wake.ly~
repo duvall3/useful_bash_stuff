@@ -21,15 +21,14 @@
 
 %\paper { }
 \paper{ page-count = #1 }
-\layout { indent = 0\cm }
 
 
 
 %% header
 \header {
 title = "Finnegan's Wake (A)"
-subtitle = "Upper Chords: CAPO 2"
-%subsubtitle = "CAPO 2"
+%subtitle = ""
+subsubtitle = "CAPO 2"
 composer = "Traditional"
 arranger = "Arr. Mark Duvall via the Dubliners"
 %opus = ""
@@ -41,40 +40,47 @@ cae = \markup { \musicglyph #"scripts.caesura.straight" }
 
 
 %% melody
-fing_melody = \relative e' {
-
-  \key a \major
-
-  \mark \markup{\italic Verse}
-% cs4 cs8 b8 cs8 fs8[ fs8] -\markup{\musicglyph #"scripts.caesura.straight"} gs8 | a8 gs8 fs8 e8 d8 b8   | fs4 fs8 e8 fs8 gs8 a4 \bar "||" %\break
-  cs4 cs8 b8 cs8 fs8 fs8 gs8 | a8 gs8 fs8 e8 d8 b8 b4 | cs4 cs8 b8 cs8 fs8 fs8 gs8 | a8 gs8 fs8 e8 fs8 gs8 a4 | \break  %a8 gs8 fs8 e8 d8 b8 b4 | fs'4 fs8 e8 fs8 gs8 a4 \bar "||" %\break
-  a4 a8 b8 a8 gs8 fs4 | a4 a8 b8 a8 gs8 fs4 | a4 a8 b8 a8 gs8 fs8 e8 | fs4 fs8 e8 fs8 gs8 a4 | \bar "||" \break
+fing_melody = \new Voice {
   
-  \mark \markup{\italic Chorus}
-  cs,4 cs8 b8 cs8 fs8 fs8 gs8 | a8 gs8 fs8 e8 d8 b8 b4 | cs4 cs8 b8 cs8 fs8 fs8 gs8 | a8 gs8 fs8 e8 fs8 gs8 a4 | \bar "|." \break
+  \relative e' {
+  
+    \mark \markup{\italic Verse}
+%   cs4 cs8 b8 cs8 fs8[ fs8] -\markup{\musicglyph #"scripts.caesura.straight"} gs8 | a8 gs8 fs8 e8 d8 b8   | fs4 fs8 e8 fs8 gs8 a4 \bar "||" %\break
+    cs4 cs8 b8 cs8 fs8 fs8 gs8 | a8 gs8 fs8 e8 d8 b8 b4 | cs4 cs8 b8 cs8 fs8 fs8 gs8 | a8 gs8 fs8 e8 fs8 gs8 a4 | \break  %a8 gs8 fs8 e8 d8 b8 b4 | fs'4 fs8 e8 fs8 gs8 a4 \bar "||" %\break
+    a4 a8 b8 a8 gs8 fs4 | a4 a8 b8 a8 gs8 fs4 | a4 a8 b8 a8 gs8 fs8 e8 | fs4 fs8 e8 fs8 gs8 a4 | \bar "||" \break
+    
+    \mark \markup{\italic Chorus}
+    cs,4 cs8 b8 cs8 fs8 fs8 gs8 | a8 gs8 fs8 e8 d8 b8 b4 | cs4 cs8 b8 cs8 fs8 fs8 gs8 | a8 gs8 fs8 e8 fs8 gs8 a4 | \bar "|." \break
+  
+  }  % end \relative
 
-}  % end \relative
+} % end \Voice
 
 
 
 %% chords
 % literal
-%fing_chords = \new ChordNames {
-fing_chords = \chordmode {
+fing_chords = \new ChordNames {
   
-  % Verse
-  a2 fs2:m | d2 e2 | a2 fs2:m | d2 e4 a4 |
-  fs2:m d2 | fs2:m d2 | fs2:m d2 | d2 e4 a4 |
- 
-  % Chorus
-  a2 fs2:m | d2 e2 | a2 fs2:m | d2 e4 a4 |
+  \chordmode {
    
-} % end \chordmode
+   % Verse
+   a2 fs2:m | d2 e2 | a2 fs2:m | d2 e4 a4 |
+   fs2:m d2 | fs2:m d2 | fs2:m d2 | d2 e4 a4 |
+
+   % Chorus
+   a2 fs2:m | d2 e2 | a2 fs2:m | d2 e4 a4 |
+    
+  } % end \chordmode
+
+} % end \ChordNames
 
 
 
 % capo 2 (i.e., in G)
-fing_capo-chords = \chordmode {
+fing_capo-chords = \new ChordNames {
+
+  \chordmode {
   
 % \mark \markup {\italic Capo 2:} %% can't use this method -- overtakes the "Verse" marking!!!
   % Verse
@@ -85,14 +91,18 @@ fing_capo-chords = \chordmode {
   % Chorus
   g2 e2:m | c2 d2 | g2 e2:m | c2 d4 g4 |
 
-} %end \chordmode
+ } %end \chordmode
+
+} % end \ChordNames
 
 
 
 %% lyrics
 % first verse
 % chorus
-fing_chorus = \lyricmode {
+fing_chorus = \new Lyrics {
+  
+  \lyricmode {
     
 %  Tim8 Finnegan8 lived8 in8 Walk-8 en8 Street,8 a8 | gentleman4 Irish4 mighty4 odd;8 he |
 %  had8 a8 brogue8 both8 rich8 and8 sweet8 and16 to16 | rise8 in16 the16 world,8 he8 carried8 a8 hod4 |
@@ -108,6 +118,8 @@ fing_chorus = \lyricmode {
   Isnt't8 it4 the8 truth8 I8 tell8 ye8 | lots8 of8 fun8 at8 Finnegan's4 wake!4 ||
     
   } % end \lyricmode
+
+} % end \Lyrics
 
 % first verse
 fing_verse_one = \markup {
@@ -200,22 +212,30 @@ fing_verse_five = \markup {
 
 %% MAIN
 \score { %fing = ""
+  \new Staff {
+    \key a \major
     <<
-      \new ChordNames \fing_capo-chords
-      \new ChordNames \fing_chords
-      \new Staff \fing_melody
-      \new Lyrics \fing_chorus
+      \fing_capo-chords
+      \fing_chords
+      \fing_melody
+      \fing_chorus
     >>
+  } % end Staff
+  \layout { indent = 0\cm }
 } %end \score
 
 % a bit of whitespace
 \markup{ \column{ \vspace #2.0 } }
 
 % verses below:
-\fing_verse_one \markup{ \column{ \vspace #1.0 } }
-\fing_verse_two \markup{ \column{ \vspace #1.0 } }
-\fing_verse_three \markup{ \column{ \vspace #1.0 } }
-\fing_verse_four \markup{ \column{ \vspace #1.0 } }
+\fing_verse_one
+\markup{ \column{ \vspace #1.0 } }
+\fing_verse_two
+\markup{ \column{ \vspace #1.0 } }
+\fing_verse_three
+\markup{ \column{ \vspace #1.0 } }
+\fing_verse_four
+\markup{ \column{ \vspace #1.0 } }
 \fing_verse_five
 
 

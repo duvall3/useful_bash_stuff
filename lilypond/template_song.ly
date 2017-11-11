@@ -96,7 +96,7 @@ piece_verse_two = \markup {
 } %end \score
 
 % additional verses below:
-%\piece_verse_two
+%\piece_verse_three = ...
 
 
 
