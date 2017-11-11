@@ -20,6 +20,7 @@
 
 %\paper { }
 %\layout { }
+blank_line = \markup{ \column{ \vspace #1.0 } }
 
 
 \header {

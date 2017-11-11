@@ -21,7 +21,7 @@
 %% document
 \paper { page-count = #1 }
 \layout { indent = 0\cm }
-space = \markup{ \column{ \vspace #1.0 } }
+blank_line = \markup{ \column{ \vspace #1.0 } }
 
 
 %% header
@@ -52,7 +52,7 @@ lakes_melody = \relative d' {
 
 %% chords
 lakes_chords = \chordmode {
-\time 3/4
+%\time 3/4
 %\set majorSevenSymbol = \markup { Maj7 }
   \partial 4 s4 |
   d2 g4 | fs2:m g4 | b2.:m | a2. | g2. | a2. | d2. | s2. |
@@ -68,7 +68,7 @@ lakes_chords = \chordmode {
 % first verse
 lakes_verse_one = \lyricmode {
 %\once \override LyricText.self-alignment-X=#CENTER
-\time 3/4
+%\time 3/4
   \partial 4 'Twas4 |
   on2 one4 | bright2 March4 | mor2. -- | ning,2 I4 | bid2 Or4 -- | leans2 a4 -- | dieu,2. | _2 and8 I8 |
   took2 the4 | road2 to4 | Jackson2. | town2 my4 | for4 -- tunes2 | _4 to4 re4 -- | new.2. | _2 I4 |
@@ -170,11 +170,11 @@ lakes_verse_six = \markup {
 }  %end \score
 
 % additional verses below:
-\lakes_verse_two		\space
-\lakes_verse_three		\space
-\lakes_verse_four		\space
-\lakes_verse_instrumental	\space
-\lakes_verse_five		\space
+\lakes_verse_two		\blank_line
+\lakes_verse_three		\blank_line
+\lakes_verse_four		\blank_line
+\lakes_verse_instrumental	\blank_line
+\lakes_verse_five		\blank_line
 \lakes_verse_six
 
 

@@ -23,7 +23,7 @@
 %\paper { }
 \paper{ page-count = #1 }
 \layout { indent = 0\cm }
-space = \markup{ \column{ \vspace #1.0 } }
+blank_line = \markup{ \column{ \vspace #1.0 } }
 
 
 
@@ -48,7 +48,8 @@ fing_melody = \relative e' {
   \key a \major
 
   \mark \markup{\italic Verse}
-  cs4 cs8 b8 cs8 fs8 fs8 gs8 | a8 gs8 fs8 e8 d8 b8 b4 | cs4 cs8 b8 cs8 fs8 fs8 gs8 | a8 gs8 fs8 e8 fs8 gs8 a4 | \break  %a8 gs8 fs8 e8 d8 b8 b4 | fs'4 fs8 e8 fs8 gs8 a4 \bar "||" %\break
+  cs4 cs8 b8 cs8 fs8 fs8 gs8 | a8 gs8 fs8 e8 d8 b8 b4 | cs4 cs8 b8 cs8 fs8 fs8 gs8 | a8 gs8 fs8 e8 fs8 gs8 a4 | \break
+% a8 gs8 fs8 e8 d8 b8 b4 | fs'4 fs8 e8 fs8 gs8 a4 \bar "||" %\break
   a4 a8 b8 a8 gs8 fs4 | a4 a8 b8 a8 gs8 fs4 | a4 a8 b8 a8 gs8 fs8 e8 | fs4 fs8 e8 fs8 gs8 a4 | \bar "||" \break
   
   \mark \markup{\italic Chorus}
@@ -190,7 +191,7 @@ fing_verse_five = \markup {
 
 
 %% MAIN
-\score { %fing = ""
+\score {
     <<
       \new ChordNames \fing_capo-chords
       \new ChordNames \fing_chords
@@ -203,10 +204,10 @@ fing_verse_five = \markup {
 \markup{ \column{ \vspace #2.0 } }
 
 % verses below:
-\fing_verse_one \space
-\fing_verse_two \space
-\fing_verse_three \space
-\fing_verse_four \space
+\fing_verse_one 	\blank_line
+\fing_verse_two 	\blank_line
+\fing_verse_three 	\blank_line
+\fing_verse_four 	\blank_line
 \fing_verse_five
 
 

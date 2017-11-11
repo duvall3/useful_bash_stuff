@@ -21,7 +21,8 @@
 
 %% document
 %\paper { }
-space = \markup{ \column{ \vpsace #1.0 } }
+\layout { %{indent = 0\cm%} }
+blank_line = \markup{ \column{ \vpsace #1.0 } }
 
 
 
@@ -38,42 +39,30 @@ arranger = ""
 
 
 %% chords
-piece_chords = \new ChordNames {
+piece_chords = \chordmode {
   
-  \chordmode {
-    
-    % CHORDS GO HERE
-    
-  } % end \chordmode
-
-} % end \ChordNames
+  % CHORDS GO HERE
+  
+} % end \chordmode
 
 
 
 %% melody
-piece_melody = \new Voice {
-  
-  \relative %{note%} {
-  
-    % MUSIC GOES HERE
-  
-  }  % end \relative
+piece_melody = \relative %{note%} {
 
-} % end \Voice
+  % MUSIC GOES HERE
+
+} % end \relative
 
 
 
 %% lyrics
 % first verse
-piece_verse_one = \new Lyrics {
+piece_verse_one =  \lyricmode {
   
-  \lyricmode {
-    
-    % LYRICS GO HERE
-    
-  } % end \lyricmode
+  % LYRICS GO HERE
 
-} % end \Lyrics
+} % end \lyricmode
 
 % additional verses
 piece_verse_two = \markup {
@@ -87,14 +76,11 @@ piece_verse_two = \markup {
 
 %% MAIN
 \score { %piece = ""
-  \new Staff {
-    <<
-      \piece_chords
-      \piece_melody
-      \piece_verse_one
-    >>
-  } % end Staff
-  \layout { %{indent = 0\cm%} }
+  <<
+    \new ChordNames \piece_chords
+    \new Staff \piece_melody
+    \new Lyrics \piece_verse_one
+  >>
 } %end \score
 
 % additional verses below:

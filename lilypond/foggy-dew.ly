@@ -21,7 +21,7 @@
 %% document
 %\paper { }
 \layout { indent = 0\cm }
-space = \markup{ \column{ \vspace #1.0 } }
+blank_line = \markup{ \column{ \vspace #1.0 } }
 
 \header {
 title = "The Foggy Dew (Dm)"
@@ -125,12 +125,12 @@ foggy_verse_four = \markup {
 >>
 } %end \score
 
-\space
+\blank_line
 
 % remaining verses
-\foggy_verse_two		\space
-\foggy_verse_instrumental	\space
-\foggy_verse_three		\space
+\foggy_verse_two		\blank_line
+\foggy_verse_instrumental	\blank_line
+\foggy_verse_three		\blank_line
 \foggy_verse_four
 
 

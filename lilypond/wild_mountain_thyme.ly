@@ -20,7 +20,7 @@
 
 %\paper { }
 \layout { indent = 0\cm }
-space = \markup{ \column{ \vspace #1.0 } }
+blank_line = \markup{ \column{ \vspace #1.0 } }
 
 
 %% header
@@ -28,15 +28,15 @@ space = \markup{ \column{ \vspace #1.0 } }
 title = \markup \center-column {"Wild Mountain Thyme (D)"}
 subtitle = "a.k.a. \"(Will Ye) Go, Lassie, Go\""
 %subsubtitle = ""
-%composer = \markup \center-column {"Traditional, Arr. Mark Duvall via Derek Warfield & the Young Wolfe Tones"}
-%arranger = \markup {"Traditional, " "Arr. Mark Duvall " "via Derek Warfield & the Young Wolfe Tones"}
+%composer = ""
+%arranger = ""
 composer = "Traditional"
 arranger = \markup{ \column{ \right-align{ \line{"Arr. Mark Duvall, via"} \line{"Derek Warfield & the Young Wolfetones"} } } }
-%opus = "Derek Warfield & the Young Wolfetones"
+%opus = ""
 }
 
 % a bit of whitespace
-\space
+\blank_line
 
 %% melody
 wild_melody = \new Staff { \relative d' {
@@ -52,14 +52,12 @@ wild_melody = \new Staff { \relative d' {
     fs2 e8 d8~ d8 d8 | b8 d8~ d2 g8 a8 | d2 d8 b8~ b8 b8 | a8 b8~ b2 a8 b8 | \break
     d2 b4 a4 | fs8 d8~ d2 e8 fs8 | g4. fs8 e8 d8 d4 | b8 d8~ d2 d8 b8 | \bar "||" \break 
 
-    % chorus ^\markup{\italic Chorus}
+    % chorus
     \mark \markup{\italic Chorus}
     a2 b8 e8~ e8 d8 | d2. fs8 a8 | 
     d2 d8 b8~ b8 b8 | a8 b8~ b2 a8 b8 | d2 b4 a4 | fs8 d8~ d2 e8 fs8 | \break
     g4. fs8 e8 d8 d4 | b8 d8~ d2 d8 b8 |
     a2 b8 e8~ e8 d8 | d2. r4 | %\break 
-%   % two-bar tag:
-%   r1 | r1 | \break
 
   }
 
@@ -80,25 +78,18 @@ wild_chords = \chords {
   g1 | fs1:m |
   g2 fs2:m | b1:m | g2 e2:m | g1 |
   d2 g2 | d1 |
-% % two-bar tag:
-% d2 g2 | d1 |
   
 } % end \chords
 
 
 %% lyrics
 % first verse
-%wild_verse_one = \lyrics {
 wild_verse_one = \new Lyrics { \lyricmode {
 
-% \override VerticalAxisGroup.staff-affinity = #DOWN
-%\with LyricText.self-alignment-X = #CENTER
-  
   \partial 4 Well,8 the8
 
   % verse
   summer2 time4 \skip 8 is8 | co8 -- ming8 \skip 2 and8 the8 | trees4. are8 swee8 -- \skip 4 tly8 | bloo8 -- ming8 \skip 2 where8 the8 |
-% summer2 time4 \skip 8 is8 | coming2. and8 the8 | trees4. are8 sweetly2 | blooming2. where8 the8 |
   wild2 moun4 -- tain4 | ti8 -- me8 \skip 2 grows8 a8 -- | round4. the8 bloo4 -- ming4 | hea8 -- ther8 \skip 2 Will8 ye8 |
   
   % chorus
@@ -161,19 +152,21 @@ wild_verse_four = \markup {
 
 %% MAIN
 % set on staff:
-\score { %wild = ""
-<<
-  \wild_chords
-  \wild_melody
-  \wild_verse_one
->>
+\score {
+  <<
+    \wild_chords
+    \wild_melody
+    \wild_verse_one
+  >>
 }  %end \score
+
 % a bit of whitespace:
-\markup{ \column{ \vspace #2.0 } }
+\blank_line
+
 % additional verses below:
-\wild_verse_two		\space
-\wild_verse_three	\space
-\wild_verse_inst	\space
+\wild_verse_two		\blank_line
+\wild_verse_three	\blank_line
+\wild_verse_inst	\blank_line
 \wild_verse_four
 
 

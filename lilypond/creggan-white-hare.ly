@@ -76,11 +76,11 @@ creggan_chords_standard = \chordmode {
   \set noChordSymbol = ""
   \set majorSevenSymbol = \markup{ maj7 }
 
-  r4 %\bar "||"
-  g2. | g2.:maj7 | e4.:m d4. | c2. | %\break
-  g2. | g2.:maj7 | e2.:m | d2. | d2. || %\bar "||" \break
-  e2.:m | e2.:m | e2.:m | g2.:5 | g2.:5 | %\break
-  g2. | g2.:maj7 | e4.:m d4. | c2. | c2. | c2. | d2. || %\bar "||" \break
+  r4
+  g2. | g2.:maj7 | e4.:m d4. | c2. |
+  g2. | g2.:maj7 | e2.:m | d2. | d2. ||
+  e2.:m | e2.:m | e2.:m | g2.:5 | g2.:5 |
+  g2. | g2.:maj7 | e4.:m d4. | c2. | c2. | c2. | d2. ||
 
   % coda:
   g2. | g2.:maj7 | e4.:m d4. | c2. ||

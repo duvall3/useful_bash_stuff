@@ -45,8 +45,6 @@ arranger = "Arr. Mark Duvall"
 	c'8 b8 a8 g8 a8 fs8 | e8 fs8 g8 a8 b8 d,8 |
 	c8 d8 g8 c,8 d8 g8 | d8 e8 fs8 g8 a8 c8 | } \break
 
-%\mark \markup { " " }
-
 % CODA
 \mark \markup { \musicglyph #"scripts.coda" }
         c8 b8 a8 g8 a8 fs8 | e8 fs8 g8 a8 b8 d,8 |
