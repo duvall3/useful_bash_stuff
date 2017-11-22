@@ -123,6 +123,13 @@ if [ -f /etc/bash_completion ]; then
     . /etc/bash_completion
 fi
 
+# add any desired local directories (i.e., bins) to PATH:
+for BIN_PATH in {~/bin, ~/rat-pac/bin, ~/useful_bash_stuff/bin}; do
+  if [ -d $BIN_PATH ]; then
+    export PATH=$PATH:$BIN_PATH
+  fi
+done
+
 # add mtc directory to PATH
 PATH="$HOME/mtc/bin:$PATH"
 
