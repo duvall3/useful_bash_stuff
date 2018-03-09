@@ -6,8 +6,8 @@ set background=dark	" set syntax highlighting for dark terminal backgrounds
 syn on			" activate syntax highlighting
 set shiftwidth=2	" indentation defaults to 2 spaces
 set autoindent		" automatic indentation
+" set 'p' as 'prev', so that ':n' and ':p' scroll forwards & backwards through open files:
 cabbrev p prev
-" ^ set 'p' as 'prev', so that ':n' and ':p' scroll forwards & backwards through open files
 set ignorecase		" ignore case in searches
 set smartcase		" don't ignore case when search string contains any uppercase
 
