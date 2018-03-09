@@ -50,7 +50,9 @@ Vim
 
 - jump to matching bracket / quotation mark: works for all ([{"' : in normal mode, "%"
 
-- search forward (backward) for word under cursor: in normal mode, "*" ("#")
+- search forward / backward for word under cursor: in normal mode, "*" / "#"
+
+- paragraph skip forward / backward by empty lines: in normal mode, "}" / "{"
 
 - repeat input: in normal mode, "." will repeat everything you typed the last time you were in input mode
   -- can be prefixed with a number for repetition
