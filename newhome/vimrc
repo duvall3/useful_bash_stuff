@@ -1,3 +1,6 @@
+" vimrc -- startup customization options for vim
+" 	Note -- Count matches for <pattern>: in Normal mode, :%s/<pattern//gn
+
 " basics
 set background=dark	" set syntax highlighting for dark terminal backgrounds
 syn on			" activate syntax highlighting
