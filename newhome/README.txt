@@ -1,4 +1,4 @@
-duvall3/useful_BASH_stuff/newhome
+newhome
 
 These are the files that go into my home directory the minute I get a new account on any system.
 They include settings for aliases, command history, syntax highlighting, and more.
