@@ -14,9 +14,11 @@ set nowrap
 "" in a single command, 'Wrap':
 command! Wrap set wrap linebreak nolist " 'list' is off by default; just making sure
 
-" mapping
+" mapping:
 " moving lines
+" move current line one line down by typing '-':
 noremap - ddp
+" move current line one line up by typing '_':
 noremap _ ddkP
 " spacebar to insert single character (from Normal mode)
 nnoremap <Space> i_<C-[>r
@@ -25,6 +27,8 @@ nnoremap :ev :split $MYVIMRC<cr>
 nnoremap :sv :source $MYVIMRC<cr>
 " toggle search highlighting with Ctrl-H
 nnoremap <c-h> :set hlsearch! hlsearch?<cr>
+" count number of matching words under the cursor:
+nnoremap ,* *<C-O>:%s///gn<CR>
 
 " create 'comment' and 'uncomment' macros for various filetypes
 " uncomment:
