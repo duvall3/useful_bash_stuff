@@ -106,7 +106,6 @@ creggan_melody = \relative d'' {
   
   e'4^\markup { \musicglyph #"scripts.coda" } d4 d4 | d4 b4 a4 | g4. a4. | g2.\fermata ||
 
-
 }  % end \relative
 
 

@@ -32,7 +32,11 @@ if [ ! $Z_DIR ]; then
 fi
 
 # set list location
-LIST_FILE=$HOME/todo
+if [ $1 ]; then
+  LIST_FILE=$1
+  else
+    LIST_FILE=$HOME/todo
+fi
 
 # fetch and format list items
 NUM_ITEMS=$(wc -l $LIST_FILE | awk '{print $1}')
