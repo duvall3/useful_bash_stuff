@@ -61,6 +61,8 @@ Vim
 
 - autocomplete: in insert mode, "<Ctrl+N>" (next) to start at top of list or "<Ctrl+P>" (previous) to start at bottom of list
 
+- count number of matches for <pattern>: in normal mode, ":%s/<pattern>//gn"
+
 - special characters: in insert mode, <Ctrl+k> -> mod key -> letter
   -- example: <Ctrl+k>'e --> é
 
