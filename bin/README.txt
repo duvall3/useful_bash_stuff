@@ -1,3 +1,3 @@
 bin:
 
-Various little handy shell scripts.
+Various handy little shell scripts.
