@@ -18,7 +18,6 @@ set nowrap
 command! Wrap set wrap linebreak nolist " 'list' is off by default; just making sure
 
 " mapping:
-" moving lines
 " move current line one line down by typing '-':
 noremap - ddp
 " move current line one line up by typing '_':
