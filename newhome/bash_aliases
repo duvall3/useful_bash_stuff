@@ -1,0 +1,25 @@
+# ~/.bash_aliases
+# for user's aliases
+
+# general
+alias cl='clear'
+alias echo='echo -e'
+alias grepnc="grep --color=never"
+alias shdown="sudo shutdown -P now"
+alias df="df -hT"
+alias du="du -h"
+alias ping="ping -c 3"
+alias bc="bc -l"
+alias lc="wc -l"
+alias pgrep="pgrep -l"
+alias dpq="dpkg-query -l"
+alias abr='avahi-browse -artf'
+alias less='less -S'
+alias lst="file * | 'grep' text | awk -F : '{print \$1}'"
+alias version="lsb_release -a"
+alias free="free -h"
+alias sed="sed -E"
+alias semicheck='grep -v "^$" | grep -v "//" | grep -v ";$"'
+alias watch='watch -n 1'
+alias cdl='cd $(ls -dt1 */ | head -1)'
+
