@@ -1,4 +1,4 @@
-## asymptote
+### asymptote
 
 Files for the LaTeX-based diagram & graphics program Asymptote.
 
