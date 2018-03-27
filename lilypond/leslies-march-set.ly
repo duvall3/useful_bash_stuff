@@ -69,13 +69,14 @@ chicago_melody = \relative c' {
 
 %% The Humours of Whiskey
 
-whiskey_chords = \chords{ \set chordChanges = ##t
+whiskey_chords = \chords{ %\set chordChanges = ##t
 % A section
-	b1:m b8:m | fs1:m fs8:m | g1 g8 | a1 a8 |
-	b1:m b8:m | fs1:m fs8:m | g1 g8 | a1 a8 |
+%	b1:m b8:m | fs1:m fs8:m | g1 g8 | a1 a8 |
+	b1:m s8 | b1:m s8 | g1 s8 | a1 s8 |
+	b1:m s8 | b1:m s8 | g1 s8 | a1 s8 |
 % B section
-	d1 d8 | e1:m e8:m | fs1:m fs8:m | g2. a4. |
-	d1 d8 | e1:m e8:m | fs1:m fs8:m | g2. a4. |
+	d1 s8 | e1:m s8 | fs1:m s8 | g2. a4. |
+	d1 s8 | e1:m s8 | fs1:m s8 | g2. a4. |
 }
 
 whiskey_melody = \relative g'' {
