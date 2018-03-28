@@ -63,6 +63,8 @@ Vim
 
 - count number of matches for <pattern>: in normal mode, ":%s/<pattern>//gn"
 
+- ask for confirmation each time replacing <pattern1> with <pattern2>: in normal mode, ":%s/<pattern1>/<pattern2>/gc"
+
 - special characters: in insert mode, <Ctrl+k> -> mod key -> letter
   -- example: <Ctrl+k>'e --> é
 
