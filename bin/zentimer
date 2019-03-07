@@ -1,0 +1,57 @@
+#!/bin/bash
+
+# zentimer -- simple zenity-based reminder timer (kitchen timer)
+
+## Copyright (C) 2019 Mark J. Duvall
+## 
+##     This program is free software: you can redistribute it and/or modify
+##     it under the terms of the GNU General Public License as published by
+##     the Free Software Foundation, either version 3 of the License, or
+##     (at your option) any later version.
+## 
+##     This program is distributed in the hope that it will be useful,
+##     but WITHOUT ANY WARRANTY; without even the implied warranty of
+##     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+##     GNU General Public License for more details.
+## 
+##     You should have received a copy of the GNU General Public License
+##     along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+
+## Initialize
+
+# get desired duration
+if [[ -n $1 ]]; then
+  TIME=$1
+else
+  TIME=$(zenity --entry --title="Duration" --text="How much time?")
+fi
+
+# Get timer name
+if [[ -n $2 ]]; then
+  NAME=$2
+else
+  NAME=$(zenity --entry --title="Name" --text="Set a name for the timer, or just hit \"OK\":")
+fi
+
+# defaults
+if [[ -z $TIME ]]; then
+  TIME="60s"
+fi
+if [[ -z $NAME ]]; then
+  NAME="Timer"
+fi
+
+# debug
+#echo $TIME
+#echo $NAME
+
+## MAIN
+
+# simple activity indicator
+sleep $TIME | zenity --progress --pulsate --title="zentimer" --text="Waiting $TIME for $NAME..." --auto-close
+ENDTIME=$(date +%H:%M:%S)
+zenity --warning --title="zentimer" --text="$NAME timer complete!\nFinished at $ENDTIME."
+
+## all pau!   )
+exit 0
