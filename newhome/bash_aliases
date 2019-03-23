@@ -22,4 +22,6 @@ alias sed="sed -E"
 alias semicheck='grep -v "^$" | grep -v "//" | grep -v ";$"'
 alias watch='watch -n 1'
 alias cdl='cd $(ls -dt1 */ | head -1)'
+alias iwcheck='iwconfig wlan0 | grep ESSID | $(which grep) -o "\".*\"" | tr -d \"'
+
 
