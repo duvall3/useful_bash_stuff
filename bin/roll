@@ -35,11 +35,13 @@ N=$1
 TOTAL=0
 ROLLS=()
 
-# generate, store, and add appropriate random integers
+# generate, store, and sum appropriate random integers
 for (( i=0; i<$K; i++ )); do
   ROLLS[$i]=$(( (RANDOM % $N) + 1 ))
   TOTAL=$(( TOTAL + ROLLS[$i] ))
 done
+
+# add bonus
 TOTAL=$(( TOTAL + B ))
 
 # print results
