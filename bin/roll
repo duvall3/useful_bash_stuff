@@ -29,9 +29,13 @@ if [[ $# -lt 2 ]]; then
   K=1
   else K=$2
 fi
+if [[ $# -lt 1 ]]; then
+  echo "Plese specify the number of sides on the die:" && read N
+else
+  N=$1
+fi
 
 # initialize
-N=$1
 TOTAL=0
 ROLLS=()
 
