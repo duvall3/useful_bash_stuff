@@ -8,6 +8,8 @@
 #         0 6-21/3 * * *		export DISPLAY=:0; /home/username/bin/reminder.sh
 #   -- for now, the user must update the source file manually,
 #         but auto-removal of checked items is a planned future feature
+#   -- USAGE: reminder.sh [TODO_LIST_FILE]
+#      -- default: $HOME/todo
 
 
 ##Copyright (C) 2017 Mark J. Duvall
