@@ -82,5 +82,5 @@ Vim
 
 - search for NOT matching a pattern:
   -- in Normal mode: /<pattern>\@!
-  -- example: lines that aren't comments in, say, BASH -- i.e., lines NOT beginning with '#":
+  -- example: lines that aren't comments in, say, BASH -- i.e., lines NOT beginning with "#":
      /^#\@!
