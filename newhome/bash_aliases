@@ -23,5 +23,8 @@ alias semicheck='grep -v "^$" | grep -v "//" | grep -v ";$"'
 alias watch='watch -n 1'
 alias cdl='cd $(ls -dt1 */ | head -1)'
 alias iwcheck='iwconfig wlan0 | grep ESSID | $(which grep) -o "\".*\"" | tr -d \"'
+alias fd='find . -maxdepth 1 -name "\.*" -type f'
+alias gpucheck='nvidia-settings -q gpus'
+
 
 
