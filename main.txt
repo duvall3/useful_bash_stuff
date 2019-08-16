@@ -80,4 +80,7 @@ Vim
   -- this works great with highlighting lines in Visual mode (Ctrl+V followed by up/down to highlight lines)
   -- in Normal mode, this can be preceeded by the number of lines -- i.e., "5>>" will indent 5 lines
 
-
+- search for NOT matching a pattern:
+  -- in Normal mode: /<pattern>\@!
+  -- example: lines that aren't comments in, say, BASH -- i.e., lines NOT beginning with '#":
+     /^#\@!
