@@ -4,7 +4,7 @@
 # -- runs until terminated via <C-c>
 #
 # usage: heat_mon.sh [INTERVAL]
-# - INTERVAL is assumed to be in seconds; defaults to 5 if not specified
+# - INTERVAL is assumed to be in seconds; defaults to 15 if not specified
 # - format for INTERVAL is same as "date" command -- e.g., "20m" = "twenty minutes", etc.
 # - the 'acpi' package is required, but if you don't already have it, you really should get it anyway
 # - the 'sysstat' package is also required
@@ -30,13 +30,13 @@
 if [ $1 ]; then
 	sleep=$1
 else
-	sleep=5
+	sleep=15
 fi
 
 while true; do
 	time=$(date +%H:%M:%S)
-	temp=$(acpi -t | grep -Eo "[[:digit:]]+\.[[:digit:]]")
 	util=$(iostat -c | awk '$2 ~ /user/ {getline; print $1}')
+	temp=$(acpi -t | grep -Eo "[[:digit:]]+\.[[:digit:]]")
 	printf "%2.f%c  %2.fC  %s\n" $util '%' $temp $time
 	sleep $sleep
 done
