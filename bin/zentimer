@@ -50,7 +50,8 @@ fi
 ## MAIN
 
 # simple activity indicator
-sleep $TIME | zenity --progress --pulsate --title="zentimer" --text="Waiting $TIME for $NAME..." --auto-close
+#sleep $TIME | zenity --progress --pulsate --title="zentimer" --text="Waiting $TIME for $NAME..." --auto-close
+sleep $TIME | zenity --progress --pulsate --title="zentimer" --text="$NAME, estimate $TIME..." --auto-close
 ENDTIME=$(date +%H:%M:%S)
 zenity --warning --title="zentimer" --text="$NAME timer complete!\nFinished at $ENDTIME."
 
