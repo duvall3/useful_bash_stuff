@@ -33,6 +33,6 @@ while true; do
 	time=$(date +%H:%M:%S)
 	util=$(nvidia-smi -q -d UTILIZATION | awk '$0 ~ /[Gg][Pp][Uu].*%/ {print $3}')
 	temp=$(nvidia-smi -q -d TEMPERATURE | awk '$0 ~ /[Gg][Pp][Uu]\ [Cc]urrent/ {print $5}')
-	printf "%2.f %c\t%2.f C\t%s\n" $util '%' $temp $time
+	printf "%2.f%c  %2.fC  %s\n" $util '%' $temp $time
 	sleep $sleep
 done
