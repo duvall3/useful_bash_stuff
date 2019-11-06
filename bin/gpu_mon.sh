@@ -3,7 +3,7 @@
 #	-- runs until terminated via <C-c>
 #
 # usage: gpu_mon.sh [INTERVAL]
-# - INTERVAL is assumed to be in seconds; defaults to 5 if not specified
+# - INTERVAL is assumed to be in seconds; defaults to 15 if not specified
 # - format for INTERVAL is same as "date" command -- e.g., "20m" = "twenty minutes", etc.
 
 
@@ -26,7 +26,7 @@
 if [ $1 ]; then
 	sleep=$1
 else
-	sleep=5
+	sleep=15
 fi
 
 while true; do

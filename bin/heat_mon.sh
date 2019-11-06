@@ -3,7 +3,7 @@
 #	-- runs until terminated via <C-c>
 #
 # usage: heat_mon.sh [INTERVAL]
-# - INTERVAL is assumed to be in seconds; defaults to 15 if not specified
+# - INTERVAL is assumed to be in seconds; defaults to 5 if not specified
 # - format for INTERVAL is same as "date" command -- e.g., "20m" = "twenty minutes", etc.
 # - the 'acpi' package is required, but if you don't already have it, you really should get it anyway
 
@@ -27,7 +27,7 @@
 if [ $1 ]; then
 	sleep=$1
 else
-	sleep=15
+	sleep=5
 fi
 
 while true; do
