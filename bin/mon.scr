@@ -1,0 +1,10 @@
+# mon.scr -- screen macro for {c,g}pu_mon shell scrips
+
+exec $HOME/bin/cpu_mon
+split
+title cpu_mon
+focus down
+screen $HOME/bin/gpu_mon
+title gpu_mon
+
+# all pau!   )

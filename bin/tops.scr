@@ -1,0 +1,10 @@
+# tops.scr -- screen macro for top and nethogs
+
+exec top
+split
+title top
+focus down
+screen sudo nethogs
+title nethogs
+
+# all pau!   )

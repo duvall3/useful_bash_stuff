@@ -30,7 +30,7 @@ if [[ $# -lt 2 ]]; then
   else K=$2
 fi
 if [[ $# -lt 1 ]]; then
-  echo "Plese specify the number of sides on the die:" && read N
+  echo -e "Usage:  roll <K> [N] [B]\n-- N rolls of a K-sided die with bonus B" && exit 2
 else
   N=$1
 fi
