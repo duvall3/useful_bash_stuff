@@ -29,6 +29,8 @@ else
 	sleep=15
 fi
 
+echo
+
 while true; do
 	time=$(date +%H:%M:%S)
 	util=$(nvidia-smi -q -d UTILIZATION | awk '$0 ~ /[Gg][Pp][Uu].*%/ {print $3}')

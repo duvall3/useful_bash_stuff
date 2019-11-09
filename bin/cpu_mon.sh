@@ -33,6 +33,8 @@ else
 	sleep=15
 fi
 
+echo
+
 while true; do
 	time=$(date +%H:%M:%S)
 	util=$(iostat -c | awk '$2 ~ /user/ {getline; print $1}')
