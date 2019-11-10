@@ -1,0 +1,11 @@
+# screenrc
+
+termcapinfo xterm* ti@:te@
+
+# keybindings
+# make ^T an escape character for key-bindings
+bindkey "\024" mapdefault
+# bindings for {c,g}pu_mon and tops
+bindkey -t ^@mon source $HOME/bin/mon.scr
+bindkey -t ^@tops source $HOME/bin/tops.scr
+
