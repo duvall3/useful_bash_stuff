@@ -37,7 +37,7 @@ echo
 
 while true; do
 	time=$(date +%H:%M:%S)
-	util=$(iostat -c | awk '$2 ~ /user/ {getline; print $1}')
+	util=$(iostat -cy 1 1 | awk '$2 ~ /user/ {getline; print $1}')
 	temp=$(acpi -t | grep -Eo "[[:digit:]]+\.[[:digit:]]")
 	printf "%2.f%c  %2.fC  %s\n" $util '%' $temp $time
 	sleep $sleep
