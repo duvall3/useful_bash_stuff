@@ -10,7 +10,6 @@
 # - the 'sysstat' package is also required
 
 
-
 # Copyright (C) 2019 Mark Duvall
 #
 #     This program is free software: you can redistribute it and/or modify
@@ -26,15 +25,20 @@
 #     You should have received a copy of the GNU General Public License
 #     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+# program check
+if [[ ! $(which iostat) || ! $(which acpi) ]]; then
+  echo "ERROR: This script requires both 'iostat' and 'acpi'; at least one of these was not found." && return 2;
+fi
 
+# arg check
 if [ $1 ]; then
 	sleep=$1
 else
 	sleep=15
 fi
 
+# main
 echo
-
 while true; do
 	time=$(date +%H:%M:%S)
 	util=$(iostat -cy 1 1 | awk '$2 ~ /user/ {getline; print $1}')
