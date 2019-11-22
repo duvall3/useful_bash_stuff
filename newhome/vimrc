@@ -32,6 +32,9 @@ nnoremap <c-h> :set hlsearch! hlsearch?<cr>
 " count number of matching words under the cursor:
 nnoremap ,* *<C-O>:%s///gn<CR>
 
+" override default syntax highlighting ("config") for .bash_aliases
+au BufNewFile,BufRead .bash_aliases set filetype=sh
+
 " create 'comment' and 'uncomment' macros for various filetypes
 " uncomment:
 let @u='^/^\s*$kx'
