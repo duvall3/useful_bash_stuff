@@ -127,7 +127,7 @@ creggan_verse_one = \lyricmode {
 } % end \lyricmode
 
 
-% additional verses
+%% additional verses
 
 creggan_verse_two = \markup {
   \italic{ Verse: 2 }
