@@ -45,15 +45,15 @@ AWK is a simple but very fast and powerful language for processing text files. I
 IF /pattern/, THEN \{commands\}.}
 
 AWK sees files as ``records,'' containing ``fields.'' By default, each line of the input file is considered a record, and fields are separated by whitespace (i.e., spaces / tabs) within that record. Both these default delimiters can be changed if needed.
-AWK uses ``\$'' to indicate a field number; \$1 is the first field, \$2 is the second field, etc.; and \$0 means all fields -- i.e., the entire line.
-For matching, AWK uses ``$\sim$'' to mean ``matches to'', and the pattern is often provided as a regular expression.
+AWK uses ``\texttt{\$}'' to indicate a field number: \texttt{\$1} is the first field, \texttt{\$2} is the second field, etc.; and \texttt{\$0} means all fields -- i.e., the entire line.
+For matching, AWK uses ``\texttt{$\sim$}'' to mean ``matches to''; and the pattern is often provided as a regular expression.
 In my experience, having a basic knowledge of regular expressions can increase AWK's power \& usefulness tremendously, but more on that later.
 
 \textbf{Basic Syntax:} \,\, \ttfamily awk '[matching test] \{$<$commands$>$\}' $<$filename$>$ \normalfont
 
-\textbf{Common Variant:} \,\, \ttfamily cat $<$filename$>$ | awk '[matching test] \{$<$commands$>$\}' \normalfont
+\textbf{Common Alternate Syntax:} \,\, \ttfamily cat $<$filename$>$ | awk '[matching test] \{$<$commands$>$\}' \normalfont
 
-Matching tests usually look something like: \$0 $\sim$ /pattern/, which would check each line for any matches to your /pattern/.
+Matching tests usually look something like: \texttt{\$0 $\sim$ /pattern/}, which would check each line for any matches to your \texttt{/pattern/}.
 
 The \texttt{\{commands\}} section is often something as simple as: \texttt{\{print \$1\}}, which would print the first field.
 
@@ -92,7 +92,7 @@ It has 3 records, each having 2 fields. Suppose we want to find and print Alice'
 \end{tabular} }}
 \normalfont
 
-Okay, so Alice is evidently 188~cm tall. Or, we could print the whole line by changing ``print \$2'' to ``print \$0,'' just to make sure we got the right information:
+Okay, so Alice is evidently 188~cm tall. Or, we could print the whole line by changing ``\texttt{print \$2}'' to ``\texttt{print \$0},'' just to make sure we got the right information:
 
 \ttfamily
 \colorbox{black}{\color{white}{
@@ -109,7 +109,7 @@ So it worked! If you're wondering how this is any different from \texttt{grep}, 
 
 \begin{quote}
 
-A quick side note: We've enclosed ``Alice'' in slashes (in this particular case, double quotes would also have been fine) to indicate that it's supposed to be taken as a whole and not just a series of characters. Without the slashes, AWK would read 'Alice' as 'A \textit{or} l \textit{or} i \textit{or} c \textit{or} e,' and since all 3 names happen to contain an ``i,'' we'd end up printing everyone's heights:
+A quick side note: We've enclosed ``\texttt{Alice}'' in slashes (in this particular case, double quotes would also have been fine) to indicate that it's supposed to be taken as a whole and not just a series of characters. Without the slashes, AWK would read ``\texttt{Alice}'' as ``A \textit{or} l \textit{or} i \textit{or} c \textit{or} e,'' and since all 3 names happen to contain an ``i,'' we'd end up printing everyone's heights:
 
 \ttfamily
 \colorbox{black}{\color{white}{
@@ -122,7 +122,7 @@ A quick side note: We've enclosed ``Alice'' in slashes (in this particular case,
 \end{tabular} }}
 \normalfont
 
-This is obviously not what we wanted; that's why we need to use /Alice/ or ``Alice''. A tiny example of regular expressions (``regexes''): If we wanted to find Bill's height but there was also a ``Billy'' on the list, we'd be in trouble, since ``Billy'' contains a match for the pattern ``Bill''. We'd avoid this by using the regex special characters ``$\wedge$'' for ``beginning of string'' and ``\$'' for ``end of string'': the pattern /$\wedge$Bill\$/ would match only ``Bill'' and not ``Billy''.
+This is obviously not what we wanted; that's why we need to use \texttt{/Alice/} (or \texttt{``Alice''}). A tiny example of regular expressions (``regexes''): If we wanted to find Bill's height but there was also a ``Billy'' on the list, we'd be in trouble, since ``Billy'' contains a match for the pattern ``Bill''. We'd avoid this by using the regex special characters ``\texttt{$\wedge$}'' for ``beginning of string'' and ``\texttt{\$}'' for ``end of string'': the pattern ``\texttt{/$\wedge$Bill\$/}'' would match only ``Bill'' and not ``Billy.''
 
 \end{quote}
 
