@@ -1,0 +1,140 @@
+\documentclass[table]{beamer}
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern}
+\usepackage[]{xcolor}
+% \usepackage{graphicx, hyperref} \hypersetup{colorlinks=true, linkcolor=blue, urlcolor=blue, citecolor=blue}
+\usepackage{graphicx}
+\usepackage{overpic}
+\usepackage{amsmath}
+\usepackage{asymptote}
+\usepackage{textpos}
+% \usepackage{tabularx}
+\usepackage{pdfpages}
+
+% set style & color themes
+\usetheme{Madrid}
+\usefonttheme[]{serif}
+\colorlet{beamer@blendedblue}{green!35!black}
+\definecolor{darkgreen}{RGB}{0,175,0}
+\definecolor{deepgreen}{RGB}{0,100,0}
+\definecolor{navy}{RGB}{0,0,150}
+
+% logo in upper-right corner
+\addtobeamertemplate{frametitle}{}{
+ \begin{textblock*}{100mm}(0.942\textwidth,-1cm)
+   \includegraphics[width=0.11\linewidth]{seal.jpg}
+ \end{textblock*}}
+
+
+% title info
+\title{TITLE}
+\author{FIRSTNAME~LASTNAME}%\inst{1}}
+\institute{University of Hawai`i at M\={a}noa}
+\date{\today}
+\titlegraphic{
+ \includegraphics[width=0.3\linewidth]{seal.jpg}
+ }
+\logo{\includegraphics[scale=0.05]{seal.jpg}}
+
+
+
+\begin{document}
+
+% acrynyms
+\newcommand{\ibd}{inverse beta decay (IBD)\renewcommand{\ibd}{IBD}}
+% color-code particles
+\newcommand{\nb}{\textcolor{darkgreen}{$\bar{\nu_e}$}}
+
+% disable footer and make title slide
+%\rmfamily
+{
+ \setbeamertemplate{footline}{}
+ \begin{frame}
+  \titlepage
+ \end{frame}
+}
+%\normalfont
+%\rmfamily
+
+% shorten title info for footers
+\title{\textit{TITLE}}
+\author{AUT}
+\institute{UH}
+%\setbeamertemplate{footline}{\sffamily}
+%\setbeamertemplate{footline}[frame number]{}
+
+% set TOC depth
+% \setcounter{tocdepth}{1}
+
+
+%% MAIN
+
+% standard text-only slide
+\begin{frame}
+  \frametitle{Standard Text-Only Slide}
+  \begin{itemize}
+    \item Item 1
+    \item Item 2
+    \begin{itemize}
+      \item Subitem 1
+      \item Subitem 2
+    \end{itemize}
+  \end{itemize}
+\end{frame}
+
+% standard image-only slide
+\begin{frame}
+  \frametitle{Standard Image-Only Slide}
+  \centering
+  \includegraphics[width=0.7\linewidth]{seal.jpg} % {PATH_TO_IMAGE}
+\end{frame}
+
+% standard text-under-image slide
+\begin{frame}
+  \frametitle{Standard Text-under-Image Slide}
+  \centering
+  \includegraphics[width=0.5\linewidth]{seal.jpg} % {PATH_TO_IMAGE}
+  \begin{itemize}
+    \item Item 1
+    \item Item 2
+  \end{itemize}
+\end{frame}
+
+% standard text-and-image slide
+\begin{frame}
+  \frametitle{Standard Text-beside-Image Slide}
+  \begin{tabular}{cl}
+    \begin{tabular}{c}
+      \parbox{0.4\linewidth}{
+        \begin{itemize}
+	  \item Item 1
+	  \item Item 2
+	\end{itemize}
+      } % end \parbox
+    \end{tabular}
+    & \begin{tabular}{l}
+      \includegraphics[width=0.4\linewidth]{seal.jpg} % {PATH_TO_IMAGE}
+    \end{tabular}
+  \end{tabular}
+\end{frame}
+
+
+% final frame
+\begin{frame}
+  \frametitle{End}
+  \begin{center}
+    \begin{overpic}[width=1.0\linewidth]{HawaiiHallRainbow.jpg}
+      \emph{\textbf{
+	\put(34,33){\Huge \textcolor{deepgreen}{Mahalo!}}
+	\put(34.5,33.5){\Huge \textcolor{white}{Mahalo!}}
+	\put(32,20){\huge \textcolor{deepgreen}{Questions?}}
+	\put(32.5,20.5){\huge \textcolor{white}{Questions?}}
+      }}
+    \end{overpic}
+  \end{center}
+\end{frame}
+
+
+
+% all pau!   )
+\end{document}
