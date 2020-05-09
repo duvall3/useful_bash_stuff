@@ -75,9 +75,6 @@ socks_chords =  \chordmode {
   f1:maj7 | c2:m7 f2:7 | bf1:maj7 | af2:m7 df2:7 |
   gf1:maj7 | e2:m7 a2:7.9- |d1:maj7 | g2:m7 c2:7 ||
 
-  \blank_line
-  \blank_line
-
   % coda
   d1:maj7 | g2:m7 c2:7 | f1:maj7 ||
 
@@ -96,12 +93,12 @@ socks_melody = \relative c'' {
   } % end \repeat
   \alternative {
     { a4~ a8 g4~ g8 fs4 | f?8 f8 r8 e8~ e2 | }
-    { a8[ b8] c8[ cs8~] c4. c8 | c?8[ a8] g8[ f8~] f2 || \bar "||" \break }
+    { a8[ b8] c8[ cs8~] cs4. cs8 | c?8[ a8] g8[ f8~] f2 || \bar "||" \break }
   } % end \alternative
 
   % part B
   e8[ g8] r8 b8~ b4 r4 | af8[ c8] ef8 r8 d8 r8 ef8 d8~ | d4~ d8 bf8~ bf4 g4 | g8 fs8 e8 d8 cs8 e8 r8 f8~ | \break
-  fs2~ fs8 g8 r8 a8 | bf8 df8 r8 c8~ c8 bf8 af4 |  g8 fs8 e8 f8~ f4.~ f8 | f?8 e8 d8 e8~ e2 || \bar "||" \break
+  fs2~ fs8 g8 r8 a8 | bf8 df8 r8 c8~ c8 bf8 af4 |  g8 fs8 e8 fs8~ fs4.~ f8 | f?8 e8 d8 e8~ e2 || \bar "||" \break
 
   % part A'
   g4 g8 a8~ a2 | bf8 bf8 r8 a8~ a4. g8 | f8 d8~ d4~ d4. d8 | ef8 gf8 r8 f8~ f4. gf8 | \break
@@ -109,7 +106,7 @@ socks_melody = \relative c'' {
     a4~ \mark \markup{ \italic{"To Coda"} } a8 g4~ g8 fs4 | f?8 f8 r8 e8~ e2 || \bar "||" \break
 
   % coda
-  fs4.^\markup { \musicglyph #"scripts.coda" } a8 fs8 fs8 r8 f8 | r8 g8 r8 bf8~ bf4 \tuplet 3/2 {b8 c e} || \bar "||" g1\fermata ||
+  fs4.^\markup { \musicglyph #"scripts.coda" } a8 fs8 fs8 r8 f8 | r8 g8 r8 bf8~ bf4 \tuplet 3/2 {b8 c e} || \bar "||" g1\fermata || \bar "|."
 
 } % end \relative
 
