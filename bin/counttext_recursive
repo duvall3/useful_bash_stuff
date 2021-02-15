@@ -1,0 +1,14 @@
+#!/bin/bash
+# counttext_recursive -- run "counttext" recursively
+#   on current directory and all subdirectories
+
+TOP_DIR=$(pwd)
+
+for DIR in $(find . -type d); do
+  cd $DIR
+  counttext
+  cd $TOP_DIR
+done | add_list.sh
+
+# all pau!   )
+exit 0
