@@ -1,5 +1,5 @@
 #!/bin/bash
-# outline.sh -- generate outline from main.tex
+# outline.sh -- generate outline from main TEX file
 # -- Assumes main .tex file contains ONLY \input commands
 #      and that all \chapter, \section, etc.
 #      are in the chapter files
