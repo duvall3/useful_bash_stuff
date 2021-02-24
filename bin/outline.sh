@@ -80,7 +80,6 @@ echo -e "\n\\\tableofcontents\n" >> $OUTFILE_DIR/$OUTFILE
 CHAPTERS=$(grep -e "^\\\input{" $INFILE | sed s/'.input.'// | tr -d })
 for FILE in ${CHAPTERS[*]}; do
   awk '$0 ~ /^\\(chapter|.*section)/ {print $0}' $INFILE_DIR/$FILE >> $OUTFILE_DIR/$OUTFILE
-# echo $FILE >> $OUTFILE_DIR/$OUTFILE #debug
 done
 
 # finish up
