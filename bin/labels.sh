@@ -29,7 +29,7 @@ INFILE=$1
 INFILE_NAME=$(basename $INFILE .tex)
 INFILE_DIR=$(dirname $INFILE)
 OUTFILE_DIR=$(pwd)
-OUTFILE=$INFILE_NAME"_labels.txt"
+OUTFILE="labels_"$INFILE_NAME".txt"
 #if [ -d $OUTFILE_DIR ]; then
 #  echo "$OUTFILE_DIR already exists."
 #  exit 2

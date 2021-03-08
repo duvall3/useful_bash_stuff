@@ -17,7 +17,7 @@
 ##     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
-cat $1 | tr "\n" "+" | sed '$ s/.$/\n/' | bc -l
+cat $1 | grep -v "^$" | tr "\n" "+" | sed '$ s/.$/\n/' | bc -l
 exit 0
 
 
