@@ -11,8 +11,10 @@ Favorites
 #1: <Alt+.> -- argument history: paste recent arguments
   -- example: starting work on a new shell script: "touch reallylongfilename.sh; chmod 755 <Alt+.>; vim <Alt+.>"
 
-#2: arrow-key command history search -- <up/down> : waaay better than default behavior, instructions coming soon
-  -- short version: use the .inputrc given in the "newhome" directory of this repository
+#2: arrow-key command history search -- <up/down> : search/scroll command history *by matching string*
+  -- waaay better than default behavior
+  -- short instructions: use the .inputrc given in the "newhome" directory of this repository
+  -- e.g., get the last command you used beginning with the letter "f":   user@host:~$ f<UPARROW>
 
 #3: <Ctrl+/> -- "undo" for your command line -- works on typing, pasting, history search, pretty much everything!
 
@@ -40,6 +42,12 @@ In no particular order:
   -- example: rename all .png files in current directory to have any spaces in their names replaced with underscores:
      rename s/" "/_/g *.png
 
+- BASH parameter expansion -- suffixes via ${%}
+  -- similar to "basename" command, but in param-expansion implementation
+  -- example: make OGG Vorbis versions of all MP3 files in a directory:
+     for FILE in *.mp3; do
+       ffmpeg -i $FILE ${FILE%mp3}ogg
+     done
 
 
 
