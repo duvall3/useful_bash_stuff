@@ -20,14 +20,12 @@
 
 
 tmux new -s monitors -d
-tmux new-window -t monitors
+tmux rename-window -t monitors monitors
 
-tmux rename-window nethogs
 tmux send-keys -t monitors 'sudo nethogs' C-m
 
 
 tmux split-window -t monitors
-tmux rename-window -t monitors top
 tmux send-keys -t monitors 'top' C-m
 tmux resize-pane -t monitors -U 8
 
