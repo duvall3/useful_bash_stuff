@@ -42,12 +42,23 @@ In no particular order:
   -- example: rename all .png files in current directory to have any spaces in their names replaced with underscores:
      rename s/" "/_/g *.png
 
-- BASH parameter expansion -- suffixes via ${%}
+- BASH parameter expansion -- suffixes via ${%}:
   -- similar to "basename" command, but in param-expansion implementation
   -- example: make OGG Vorbis versions of all MP3 files in a directory:
      for FILE in *.mp3; do
        ffmpeg -i $FILE ${FILE%mp3}ogg
      done
+
+- BASH regular-expression-matching operator (a.k.a. "BASH_REMATCH"): "<STRING> =~ <REGEX>"
+  -- tests whether STRING matches to REGEX
+  -- allows user to utilize regular expressions without needing to invoke grep, awk, perl, etc.
+  -- example: test whether current WiFi network is either "MyHomeWiFi-2G" or "MyHomeWiFi-5G":
+     WIFI_NAME=$(iwconfig | grep -o "ESSID:.*" | grep -o "\".*\"" | tr -d \")
+     if [[ $WIFI_NAME =~ MyHomeWiFi-[25]G ]]; then
+       echo "Connected to Home WiFi network."
+     else
+       echo "Connected to non-Home WiFi network."
+     fi
 
 
 
