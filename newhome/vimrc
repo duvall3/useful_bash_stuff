@@ -1,5 +1,4 @@
 " vimrc -- startup customization options for vim
-" 	Note -- Count matches for <pattern>: in Normal mode, :%s/<pattern>//gn
 
 " basics
 set background=dark	" set syntax highlighting for dark terminal backgrounds
@@ -10,6 +9,7 @@ set autoindent		" automatic indentation
 cabbrev p prev
 set ignorecase		" ignore case in searches
 set smartcase		" don't ignore case when search string contains any uppercase
+set shortmess-=S        " include count in search
 
 " wrapping:
 set nowrap
@@ -31,6 +31,8 @@ nnoremap :sv :source $MYVIMRC<cr>
 nnoremap <c-h> :set hlsearch! hlsearch?<cr>
 " count number of matching words under the cursor:
 nnoremap ,* *<C-O>:%s///gn<CR>
+" return to file browser
+nnoremap :re :Rexplore<cr>
 
 " override default syntax highlighting ("config") for .bash_aliases
 au BufNewFile,BufRead .bash_aliases set filetype=sh
