@@ -9,7 +9,8 @@ set autoindent		" automatic indentation
 cabbrev p prev
 set ignorecase		" ignore case in searches
 set smartcase		" don't ignore case when search string contains any uppercase
-set shortmess-=S        " include count in search
+set shortmess-=S	" include count in search
+set hlsearch
 
 " wrapping:
 set nowrap
@@ -18,9 +19,8 @@ set nowrap
 command! Wrap set wrap linebreak nolist " 'list' is off by default; just making sure
 
 " mapping:
-" move current line one line down by typing '-':
+" moving lines
 noremap - ddp
-" move current line one line up by typing '_':
 noremap _ ddkP
 " spacebar to insert single character (from Normal mode)
 nnoremap <Space> i_<C-[>r
@@ -31,12 +31,34 @@ nnoremap :sv :source $MYVIMRC<cr>
 nnoremap <c-h> :set hlsearch! hlsearch?<cr>
 " count number of matching words under the cursor:
 nnoremap ,* *<C-O>:%s///gn<CR>
+" avoid danger of entering 'ZZ' rather than 'zz':
+nnoremap v zz
 " return to file browser
 nnoremap :re :Rexplore<cr>
 
-" override default syntax highlighting ("config") for .bash_aliases
+" set syntax highlighting for screen:
+au BufNewFile,BufRead *.scr set filetype=screen
+
+" override default syntax highlighting ("config") for .bash_aliases:
 au BufNewFile,BufRead .bash_aliases set filetype=sh
 
+" syntax highlighting for lilypond:
+filetype off
+"set runtimepath+=/usr/share/lilypond/2.16.2/vim/
+set runtimepath+=/home/mark/lilypond/usr/share/lilypond/current/vim
+filetype on
+
+" set syntax highlighting for varios RAT-PAX extensions to c++:
+au BufNewFile,BufRead *.ratdb set filetype=cpp
+au BufNewFile,BufRead *.geo set filetype=cpp
+au BufNewFile,BufRead *.geo_* set filetype=cpp
+
+" set syntax highlighting for asymptote:
+augroup filetypedetect
+au BufNewFile,BufRead *.asy setf asy
+augroup END
+filetype plugin on
+   
 " create 'comment' and 'uncomment' macros for various filetypes
 " uncomment:
 let @u='^/^\s*$kx'
@@ -51,5 +73,6 @@ au filetypedetect FileType vim let @c='^/^\s*$kI"'
 au filetypedetect FileType fortran let @c='^/^\s*$kI!'
 " // languages
 au filetypedetect FileType c,cpp let @c='^/^\s*$kI//'
+"au filetypedetect FileType c,cpp let @u='^/^\s*$klx'	" double-character uncomment
 
 " all pau!   )
