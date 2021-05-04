@@ -1,0 +1,26 @@
+#!/bin/bash
+# thmake -- simple script to compile thesis
+
+# make clean, then make (repeatedly)
+if [[ $(pwd) =~ "THESIS/MAIN" ]]; then
+  make clean
+  make
+  pdflatex main.tex
+  pdflatex main.tex
+  evince main.pdf &
+else
+  echo "ERROR: Non-\"THESIS/MAIN\" directory."
+  exit 5
+fi
+
+# update symlink in $HOME, or create one if not found
+OLD_LINKNAME=$(basename $(ls -tr1 ~/Thesis-Draft_*.pdf | tail -1))
+NEW_LINKNAME="Thesis-Draft_$(date +%m-%d-%y).pdf"
+if [ -e ~/$OLD_LINKNAME ]; then
+  mv ~/$OLD_LINKNAME ~/$NEW_LINKNAME
+else
+  ln -s $(pwd)/main.pdf ~/$NEW_LINKNAME
+fi
+
+# all pau!   )
+exit 0
