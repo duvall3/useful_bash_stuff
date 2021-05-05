@@ -2,10 +2,12 @@
 # for user's aliases
 
 # general
+alias eq='echo $?'
 alias cl='clear'
 alias echo='echo -e'
 alias grepnc="grep --color=never"
 alias shdown="sudo shutdown -P now"
+alias shdownr="sudo shutdown -r now"
 alias df="df -hT"
 alias du="du -h"
 alias dus="du -s * | sort -h"
@@ -14,7 +16,7 @@ alias bc="bc -l"
 alias lc="wc -l"
 alias pgrep="pgrep -l"
 alias dpq="dpkg-query -l"
-alias abr='avahi-browse -artf'
+alias abr='avahi-browse -atf' # add '-r' to resolve services
 alias less='less -S'
 alias lst="file * | 'grep' text | awk -F : '{print \$1}'"
 alias version="lsb_release -a"
@@ -26,6 +28,11 @@ alias cdl='cd $(ls -dt1 */ | head -1)'
 alias iwcheck='iwconfig wlan0 | grep ESSID | $(which grep) -o "\".*\"" | tr -d \"'
 alias fd='find . -maxdepth 1 -name "\.*" -type f'
 alias gpucheck='nvidia-settings -q gpus'
+alias ev='evince'
 
+alias ifecho='then echo yes; else echo no; fi'
+alias webmem='echo "Memory usage of \$(pgrep \"firefox|Web\"):"; paste -d " " <(echo "$(ps --no-headers -o rss $(/usr/bin/pgrep "firefox|Web") | add_list.sh) / 1000" | bc -l | cut -d . -f 1) <(echo " MB")'
+alias ddg='w3m https://duckduckgo.com'
+alias gs='git status .'
 
 
