@@ -26,7 +26,8 @@ elif [ $# -eq 1 ]; then
   URL=$URL"?q=$QUERY"
   w3m $URL
 else
-  echo "USAGE: ddg [query]   OR   ddg \"[multi-word query]\""
+#  echo "USAGE: ddg [query]   OR   ddg \"[multi-word query]\""
+  echo -e "Error: Please enclose multi-word search queries in quotes:\nddg [query]   OR   ddg \"[multi-word query]\""
   exit 5
 fi
 
