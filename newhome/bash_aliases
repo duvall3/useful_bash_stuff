@@ -29,10 +29,10 @@ alias iwcheck='iwconfig wlan0 | grep ESSID | $(which grep) -o "\".*\"" | tr -d \
 alias fd='find . -maxdepth 1 -name "\.*" -type f'
 alias gpucheck='nvidia-settings -q gpus'
 alias ev='evince'
-
 alias ifecho='then echo yes; else echo no; fi'
 alias webmem='echo "Memory usage of \$(pgrep \"firefox|Web\"):"; paste -d " " <(echo "$(ps --no-headers -o rss $(/usr/bin/pgrep "firefox|Web") | add_list.sh) / 1000" | bc -l | cut -d . -f 1) <(echo " MB")'
 alias ddg='w3m https://duckduckgo.com'
 alias gs='git status .'
+alias therm='cat /sys/devices/virtual/thermal/thermal_zone*/temp | sort -n | cut -c 1-2 | tr "\n" "  " && echo'
 
 
