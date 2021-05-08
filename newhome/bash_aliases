@@ -1,21 +1,43 @@
 # ~/.bash_aliases
-# for user's aliases
+# for user's aliases 
+# -- items I find especially useful are marked with "#*"
 
-# general
-alias eq='echo $?'
+##Copyright (C) 2021 Mark J. Duvall
+##
+##    This program is free software: you can redistribute it and/or modify
+##    it under the terms of the GNU General Public License as published by
+##    the Free Software Foundation, either version 3 of the License, or
+##    (at your option) any later version.
+##
+##    This program is distributed in the hope that it will be useful,
+##    but WITHOUT ANY WARRANTY; without even the implied warranty of
+##    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+##    GNU General Public License for more details.
+##
+##    You should have received a copy of the GNU General Public License
+##    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+alias eq='echo $?' #*
+alias df="df -hT" #*
+alias du="du -h" #*
+alias dus="du -s * | sort -h" #*
+alias ping="ping -c 3" #*
+alias bc="bc -l" #*
+alias lc="wc -l" #*
+alias dpq="dpkg-query -l" #*
+alias cdl='cd $(ls -dt1 */ | head -1)' #*
+alias iwcheck='iwconfig wlan0 | grep ESSID | $(which grep) -o "\".*\"" | tr -d \"' #*
+alias ifecho='then echo yes; else echo no; fi' #*
+alias webmem='echo "Memory usage of \$(pgrep \"firefox|Web\"):"; paste -d " " <(echo "$(ps --no-headers -o rss $(/usr/bin/pgrep "firefox|Web") | add_list.sh) / 1000" | bc -l | cut -d . -f 1) <(echo " MB")' #*
+alias ddg='w3m https://duckduckgo.com' #*
+alias gs='git status .' #*
+alias therm='cat /sys/devices/virtual/thermal/thermal_zone*/temp | sort -n | cut -c 1-2 | tr "\n" "  " && echo' #*
 alias cl='clear'
 alias echo='echo -e'
 alias grepnc="grep --color=never"
 alias shdown="sudo shutdown -P now"
 alias shdownr="sudo shutdown -r now"
-alias df="df -hT"
-alias du="du -h"
-alias dus="du -s * | sort -h"
-alias ping="ping -c 3"
-alias bc="bc -l"
-alias lc="wc -l"
 alias pgrep="pgrep -l"
-alias dpq="dpkg-query -l"
 alias abr='avahi-browse -atf' # add '-r' to resolve services
 alias less='less -S'
 alias lst="file * | 'grep' text | awk -F : '{print \$1}'"
@@ -24,15 +46,13 @@ alias free="free -h"
 alias sed="sed -E"
 alias semicheck='grep -v "^$" | grep -v "//" | grep -v ";$"'
 alias watch='watch -n 1'
-alias cdl='cd $(ls -dt1 */ | head -1)'
-alias iwcheck='iwconfig wlan0 | grep ESSID | $(which grep) -o "\".*\"" | tr -d \"'
-alias fd='find . -maxdepth 1 -name "\.*" -type f'
+# find everything hidden in current directory:
+alias fh='find . -maxdepth 1 -name "\.*"'
+# find hidden files in current directory:
+alias fhf='find . -maxdepth 1 -name "\.*" -type f'
+# find hidden directories in current directory:
+alias fhd='find . -maxdepth 1 -name "\.*" -type d'
 alias gpucheck='nvidia-settings -q gpus'
 alias ev='evince'
-alias ifecho='then echo yes; else echo no; fi'
-alias webmem='echo "Memory usage of \$(pgrep \"firefox|Web\"):"; paste -d " " <(echo "$(ps --no-headers -o rss $(/usr/bin/pgrep "firefox|Web") | add_list.sh) / 1000" | bc -l | cut -d . -f 1) <(echo " MB")'
-alias ddg='w3m https://duckduckgo.com'
-alias gs='git status .'
-alias therm='cat /sys/devices/virtual/thermal/thermal_zone*/temp | sort -n | cut -c 1-2 | tr "\n" "  " && echo'
 
 
