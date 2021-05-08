@@ -32,6 +32,7 @@ alias webmem='echo "Memory usage of \$(pgrep \"firefox|Web\"):"; paste -d " " <(
 alias ddg='w3m https://duckduckgo.com' #*
 alias gs='git status .' #*
 alias therm='cat /sys/devices/virtual/thermal/thermal_zone*/temp | sort -n | cut -c 1-2 | tr "\n" "  " && echo' #*
+alias netdev='nmcli device status' #*
 alias cl='clear'
 alias echo='echo -e'
 alias grepnc="grep --color=never"
