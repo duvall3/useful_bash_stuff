@@ -1,0 +1,24 @@
+#!/bin/bash
+# rootsrc -- simple script to open the source files for a given ROOT class
+#
+# USAGE: rootsrc <ROOTclass>
+
+# arg check
+if [[ ! $1 ]]; then
+  echo -e "\nUSAGE: rootsrc <ROOTclass>"
+  exit 10
+fi
+
+# init
+HFILE_NAME="$1".h
+CFILE_NAME="$1".cxx
+
+# locate files
+HFILE=$(find $ROOTSYS -name $HFILE_NAME | head -1)
+CFILE=$(find $ROOTSYS -name $CFILE_NAME | head -1)
+
+# open for reading
+vim $HFILE $CFILE
+
+# all pau!   )
+exit 0
