@@ -32,13 +32,26 @@ composer = ""
 %opus = ""
 }
 
-%\score { piece = ""
 
-\relative %{note%} {
+piece_chords = \chordmode {
 
-	% MUSIC GOES HERE
+  % CHORDS GO HERE
 
-}	% end \relative
+}
 
-%}	%end \score
+
+piece_melody = \relative c' {
+
+  % NOTES GO HERE
+
+} % end \relative
+
+
+\score { %piece = ""
+  <<
+    \new ChordNames \piece_chords
+    \new Staff \piece_melody
+  >>
+  %\midi{}
+} % end \score
 

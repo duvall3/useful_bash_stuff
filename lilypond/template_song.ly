@@ -71,7 +71,7 @@ piece_verse_two = \markup {
   LYRICS GO HERE, DOUBLE-SPACED AT LINE BREAKS
   "
 } % end \markup
-
+% piece_verse_three = ..., etc.
 
 
 %% MAIN
@@ -83,9 +83,10 @@ piece_verse_two = \markup {
   >>
 } %end \score
 
-% additional verses below:
-%\piece_verse_three = ...
-
+% remaining verses
+\piece_verse_two	\blank_line
+%\piece_verse_three	\blank_line
+% etc.
 
 
 %% all pau!   )
