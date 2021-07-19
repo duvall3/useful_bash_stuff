@@ -52,6 +52,5 @@ piece_melody = \relative c' {
     \new ChordNames \piece_chords
     \new Staff \piece_melody
   >>
-  %\midi{}
 } % end \score
 
