@@ -60,6 +60,10 @@ In no particular order:
        echo "Connected to non-Home WiFi network."
      fi
 
+- find broken symlinks: use option '-xtype l'
+  -- example: 'find ~ -xtype l' will find all broken symlinks under
+       the current user's $HOME directory
+
 
 
 Vim
