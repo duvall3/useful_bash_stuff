@@ -1,0 +1,37 @@
+#!/bin/bash
+# totmem -- print the total memory usage of all proccesses with a given name
+#   USAGE: totmen <PROCESSNAME> | <"EXPRESSION">
+# -- example: totmem "firefox|Web"
+# ~ Mark J. Duvall ~ duvall3@guthub.com ~ 7/2021 ~ #
+
+##Copyright (C) 2021 Mark J. Duvall
+##
+##    This program is free software: you can redistribute it and/or modify
+##    it under the terms of the GNU General Public License as published by
+##    the Free Software Foundation, either version 3 of the License, or
+##    (at your option) any later version.
+##
+##    This program is distributed in the hope that it will be useful,
+##    but WITHOUT ANY WARRANTY; without even the implied warranty of
+##    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+##    GNU General Public License for more details.
+##
+##    You should have received a copy of the GNU General Public License
+##    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+# arg check
+if [ $# -lt 1 ]; then
+  echo "USAGE: totmen <PROCESSNAME> | <\"EXPRESSION\">"
+  exit 2
+fi
+
+# MAIN
+if /usr/bin/pgrep $1 > /dev/null
+  then echo "Memory usage of \$(pgrep \"$1\"):"
+  paste -d " " <(echo "$(ps --no-headers -o rss $(/usr/bin/pgrep "$1") | add_list.sh) / 1000" | bc -l | cut -d . -f 1) <(echo " MB")
+else
+  echo -e "Memory usage of \$(pgrep \"$1\"):\n0 MB"
+fi
+
+# all pau!   )
+exit 0
