@@ -1,7 +1,8 @@
 #!/bin/bash
 # totmem -- print the total memory usage of all proccesses with a given name
 #   USAGE: totmen <PROCESSNAME> | <"EXPRESSION">
-# -- example: totmem "firefox|Web"
+# -- examples:  totmem bash; totmem "Xorg|gnome"
+# -- tip: for Web usage, try: alias webmem='totmem "firefox|Web|w3m"'
 # ~ Mark J. Duvall ~ duvall3@guthub.com ~ 7/2021 ~ #
 
 ##Copyright (C) 2021 Mark J. Duvall
