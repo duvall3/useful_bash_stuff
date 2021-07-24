@@ -29,7 +29,7 @@ fi
 # MAIN
 if /usr/bin/pgrep $1 > /dev/null
   then echo "Memory usage of \$(pgrep \"$1\"):"
-  paste -d " " <(echo "$(ps --no-headers -o rss $(/usr/bin/pgrep "$1") | add_list.sh) / 1000" | bc -l | cut -d . -f 1) <(echo " MB")
+  paste -d " " <(echo "$(ps --no-headers -o rss $(/usr/bin/pgrep "$1") | grep -v "^$" | tr "\n" "+" | sed '$ s/.$/\n/' | bc -l) / 1000" | bc -l | cut -d . -f 1) <(echo " MB")
 else
   echo -e "Memory usage of \$(pgrep \"$1\"):\n0 MB"
 fi
