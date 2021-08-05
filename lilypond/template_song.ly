@@ -22,7 +22,7 @@
 %% document
 %\paper { }
 \layout { %{indent = 0\cm%} }
-blank_line = \markup{ \column{ \vpsace #1.0 } }
+blank_line = \markup{ \column{ \vspace #1.0 } }
 
 
 
