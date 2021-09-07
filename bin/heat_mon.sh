@@ -32,7 +32,9 @@ fi
 
 while true; do
 	time=$(date +%H:%M:%S)
-	temp=$(acpi -t | grep -Eo "[[:digit:]]+\.[[:digit:]]")
-	printf "%s C    %s\n" $temp $time
+	#temp=$(acpi -t | grep -Eo "[[:digit:]]+\.[[:digit:]]")
+	temps=$(cat /sys/devices/virtual/thermal/thermal_zone*/temp | cut -c 1-2 | sort -n | tr "\n" " ")
+	#printf "%s °C    %s\n" $temps $time
+	echo -e $temps "°C   " $time
 	sleep $sleep
 done

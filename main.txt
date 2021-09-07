@@ -107,3 +107,10 @@ Vim
   -- in Normal mode: /<pattern>\@!
   -- example: lines that aren't comments in, say, BASH -- i.e., lines NOT beginning with "#":
      /^#\@!
+
+- file/buffer management:
+  - list open files: in Normal mode, ':ls', ':files', or ':buffers'
+  - close current file/buffer: in Normal mode, ':bd'
+  - edit last open file/buffer: in Normal mode, ':e #' or 'CTRL-^'
+  - edit next (previous) file/buffer: in Normal mode, ':bn' (':bN')
+  - edit Nth open file/buffer: in Normal mode, ':Nb' or 'NCTRL-^'

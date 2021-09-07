@@ -24,10 +24,16 @@ tmux rename-window -t monitors monitors
 
 tmux send-keys -t monitors 'sudo nethogs' C-m
 
-
 tmux split-window -t monitors
 tmux send-keys -t monitors 'top' C-m
 tmux resize-pane -t monitors -U 8
+
+tmux last-pane -t monitors
+tmux split-window -h -t monitors
+tmux send-keys -t monitors '/home/mark/useful_bash_stuff/bin/heat_mon.sh' C-m
+tmux resize-pane -t monitors -R 30
+
+tmux select-pane -D -t monitors
 
 tmux attach -t monitors
 
