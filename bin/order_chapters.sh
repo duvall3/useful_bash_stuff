@@ -46,7 +46,11 @@ for FILE in $(grep "^\\\input" $DOCUMENT | grep -o "\{.*\}" | tr -d { | tr -d })
   CHAPTERNAME=$(basename $FILE)
   CHAPSTRING=$(printf "%02i" $CHAPTER)
   LINKNAME="$CHAPSTRING"_"$CHAPTERNAME"
-  ln -s $CHAPDIR/$CHAPTERNAME $LINKDIR/$LINKNAME
-  CHAPTER=$((CHAPTER+1))
+  if [[ ! -L $LINKDIR/$LINKNAME ]]; then
+    ln -s $CHAPDIR/$CHAPTERNAME $LINKDIR/$LINKNAME
+    ((CHAPTER++))
+  else
+    ((CHAPTER++))
+  fi
 done
 

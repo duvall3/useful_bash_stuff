@@ -27,7 +27,7 @@ fi
 PAGES=$(pdfgrep -in CONTENTS $DOCUMENT | awk -F : '{print $1}' | tr ' ' ',')
 PAGE_RANGE=$(echo $PAGES | tr " " ",")
 
-pdfgrep --page-range=$PAGE_RANGE "[[:digit:]]+\ +[[:alpha:]]+" $DOCUMENT | awk '$0 !~ "\." {$NF=""; print $0}'
+pdfgrep --page-range=$PAGE_RANGE "[[:digit:]]+\ +[[:alpha:]]+" $DOCUMENT | awk '$0 !~ "\\." {$NF=""; print $0}'
 
 # all pau!   )
 exit 0
