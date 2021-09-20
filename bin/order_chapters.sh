@@ -5,6 +5,7 @@
 #    . main project file is called "main.tex"
 #    . chapters are located in $PROJECT/chapters
 #    . "\input{chapter/*}" lines are in $PROJECT/main.tex
+# -- NOTE: Any chapters that are commented out in main.tex will be skipped!
 
 ##Copyright (C) 2021 Mark J. Duvall
 ##
@@ -22,11 +23,7 @@
 ##    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 # arg check
-if [ ! $1 ]; then
-  PROJECT=~/THESIS/MAIN # author's default
-else
-  PROJECT=$1
-fi
+PROJECT=${1:-$HOME/THESIS/MAIN} # author's default
 
 # project check
 if [ ! -d $PROJECT ]; then
@@ -39,6 +36,7 @@ DOCUMENT=$PROJECT/main.tex
 CHAPDIR=$PROJECT/chapters
 LINKDIR=$CHAPDIR/ordered_chapters
 if [ ! -d $LINKDIR ]; then mkdir $LINKDIR; fi
+rm $(find $LINKDIR -type l) # clear previous links
 
 # main
 CHAPTER=0
