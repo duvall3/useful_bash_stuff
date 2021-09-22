@@ -22,18 +22,22 @@
 tmux new -s monitors -d
 tmux rename-window -t monitors monitors
 
-tmux send-keys -t monitors 'sudo nethogs' C-m
+tmux send-keys -t monitors 'sudo intel_gpu_top' C-m
 
 tmux split-window -t monitors
 tmux send-keys -t monitors 'top' C-m
-tmux resize-pane -t monitors -U 8
 
 tmux last-pane -t monitors
 tmux split-window -h -t monitors
 tmux send-keys -t monitors '/home/mark/useful_bash_stuff/bin/heat_mon.sh' C-m
 tmux resize-pane -t monitors -R 30
 
-tmux select-pane -D -t monitors
+tmux last-pane -t monitors
+tmux split-window -t monitors
+tmux send-keys -t monitors 'sudo nethogs' C-m
+tmux resize-pane -t monitors -U 5
+
+tmux select-pane -t 3
 
 tmux attach -t monitors
 
