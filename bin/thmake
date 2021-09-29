@@ -16,13 +16,16 @@
 ##    You should have received a copy of the GNU General Public License
 ##    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+# viewing option
+VIEW_TF=${1:-true}
+
 # make clean, then make (repeatedly)
+cd $THESIS_MAIN
 if [[ $(pwd) =~ "THESIS/MAIN" ]]; then
   make clean
   make
   pdflatex main.tex
   pdflatex main.tex
-  evince main.pdf &
 else
   echo "ERROR: Non-\"THESIS/MAIN\" directory."
   exit 5
@@ -34,14 +37,18 @@ if [ -L ~/Thesis-Draft_*.pdf ]; then
 fi
 NEW_LINKNAME="Thesis-Draft_$(date +%m-%d-%y).pdf"
 # check whether symlink has already been updated on this date
-if [[ $OLD_LINKNAME == $NEW_LINKNAME ]]; then
-  exit 0 # all pau!   )
+if [[ ! $OLD_LINKNAME == $NEW_LINKNAME ]]; then
+  # update or create symlink
+  if [ -L ~/$OLD_LINKNAME ]; then
+    mv ~/$OLD_LINKNAME ~/$NEW_LINKNAME
+  else
+    ln -sf $(pwd)/main.pdf ~/$NEW_LINKNAME
+  fi
 fi
-# update or create symlink
-if [ -L ~/$OLD_LINKNAME ]; then
-  mv ~/$OLD_LINKNAME ~/$NEW_LINKNAME
-else
-  ln -sf $(pwd)/main.pdf ~/$NEW_LINKNAME
+
+# view (optionally)
+if $VIEW_TF; then
+  evince main.pdf &
 fi
 
 # all pau!   )

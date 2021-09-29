@@ -26,7 +26,7 @@ OUTFILE=$THESIS_MAIN/summary_table_and_plots.pdf
 # MAIN
 cd $THESIS_MAIN
 pdfseparate -f $STARTPAGE -l $ENDPAGE $INFILE $THESIS_MAIN/draft_extract-%d.pdf
-pdfunite draft_extract-*.pdf $OUTFILE 2> /dev/null
+pdfunite $THESIS_MAIN/draft_extract-*.pdf $OUTFILE 2> /dev/null
 
 # all pau!   )
 exit 0
