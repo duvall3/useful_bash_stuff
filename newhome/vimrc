@@ -83,8 +83,15 @@ au BufNewFile,BufRead *.asy setf asy
 augroup END
 filetype plugin on
 
+" items for .tex files
+au BufNewFile,BufRead *.tex Wrap
+let @f='o% \begin{figure}\end{figure}O  \begin{center}\end{center}O  \includegraphics[width=\linewidth]{}\caption{}\label{fig:}2k$i'
+let @t='o% \begin{table}\end{table}O  \begin{tabular}{cc}\end{tabular}O  \caption{}\label{tab:}kO'
+let @r='o\begin{frame}\end{frame}O  \frametitle{}i'
+let @i='o\begin{itemize}\end{itemize}O  \item '
+
 " create authorship macro
-let @a='i ~ Mark J. Duvall ~ mjduvall@hawaii.edu ~ "=strftime("%m/%Y")pa ~ '
+let @a='i ~ Mark J. Duvall ~ duvall3@github.com ~ "=strftime("%m/%Y")pa ~ '
 
 " create license macro
 let @l=':r ~/GPLv3.txt3}2jI'
