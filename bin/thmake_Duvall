@@ -16,20 +16,22 @@ else
   exit 5
 fi
 
-# update symlink name in $HOME, or create one if not found
-if [ -L ~/Duvall-Thesis-Draft_*.pdf ]; then
-  OLD_LINKNAME=$(basename $(ls -tr1 ~/Duvall-Thesis-Draft_*.pdf | tail -1))
-fi
-NEW_LINKNAME="Duvall-Thesis-Draft_$(date +%m-%d-%y).pdf"
-# check whether symlink has already been updated on this date
-if [[ ! $OLD_LINKNAME == $NEW_LINKNAME ]]; then
-  # update or create symlink
-  if [ -L ~/$OLD_LINKNAME ]; then
-    mv ~/$OLD_LINKNAME ~/$NEW_LINKNAME
-  else
-    ln -sf $(pwd)/main.pdf ~/$NEW_LINKNAME
+# update symlink name here and in $HOME, or create one if not found
+for DIR in {$HOME,$THESIS_MAIN}; do
+  if [ -L $DIR/Duvall-Thesis-Draft_*.pdf ]; then
+    OLD_LINKNAME=$(basename $(ls -tr1 $DIR/Duvall-Thesis-Draft_*.pdf | tail -1))
   fi
-fi
+  NEW_LINKNAME="Duvall-Thesis-Draft_$(date +%m-%d-%y).pdf"
+  # check whether symlink has already been updated on this date
+  if [[ ! $OLD_LINKNAME == $NEW_LINKNAME ]]; then
+    # update or create symlink
+    if [ -L $DIR/$OLD_LINKNAME ]; then
+      mv $DIR/$OLD_LINKNAME $DIR/$NEW_LINKNAME
+    else
+      ln -sf $(pwd)/main.pdf $DIR/$NEW_LINKNAME
+    fi
+  fi
+done
 
 # view (optionally)
 if $VIEW_TF; then

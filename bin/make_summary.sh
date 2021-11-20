@@ -18,15 +18,17 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 # init
-STARTPAGE=${1:-66}
-ENDPAGE=${2:-69}
+STARTPAGE=${1:-69}
+ENDPAGE=${2:-74}
 INFILE=$THESIS_MAIN/main.pdf
 OUTFILE=$THESIS_MAIN/summary_table_and_plots.pdf
 
 # MAIN
+echo "Extracting summary..."
 cd $THESIS_MAIN
 pdfseparate -f $STARTPAGE -l $ENDPAGE $INFILE $THESIS_MAIN/draft_extract-%d.pdf
 pdfunite $THESIS_MAIN/draft_extract-*.pdf $OUTFILE 2> /dev/null
+echo "Done."
 
 # all pau!   )
 exit 0

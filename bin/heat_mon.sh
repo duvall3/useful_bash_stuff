@@ -23,17 +23,14 @@
 #     You should have received a copy of the GNU General Public License
 #     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+# init
+sleep=${1:-5}
 
-if [ $1 ]; then
-	sleep=$1
-else
-	sleep=5
-fi
-
+# main
 while true; do
 	time=$(date +%H:%M:%S)
 	#temp=$(acpi -t | grep -Eo "[[:digit:]]+\.[[:digit:]]")
-	temps=$(cat /sys/devices/virtual/thermal/thermal_zone{0..5}/temp | cut -c 1-2 | sort -n | tr "\n" " ")
+	temps=$(cat /sys/devices/virtual/thermal/thermal_zone{0..6}/temp 2> /dev/null | cut -c 1-2 | sort -n | tr "\n" " ")
 	#printf "%s °C    %s\n" $temps $time
 	echo -e $temps "°C   " $time
 	sleep $sleep
