@@ -1,7 +1,8 @@
 #!/bin/bash
 # roll -- simulate and add k rolls of an n-sided die, with overall bonus b
-# -- usage: roll <K> [N] [B]
-# -- defaults: N=1, B=0
+# -- usage: roll <N> [K] [B]
+# -- defaults: K=1, B=0
+# ~ Mark J. Duvall ~ duvall3@github.com ~ 11/2021 ~ #
 
 ##Copyright (C) 2019 Mark J. Duvall
 ##
@@ -19,21 +20,26 @@
 ##    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ##
 
-
-# arg check
-if [[ $# -lt 3 ]]; then
-  B=0
-  else B=$3
-fi
-if [[ $# -lt 2 ]]; then
-  K=1
-  else K=$2
-fi
-if [[ $# -lt 1 ]]; then
-  echo -e "Usage:  roll <K> [N] [B]\n-- N rolls of a K-sided die with bonus B" && exit 2
-else
-  N=$1
-fi
+# arg check and set
+case $# in
+  0)
+    echo -e "Usage: roll <N> [K] [B]"
+    exit 2
+    ;;
+  1)
+    N=$1
+    K=1
+    ;;
+  2|3)
+    N=$2
+    K=$1
+    ;;
+  *)
+    echo -e "Usage: roll <N> [K] [B]"
+    exit 2
+    ;;
+esac
+B=${3:-0}
 
 # initialize
 TOTAL=0
@@ -49,7 +55,7 @@ done
 TOTAL=$(( TOTAL + B ))
 
 # print results
-echo "Rolls: ${ROLLS[*]}"
+if [[ $K -gt 1 ]]; then echo "Rolls: ${ROLLS[*]}"; fi
 if [[ $B -ne 0 ]]; then echo "Bonus: $B"; fi
 echo "TOTAL: $TOTAL"
 

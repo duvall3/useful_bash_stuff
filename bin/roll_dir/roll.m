@@ -1,6 +1,7 @@
 function [ ] = roll( n, k, b )
 % roll(n,k,b) -- simulate and add k rolls of an n-sided die, with overall bonus b
 % -- k and b are optional arguments; defaults are k=1, b=0
+% ~ Mark J. Duvall ~ duvall3@github.com ~ 11/2021 ~ %
 
 %%Copyright (C) 2019 Mark J. Duvall
 %%

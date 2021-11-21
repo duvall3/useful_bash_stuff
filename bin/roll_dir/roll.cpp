@@ -9,6 +9,7 @@
 // -- to roll  d6:         roll 6
 // -- to roll 2d6:         roll 2 6
 // -- to roll 2d6 + 8:     roll 2 6 8
+// ~ Mark J. Duvall ~ duvall3@github.com ~ 11/2021 ~ //
 
 //Copyright (C) 2021 Mark J. Duvall / T. Rocks Science
 //

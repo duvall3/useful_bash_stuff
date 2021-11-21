@@ -1,5 +1,6 @@
 // roll -- simulate and add k rolls of an n-sided die, with overall bonus b
 // -- defaults are k = 1, b = 0
+// ~ Mark J. Duvall ~ duvall3@github.com ~ 11/2021 ~ //
 
 //Copyright (C) 2021 Mark J. Duvall / T. Rocks Science
 //
@@ -48,7 +49,8 @@ return total;
 // overload for single roll
 Int_t roll( Int_t n ) {
   Int_t total = 1 + gRandom->Integer(n-1);
-  printf("1d%d  ==>  %d\n", n, total);
+//printf("1d%d  ==>  %d\n", n, total);
+  printf("%d\n", total);
   return total;
 }
 
