@@ -1,7 +1,7 @@
 #!/bin/bash
 # roll -- simulate and add k rolls of an n-sided die, with overall bonus b
-# -- usage: roll <N> [K] [B]
-# -- defaults: K=1, B=0
+# -- Usage: roll <K> <N> [B]
+#      or   roll <N>
 # ~ Mark J. Duvall ~ duvall3@github.com ~ 11/2021 ~ #
 
 ##Copyright (C) 2019 Mark J. Duvall
@@ -23,7 +23,7 @@
 # arg check and set
 case $# in
   0)
-    echo -e "Usage: roll <N> [K] [B]"
+    echo -e "Usage: roll <K> <N> [B]\n  or   roll <N>"
     exit 2
     ;;
   1)
@@ -35,7 +35,7 @@ case $# in
     K=$1
     ;;
   *)
-    echo -e "Usage: roll <N> [K] [B]"
+    echo -e "Usage: roll <K> <N> [B]\n  or   roll <N>"
     exit 2
     ;;
 esac
@@ -54,10 +54,13 @@ done
 # add bonus
 TOTAL=$(( TOTAL + B ))
 
-# print results
-if [[ $K -gt 1 ]]; then echo "Rolls: ${ROLLS[*]}"; fi
-if [[ $B -ne 0 ]]; then echo "Bonus: $B"; fi
-echo "TOTAL: $TOTAL"
+# print
+if [ $K -lt 2 ]; then echo $TOTAL; exit 0; fi
+printf "%dd%d + {%d}  ==>  " $K $N $B
+for R in ${ROLLS[*]}; do
+  printf "%d + " $R
+done
+printf "{%d}  =  %d\n" $B $TOTAL
 
 # all pau!   )
 exit 0

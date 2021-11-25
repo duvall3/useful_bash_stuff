@@ -18,16 +18,23 @@
 "    You should have received a copy of the GNU General Public License
 "    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-" debug: fixed input parameters
-let s:k =  3
-let s:n = 20
-let s:b =  3
-
 " vim settings
 set viminfo=""
 set verbose=1
 
-" arg check
+" args
+if ( (argc()<2) || (argc()>4) )
+  echon "Usage: roll_script.vim <K> <N> [B]\n"
+  echon "  or   roll_script.vim <N>\n"
+  qall!
+endif
+let s:k = str2nr(argv(1))
+let s:n = str2nr(argv(2))
+let s:b = str2nr(argv(3))
+if s:n == 0
+  let s:n = s:k
+  let s:k = 1
+endif
 
 " OS / package check (for RNG)
 let s:rollcmd = ""
@@ -59,7 +66,7 @@ endfunction
 
 " single roll
 if s:k==1
-  echo printf("%d\n", SingleRoll(s:n))
+  echon printf("%d\n", SingleRoll(s:n))
   qall!
 endif
 
@@ -84,7 +91,7 @@ for s:R in s:rolls
   let s:result .= printf("%d + ", s:R)
 endfor
 let s:result .= printf("{%d}  =  %d\n", s:b, s:total)
-echo s:result
+echon s:result
 
 " all pau!   )
 set verbose=0
