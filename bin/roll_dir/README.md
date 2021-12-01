@@ -32,10 +32,6 @@ Setup: Simply place the file in a directory belonging to your `$PATH` (or, alter
 
 #### C++ \~ _roll.cpp, roll_
 
-`g++ -o roll roll.cpp`
-
-Then follow the same instructions for `chmod` and `PATH` as in `roll.sh` above.
-
 Usage, at shell prompt:
 
 `roll <N>`
@@ -43,6 +39,10 @@ Usage, at shell prompt:
 `roll <K> <N> [B]`
 
 Setup: The program should be ready to compile and should not require any special options. For example, using *G++*:
+
+`g++ -o roll roll.cpp`
+
+Then follow the same instructions for `chmod` and `PATH` as in `roll.sh` above.
 
 #### ROOT \~ _roll.cxx_
 
@@ -108,19 +108,19 @@ Setup: In *VIM* Normal mode, source the file using `:source roll.vim` . Then, ca
 
 ##### Operating on Keyboard Input (*stdin*)
 
-This will effectively start *AWK* in a sort-of "roll-command" mode, where each line you type will interpreted as an argument or set of arguments to `roll`.
+This will effectively start *AWK* in a sort of "roll-command" mode, where each line you type will interpreted as an argument or set of arguments to `roll`.
 
 Usage, from shell prompt:
 
 `awk -f roll.awk`, then
 
-`<N>` or `<K> <N> [B]` followed by `<RETURN>` or `<ENTER>`
+`<N>` or `<K> <N> [B]`
 
 Setup: None!
 
 ##### Operating on Input File (_roll\_args.txt_)
 
-This will direct *AWK* to read a set of `roll` commands from a text file. An example file, `roll_args.txt`, is provided. *AWK* will read each line of the input file as a set of arguments to the `roll` function. This could be used to quickly run (and re-run) a given set of rolls.
+This will instruct *AWK* to read a set of `roll` inputs from a text file. *AWK* will read each line of the input file as a set of arguments to the `roll` function. This could be used to quickly run (and re-run) a given set of rolls. An example file, `roll_args.txt`, is provided. The example file will roll 1d20, 2d6, and 3d4 with a bonus of 5.
 
 Usage, from shell prompt:
 
