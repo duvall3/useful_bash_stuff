@@ -50,27 +50,25 @@ int roll( int k, int n, int b = 0 ) {
   vector<int> rolls(k);
   int j;
 
-  // generate and store appropriate random integers
-  for ( j=0; j<k; j++ ) {
-    rolls[j] = 1 + rand() % n;
-  }
-
-  // get sum and add bonus
-  for ( j=0; j<k; j++ ) {
-    total += rolls[j];
-  }
-  total += b;
-
-  // print results
+  // MAIN
+  // print requested calculation
   printf("%dd%d + {%d}  ==>  ", k, n, b);
+  // loop over rolls
   for ( j=0; j<k; j++ ) {
+    // generate and store appropriate random integers
+    rolls[j] = 1 + rand() % n;
+    // get running sum
+    total += rolls[j];
+    // print results
     printf("%d ", rolls[j]);
     if ( j < k-1 ) {
       printf("+ ");
     } else {
       printf("+ {%d}  =  %d\n", b, total);
-    }
-  }
+    } // end if -- print "+" signs
+  } // end rolls loop
+  // finally, add bonus
+  total += b;
 
   return total;
 }
@@ -95,10 +93,6 @@ int main( int argc, char *argv[] )
   int k, n, b;
 //for ( int j=0; j<argc; j++ ) cout << argv[j] << " "; cout << endl; //debug
   switch (argc) {
-    case 1:
-      printf( "Usage: roll <SIDES>\n       roll <ROLLS> <SIDES> [BONUS]\n" );
-      return 2;
-      break;
     case 2:
       n = stoi(argv[1]);
       roll(n);
