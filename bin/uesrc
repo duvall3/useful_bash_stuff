@@ -49,11 +49,11 @@ else
   echo "Warning: Source file $CFILE_NAME not found."
 fi
 if (! $HFILE_TF) && (! $CFILE_TF); then
-  echo "No .h or .cxx files for class \"$1\" found under $UNREAL_SRC. Scanning text files..."
+  echo "No .h or .cxx files for class \"$1\" found under $UNREAL_SRC. Scanning source code..."
   GREPLIST=$(grep -iE -IRl $1 $UNREAL_SRC 2> /dev/null)
   if [[ $GREPLIST ]]; then
     echo -e "\nMentions of \"$1\" found in the following files:\n"
-    echo $GREPLIST | sed s@$UNREAL_SRC@'$UNREAL_SRC'@g | tr ' ' '\n'
+    echo $GREPLIST | sed s@$UNREAL_SRC@'$UNREAL_HOME/Engine/Source'@g | tr ' ' '\n'
     echo
     exit 2
   else
