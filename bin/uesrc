@@ -63,7 +63,7 @@ if (! $HFILE_TF) && (! $CFILE_TF); then
 fi
 
 # open for reading only
-vim -R -c -c $HFILE $CFILE
+vim -R -c $HFILE $CFILE
 
 # all pau!   )
 exit 0
