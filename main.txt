@@ -64,6 +64,9 @@ In no particular order:
   -- example: 'find ~ -xtype l' will find all broken symlinks under
        the current user's $HOME directory
 
+- just for fun: regex that finds c++ function declarations / definitions:
+     ^\s*\([[:alnum:]]\+\**\s\+\)\+[[:alnum:]]\+(
+
 
 
 Vim

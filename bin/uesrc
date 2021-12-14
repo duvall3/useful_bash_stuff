@@ -40,13 +40,13 @@ if [[ $HFILE ]]; then
   HFILE_TF=true
 else
   HFILE_TF=false
-  echo "Warning: Header file $HFILE_NAME not found."
+  # echo "Warning: Header file $HFILE_NAME not found."
 fi
 if [[ $CFILE ]]; then
   CFILE_TF=true
 else
   CFILE_TF=false
-  echo "Warning: Source file $CFILE_NAME not found."
+  # echo "Warning: Source file $CFILE_NAME not found."
 fi
 if (! $HFILE_TF) && (! $CFILE_TF); then
   echo "No .h or .cxx files for class \"$1\" found under $UNREAL_SRC. Scanning source code..."
@@ -63,7 +63,7 @@ if (! $HFILE_TF) && (! $CFILE_TF); then
 fi
 
 # open for reading only
-vim -R -c ":set filetype+=.root" -c ":au BufNewFile,BufRead * set filetype+=.root" $HFILE $CFILE
+vim -R -c -c $HFILE $CFILE
 
 # all pau!   )
 exit 0
