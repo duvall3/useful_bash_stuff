@@ -43,7 +43,7 @@ fi
 # open in browser
 TARGET_FILE=$UNREAL_API_DOC/"$CLASS_DIR"index.html
 #w3m $TARGET_FILE
-qutebrowser $TARGET_FILE
+qutebrowser $TARGET_FILE &
 
 # all pau!   )
 exit 0

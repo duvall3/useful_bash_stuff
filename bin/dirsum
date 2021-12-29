@@ -1,0 +1,51 @@
+#!/bin/bash
+# dirsum -- compute hashes for all files in a directory using SHA or MD5,
+#   __save the results (TODO)__, and return a single overall hash value
+# -- NOTE: MUST BE RUN IN TARGET DIRECTORY
+# ~ Mark J. Duvall ~ mjduvall@hawaii.edu ~ 12/2021 ~ #
+
+#Copyright (C) 2021 Mark J. Duvall / T. Rocks Science
+#
+#    This program is free software: you can redistribute it and/or modify
+#    it under the terms of the GNU General Public License as published by
+#    the Free Software Foundation, either version 3 of the License, or
+#    (at your option) any later version.
+#
+#    This program is distributed in the hope that it will be useful,
+#    but WITHOUT ANY WARRANTY; without even the implied warranty of
+#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#    GNU General Public License for more details.
+#
+#    You should have received a copy of the GNU General Public License
+#    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+# init
+# TARGETDIR=${1:-"."}
+# if [[ $TARGETDIR = "." ]]; then
+#   OUTFILE=$(basename $(pwd)).dirsum
+# else
+#   OUTFILE="$TARGETDIR".dirsum
+# fi
+TARGETDIR="."
+SORT_LOCALE=C
+if [ $(which shasum) ]; then
+  HASHCMD=$(which shasum)
+  HASH_OPTIONS="-U" # Universal newlines: gives same result regardless of Unix Windows line terminators
+elif [ $(which md5sum) ]; then
+  HASHCMD=$(which md5sum)
+  HASH_OPTIONS=""
+else
+  echo "Error in md5dir: No hash function found."
+  exit 1
+fi
+
+# get and sort file list
+FILE_LIST=$(find $TARGETDIR -type f | LC_ALL=$SORT_LOCALE sort)
+
+# compute file hashes, then compute hash of result
+$HASHCMD $HASH_OPTIONS $FILE_LIST | $HASHCMD $HASH_OPTIONS #KEEPME
+# $HASHCMD $HASH_OPTIONS $FILE_LIST > $OUTFILE
+# $HASHCMD $HASH_OPTIONS $OUTFILE
+
+# all pau!   )
+exit 0
