@@ -1,6 +1,6 @@
 #!/bin/bash
 # dirsum -- compute hashes for all files in a directory using SHA or MD5,
-#   __save the results (TODO)__, and return a single overall hash value
+#   save the results, and return a single overall hash value
 # -- NOTE: MUST BE RUN IN TARGET DIRECTORY
 # ~ Mark J. Duvall ~ mjduvall@hawaii.edu ~ 12/2021 ~ #
 
@@ -24,7 +24,7 @@
 # if [[ $TARGETDIR = "." ]]; then
 #   OUTFILE=$(basename $(pwd)).dirsum
 # else
-#   OUTFILE="$TARGETDIR".dirsum
+    OUTFILE="$TARGETDIR".dirsum
 # fi
 TARGETDIR="."
 SORT_LOCALE=C
@@ -44,9 +44,9 @@ fi
 FILE_LIST=$(find $TARGETDIR -type f | LC_ALL=$SORT_LOCALE sort)
 
 # compute file hashes, then compute hash of result
-$HASHCMD $HASH_OPTIONS $FILE_LIST | $HASHCMD $HASH_OPTIONS #KEEPME
-# $HASHCMD $HASH_OPTIONS $FILE_LIST > $OUTFILE
-# $HASHCMD $HASH_OPTIONS $OUTFILE
+#$HASHCMD $HASH_OPTIONS $FILE_LIST | $HASHCMD $HASH_OPTIONS #KEEPME
+  $HASHCMD $HASH_OPTIONS $FILE_LIST > $OUTFILE
+  $HASHCMD $HASH_OPTIONS $OUTFILE
 
 # all pau!   )
 exit 0
