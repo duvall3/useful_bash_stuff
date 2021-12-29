@@ -30,7 +30,8 @@ TARGETDIR="."
 SORT_LOCALE=C
 if [ $(which shasum) ]; then
   HASHCMD=$(which shasum)
-  HASH_OPTIONS="-U" # Universal newlines: gives same result regardless of Unix Windows line terminators
+  # HASH_OPTIONS="-U" # Universal newlines: gives same result regardless of Unix Windows line terminators
+  HASH_OPTIONS="" # for portability, ironically
 elif [ $(which md5sum) ]; then
   HASHCMD=$(which md5sum)
   HASH_OPTIONS=""
