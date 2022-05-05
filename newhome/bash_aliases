@@ -55,5 +55,6 @@ alias fhf='find . -maxdepth 1 -name "\.*" -type f'
 alias fhd='find . -maxdepth 1 -name "\.*" -type d'
 alias gpucheck='nvidia-settings -q gpus'
 alias ev='evince'
-
+alias lse="ls | $(which grep) -E \".*\..*\" | $(which grep) -Eo \"\..*\" | sort | uniq -c | awk '{print \"\t\" \$1 \"\t\" \$2}'" # ls extensions
+alias lses='lse | sort -nr'
 

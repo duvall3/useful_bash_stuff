@@ -25,6 +25,11 @@ In no particular order:
 
 - quickly & easily add current folder to command path: PATH=$PATH:$(pwd)
 
+- define alias 'lse' for 'list extensions': alias lse="ls | $(which grep) -E \".*\..*\" | $(which grep) -Eo \"\..*\" | sort | uniq -c | awk '{print \"\t\" \$1 \"\t\" \$2}'" # ls extensions
+  -- add the above line to your .bashrc or .bash_aliases file
+  -- after that, running the command 'lse' at the prompt will print an alphabetized count of all file extensions found in the current directory
+  -- bonus -- add this line below it to sort the list by number of files: alias lses='lse | sort -nr'
+
 - find | xargs -- find files matching given criteria & operate on them; basic syntax is "find [path] [expression] -print0 | xargs -0 <command>"
   -- books have been written on this, but as a very basic example:
     "find ~ -ctime -1 -print0 | xargs -0 stat" will find all files in your home folder
@@ -41,6 +46,10 @@ In no particular order:
 - rename tool for multiple files: rename s/<pattern1>/<pattern2>/[flags] <files>
   -- example: rename all .png files in current directory to have any spaces in their names replaced with underscores:
      rename s/" "/_/g *.png
+
+- file-type tricks:
+  -- list all file extensions in current directory: ls | $(which grep) -E ".*\..*" | $(which grep) -Eo "\..*" | sort | uniq -c
+  -- list all filetypes in current directory: file * | awk -F : '{print $2}' | sed -E s_^\ *__ | sort | uniq -c | sort -rn
 
 - BASH parameter expansion -- suffixes via ${%}:
   -- similar to "basename" command, but in param-expansion implementation
