@@ -1,6 +1,14 @@
 #!/bin/bash
 # dirsum -- compute hashes for all files in a directory using SHA or MD5,
 #   save the results, and return a single overall hash value
+#   USAGE:
+#     1) 'cd' into the directory you want to hash
+#     2) run 'dirsum'
+#     3) 'cd' into the parent directory (i.e., 'cd ..')
+#     4) examine the new ".dirsum" text file
+#   TO COMPARE HASHES:
+#     1) repeat the above procedure
+#     2) compare the last lines of the ".dirsum" and ".dirsum~" files
 # -- NOTE: MUST BE RUN IN TARGET DIRECTORY
 # ~ Mark J. Duvall ~ mjduvall@hawaii.edu ~ 12/2021 ~ #
 
@@ -22,10 +30,18 @@
 # init
 # TARGETDIR=${1:-"."}
 # if [[ $TARGETDIR = "." ]]; then
-#   OUTFILE=$(basename $(pwd)).dirsum
+    # OUTFILE=$(basename $(pwd)).dirsum
+    OUTFILENAME=$(basename $(pwd)).dirsum
+    if [ -w ../ ]; then
+      OUTFILEDIR="$PWD/.."
+    else
+      OUTFILEDIR="."
+    fi
+    OUTFILE=$OUTFILEDIR/$OUTFILENAME
 # else
-    OUTFILE="$TARGETDIR".dirsum
+#   OUTFILE="$TARGETDIR".dirsum
 # fi
+if [ -f $OUTFILE ]; then OUTFILE="$OUTFILE"~; fi
 TARGETDIR="."
 SORT_LOCALE=C
 if [ $(which shasum) ]; then
@@ -46,7 +62,8 @@ FILE_LIST=$(find $TARGETDIR -type f | LC_ALL=$SORT_LOCALE sort)
 # compute file hashes, then compute hash of result
 #$HASHCMD $HASH_OPTIONS $FILE_LIST | $HASHCMD $HASH_OPTIONS #KEEPME
   $HASHCMD $HASH_OPTIONS $FILE_LIST > $OUTFILE
-  $HASHCMD $HASH_OPTIONS $OUTFILE
+  echo "###" >> $OUTFILE
+  $HASHCMD $HASH_OPTIONS $OUTFILE | tee -a $OUTFILE
 
 # all pau!   )
 exit 0
