@@ -1,0 +1,98 @@
+% main.tex -- template for journal article, using American Physical Society / American Institute of Physics format
+% -- see https://www.overleaf.com/latex/templates/template-for-submission-to-aip-publishing-journals/xhsskcchtbxf
+% ~ Mark J. Duvall ~ duvall3.git@gmail.com ~ 05/2022 ~ %
+
+%Copyright (C) 2022 Mark J. Duvall / T. Rocks Science
+%
+%    This program is free software: you can redistribute it and/or modify
+%    it under the terms of the GNU General Public License as published by
+%    the Free Software Foundation, either version 3 of the License, or
+%    (at your option) any later version.
+%
+%    This program is distributed in the hope that it will be useful,
+%    but WITHOUT ANY WARRANTY; without even the implied warranty of
+%    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+%    GNU General Public License for more details.
+%
+%    You should have received a copy of the GNU General Public License
+%    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+
+%% preamble
+\documentclass[twocolumn]{revtex4-2}	% APS/AIP article
+\usepackage[utf8]{inputenc}		% input encoding
+\usepackage{graphicx}			% use graphics
+\usepackage{lipsum}			% for placeholder text
+% for hyperlinks:
+\usepackage{hyperref}
+\hypersetup{colorlinks=true, linkcolor=blue, urlcolor=blue, citecolor=blue}
+% for tables:
+\usepackage{tabularx}
+\usepackage{multirow}
+\usepackage{array}
+% for figures:
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage[percent]{overpic}
+% useful packages for a physics paper:
+\usepackage{epsfig}			% rendering certain image files
+\usepackage{xcolor}			% common colors
+\usepackage{amsmath}			% common math symbols
+\usepackage{amssymb}			% additional math symbols
+\usepackage{bm}				% bold math symbols
+\usepackage{units}			% common units
+
+
+% other preamble items like definitions can go here; for example,
+\definecolor{darkgreen}{RGB}{0,175,0}
+
+
+%% begin document
+\begin{document}
+
+
+% acronyms can go here; for example,
+\newcommand{\ke}{kinetic energy (KE)\renewcommand{\ke}{KE}}
+\newcommand{\pe}{potential energy (PE)\renewcommand{\pe}{PE}}
+
+% other useful document-wide commands can go here as well; for example,
+\newcommand{\dash}{\textbf{---}\ } % command to produce an em-dash that is actually heavy enough to see
+\newcommand{\bs}{\boldsymbol} % math-mode shortcut for bold symbols -- e.g., $ \bs{r} \equiv \langle x, y, z \rangle $
+\newcommand{\nucl}[2]{{}^{#1}\mbox{#2}} % math-mode command for writing isotopes -- e.g., write lithium-6 using $\nucl{6}{Li}$
+
+% title
+\title{TITLE}
+
+% author(s)
+\author{A.~B.~LastnameOne} % F(irst initial) M(iddle initial) Lastname
+\email{author1@domain.suffix}
+\affiliation{Department, Institution, City, Country}
+\author{C.~D.~LastnameTwo}
+\author{E.~F.~LastnameThree}
+\author{G.~H.~LastnameFour}
+
+% date
+\date{\today}
+
+% abstract
+\begin{abstract}
+\emph{\textbf{Example Abstract text.}}
+\lipsum[91]
+\end{abstract}
+
+% make title and TOC
+\maketitle %\maketitle must follow \title, \authors, \abstract and \pacs, as applicable
+\tableofcontents
+
+
+%% MAIN -- sections and bibliography
+\input{sections/section1.tex}
+\input{sections/section2.tex}
+\input{sections/section3.tex}
+\bibliography{Refs}\bibliographystyle{aipnum4-2} % aip-style bibliography
+
+
+%% end document
+\end{document}
+
+%% all pau!   )
