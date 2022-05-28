@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+        <title>roll\_dir</title>
+        <meta charset="utf-8">
+        <link rel="stylesheet" type="text/css" href="README_abr_files/styles.css">
+        <script>
+            window.onload = function() {
+                if (document.querySelector("script[type=\"math/tex; mode=display\"]") !== null) {
+                    var mathjax = document.createElement("script");
+                    mathjax.src = "https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML";
+                    document.head.appendChild(mathjax);
+                }
+                if (document.getElementsByTagName("code").length !== 0) {
+                    var highlight = document.createElement("script");
+                    var highlightcss = document.createElement("link");
+                    highlight.src = "http://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.2.0/highlight.min.js";
+                    highlightcss.rel = "stylesheet";
+                    highlightcss.href = "http://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.2.0/styles/default.min.css";
+                    highlight.onload = function() {hljs.initHighlighting();};
+                    document.head.appendChild(highlight);
+                    document.head.appendChild(highlightcss);
+                }
+            }
+        </script>
+    <script src="README_abr_files/highlight.js"></script><link rel="stylesheet" href="README_abr_files/default.css"></head>
+    <body>
+        <article>
+            <h3 id="roll-dir">roll_dir</h3>
+<p>A little project of demos / exercises writing the same simple program
+ in a variety of different languages. For this, I've taken some 
+inspiration from <a href="https://en.wikipedia.org/wiki/Tabletop_role-playing_game">TTRPGs</a> like <em>Pathfinder</em> and chosen to write a program called <code>roll</code>
+ that simulates a specified number of rolls for a regular-polyhedral die
+ with a specified number of sides and then adds an optionally-specified 
+bonus. Syntax varies by language; but the general idea is to call either
+ <code>roll N</code> for a single roll, or <code>roll K N B</code> for multiple rolls with optional bonus.</p>
+<p>For example, in the lingo:</p>
+<ul>
+<li><p>To roll 1d20, simply call <code>roll 20</code>.</p>
+</li><li><p>To roll 3d6 with a bonus of 4, call <code>roll 3 6 4</code>.</p>
+</li></ul>
+<p>Setup &amp; usage instructions for each one are described below. Required arguments are indicated by angled brackets <code>&lt;&gt;</code>, and optional arguments are indicated by square brackets <code>[]</code>. Output in most cases is printed according to the folowing format:</p>
+<p><code>KdN + {B}  ==&gt;  roll1 + roll2 + ... + {B}  =  TOTAL</code></p>
+<p><strong>NOTE:</strong> The instructions here generally assume you are running these commands in the same directory as the indicated <em>roll</em> file(s). If not, simply add the path in front of the filename as required. For example, if the files are located in <code>~/useful_bash_stuff/bin/roll_dir</code> and you are at a shell prompt in your home directory, you would call <code>roll.sh</code> by typing <code>useful_bash_stuff/bin/roll_dir/roll.sh</code>, etc.</p>
+<p>Enjoy!</p>
+<p><em>~ duvall3</em></p>
+<h4 id="shell-script-roll-sh">Shell Script ~ <em>roll.sh</em></h4>
+<p>Usage, at shell prompt:</p>
+<p><code>roll.sh &lt;N&gt;</code></p>
+<p><code>roll.sh &lt;K&gt; &lt;N&gt; [B]</code></p>
+<p>Setup: Simply place the file in a directory belonging to your <code>$PATH</code> (or, alternately, add the relevent directory to your <code>$PATH</code> --- my personal favorite method for this is <code>export PATH=$(pwd):$PATH</code>); and if necessary, run <code>chmod +x roll.sh</code> .</p>
+<h4 id="c-roll-cpp-roll">C++ ~ <em>roll.cpp, roll</em></h4>
+<p>Usage, at shell prompt:</p>
+<p><code>roll &lt;N&gt;</code></p>
+<p><code>roll &lt;K&gt; &lt;N&gt; [B]</code></p>
+<p>Setup: The program should be ready to compile and should not require any special options. For example, using <em>G++</em>:</p>
+<p><code>g++ -o roll roll.cpp</code></p>
+<p>Then follow the same instructions for <code>chmod</code> and <code>PATH</code> as in <code>roll.sh</code> above.</p>
+<h4 id="root-roll-cxx">ROOT ~ <em>roll.cxx</em></h4>
+<p>Usage, at <em>ROOT/CINT</em> prompt:</p>
+<p><code>roll(&lt;N&gt;);</code></p>
+<p><code>roll(&lt;K&gt;, &lt;N&gt;, [B]);</code></p>
+<p>Setup: Place the file (or a link to the file) in a directory where your <em>ROOT</em> installation can find it --- <code>$ROOTSYS/macros</code> is usually a safe bet. Then at the <em>CINT</em> prompt, simply load the macro with the command <code>.L roll.cxx</code>, then call the function as indicated above. Alternatively, you can add the following line to your <em>ROOT</em> logon script (sometimes called <code>rootlogon.C</code>), and it will load automatically for you whenever you start <em>ROOT</em>:</p>
+<p><code>gROOT-&gt;LoadMacro("roll.cxx");</code></p>
+<h4 id="python-roll-py">Python ~ <em>roll.py</em></h4>
+<p>Usage, at <em>Python</em> prompt:</p>
+<p><code>roll(&lt;N&gt;)</code></p>
+<p><code>roll(&lt;K&gt;, &lt;N&gt;, [B])</code></p>
+<p>Setup: Place <code>roll.py</code> in a directory where your <em>Python</em> installation can find it (try <code>echo $PYTHONPATH</code> at the shell prompt if you need some places to look). Then start <em>Python</em>
+ and either import the "roll" module or just the "roll" function. To 
+make usage match the above, make your import line as follows:</p>
+<p><code>from roll import roll as roll</code></p>
+<h4 id="octave-matlab">Octave / MATLAB</h4>
+<p>Usage, at <em>Octave</em> prompt:</p>
+<p><code>roll(&lt;N&gt;);</code></p>
+<p><code>roll(&lt;K&gt;, &lt;N&gt;, [B]);</code></p>
+<p>Setup: Simply place the file somewhere that <em>Octave</em> can find. Within <em>Octave</em>, you can either: 1) check the current path by running the <code>path</code> function; or 2) add the directory containing <code>roll.m</code> to <em>Octave</em>'s path using the <code>addpath</code> function. (See <code>doc path</code> and <code>doc addpath</code> for more information).</p>
+<h4 id="vim-roll-vim-roll-script-vim">VIM ~ <em>roll.vim, roll_script.vim</em></h4>
+<h5 id="as-script-roll-script-vim">As Script ~ <em>roll_script.vim</em></h5>
+<p>Usage, at shell prompt:</p>
+<p><code>roll_script.vim &lt;N&gt;</code></p>
+<p><code>roll_script.vim &lt;K&gt; &lt;N&gt; [B]</code></p>
+<p>Setup: Same as for <code>roll.sh</code> above.</p>
+<h5 id="as-vim-function-roll-vim">As VIM Function ~ <em>roll.vim</em></h5>
+<p>Usage, in <em>VIM</em> Normal mode:</p>
+<p><code>:echo Roll(&lt;N&gt;)</code></p>
+<p><code>:echo Roll(&lt;K&gt;, &lt;N&gt;, [B])</code></p>
+<p>Setup: In <em>VIM</em> Normal mode, source the file using <code>:source roll.vim</code> . Then, call the function within <em>VIM</em> as you would any other <em>VIM</em> function, as indicated above.</p>
+<h4 id="awk-roll-awk-roll-txt">AWK ~ <em>roll.awk, roll.txt</em></h4>
+<h5 id="operating-on-keyboard-input-stdin">Operating on Keyboard Input (<em>stdin</em>)</h5>
+<p>This will effectively start <em>AWK</em> in a sort of "roll-command" mode, where each line you type will interpreted as an argument or set of arguments to <code>roll</code>.</p>
+<p>Usage, from shell prompt:</p>
+<p><code>awk -f roll.awk</code>, then</p>
+<p><code>&lt;N&gt;</code> or <code>&lt;K&gt; &lt;N&gt; [B]</code></p>
+<p>Setup: None!</p>
+<h5 id="operating-on-input-file-roll-args-txt">Operating on Input File (<em>roll_args.txt</em>)</h5>
+<p>This will instruct <em>AWK</em> to read a set of <code>roll</code> inputs from a text file. <em>AWK</em> will read each line of the input file as a set of arguments to the <code>roll</code> function. This could be used to quickly run (and re-run) a given set of rolls. An example file, <code>roll_args.txt</code>, is provided. The example file will roll 1d20, 2d6, and 3d4 with a bonus of 5.</p>
+<p>Usage, from shell prompt:</p>
+<p><code>awk -f roll.awk roll_args.txt</code></p>
+<p>Setup: None!</p>
+<h3 id="happy-hacking-duvall3">Happy Hacking!   <em>~ duvall3</em></h3>
+
+        </article>
+    
+
+</body></html>
