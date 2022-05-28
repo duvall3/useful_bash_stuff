@@ -1,4 +1,4 @@
-### roll_dir
+### roll\_dir
 
 A little project of demos / exercises writing the same simple program in a variety of different languages. For this, I've taken some inspiration from [TTRPGs](https://en.wikipedia.org/wiki/Tabletop_role-playing_game) like _Pathfinder_ and chosen to write a program called `roll` that simulates a specified number of rolls for a regular-polyhedral die with a specified number of sides and then adds an optionally-specified bonus. Syntax varies by language; but the general idea is to call either `roll N` for a single roll, or `roll K N B` for multiple rolls with optional bonus.
 
@@ -81,9 +81,9 @@ Usage, at *Octave* prompt:
 Setup: Simply place the file somewhere that *Octave* can find. Within *Octave*, you can either: 1) check the current path by running the `path` function; or 2) add the directory containing `roll.m` to *Octave*'s path using the `addpath` function. (See `doc path` and `doc addpath` for more information).
 
 
-#### VIM \~ _roll.vim, roll\_script.vim_
+#### VIM \~ *roll.vim, roll_script.vim*
 
-##### As Script \~ _roll\_script.vim_
+##### As Script \~ *roll_script.vim*
 
 Usage, at shell prompt:
 
@@ -118,7 +118,7 @@ Usage, from shell prompt:
 
 Setup: None!
 
-##### Operating on Input File (_roll\_args.txt_)
+##### Operating on Input File (*roll_args.txt*)
 
 This will instruct *AWK* to read a set of `roll` inputs from a text file. *AWK* will read each line of the input file as a set of arguments to the `roll` function. This could be used to quickly run (and re-run) a given set of rolls. An example file, `roll_args.txt`, is provided. The example file will roll 1d20, 2d6, and 3d4 with a bonus of 5.
 
