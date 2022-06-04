@@ -24,6 +24,7 @@ alias dus="du -s * | sort -h" #*
 alias ping="ping -c 3" #*
 alias bc="bc -l" #*
 alias lc="wc -l" #*
+alias ct='column -t'
 alias dpq="dpkg-query -l" #*
 alias cdl='cd $(ls -dt1 */ | head -1)' #*
 alias iwcheck='iwconfig wlan0 | grep ESSID | $(which grep) -o "\".*\"" | tr -d \"' #*
