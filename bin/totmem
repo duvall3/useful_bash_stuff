@@ -34,12 +34,12 @@ CUT=$(which cut)
 # process args
 case $# in
   0)
-    echo -e "USAGE: totmen [PGREOP_OPTION]... <PROCESSNAME|\"EXPRESSION\">"
+    echo -e "USAGE: totmen [PGREP_OPTION]... <PROCESSNAME|\"EXPRESSION\">"
     exit 2
     ;;
   1)
     if [[ $1 =~ -[Hh] ]]; then
-      echo -e "USAGE: totmen [PGREOP_OPTION]... <PROCESSNAME|\"EXPRESSION\">"
+      echo -e "USAGE: totmen [PGREP_OPTION]... <PROCESSNAME|\"EXPRESSION\">"
       exit 0
     fi
     PATTERN=$1
@@ -55,12 +55,19 @@ case $# in
     ;;
 esac
 
+# slightly prettier formatting
+if [[ $OPTION = "" ]]; then
+  PGSTR="$PGREP \"$PATTERN\""
+else
+  PGSTR="$PGREP $OPTION \"$PATTERN\""
+fi
+
 # MAIN
 if $PGREP $PATTERN > /dev/null
-  then echo "Memory usage of \$($PGREP $OPTION \"$PATTERN\"):"
+  then echo "Memory usage of \$($PGSTR):"
   $PASTE -d " " <(echo "$(${PS} --no-headers -o rss $($PGREP $OPTION "$PATTERN") | $GREP -v "^$" | $TR "\n" "+" | $SED '$ s/.$/\n/' | $BC -l) / 1000" | $BC -l | $CUT -d . -f 1) <(echo " MB")
 else
-  echo -e "Memory usage of \$($PGREP $OPTION \"$PATTERN\"):\n0 MB"
+  echo -e "Memory usage of \$($PGSTR):\n0 MB"
 fi
 
 # all pau!   )
