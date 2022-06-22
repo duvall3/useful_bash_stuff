@@ -1,9 +1,10 @@
 #!/bin/bash
 # heat_mon.sh -- script to monitor system temperatures via lm_sensors
 # -- runs until terminated via <C-c>
-# USAGE: heat_mon.sh [INTERVAL]
+# USAGE: heat_mon.sh [INTERVAL] [NUM_LINES]
 # -- INTERVAL is assumed to be in seconds; defaults to 5 if not specified
 # -- format for INTERVAL is same as "date" command -- e.g., "20m" = "twenty minutes", etc.
+# -- NUM_LINES is the number of most-recent lines to print from the log
 # ~ Mark J. Duvall ~ duvall3.git@gmail.com ~ 06/2022 ~ #
 
 #Copyright (C) 2022 Mark J. Duvall / T. Rocks Science
@@ -32,7 +33,8 @@ fi
 
 # settings
 INTERVAL=${1:-5s}
-HEADING="Thermal Info (°C):"
+PRINTLINES=${2:-10}
+HEADING="Thermal Info (°C)"
 COLUMN_HEADINGS="WLAN SSD CPU_pkg CPU_cores Fan(RPM) LocalTime"
 DEFAULT_THERMFILE=$HOME/useful_bash_stuff/bin/thermal.txt
 if [ -d $HOME/useful_bash_stuff ]; then
@@ -46,6 +48,9 @@ if [ ! -f $THERMFILE ]; then
   echo $HEADING > $THERMFILE
   echo $COLUMN_HEADINGS >> $THERMFILE
 fi
+
+# debug
+TEMPS=("--")
 
 # awk function
 get_temp() { # <infotext> <pattern> <field_no>
@@ -69,17 +74,19 @@ while true; do
   # retrieve and parse sensor data
   TIME=$('date' +%H:%M:%S)
   SENSOR_INFO=$('sensors' -A | tr '\n' '@' | tr ' ' '%')
-  for k in {0..4}; do
+  # for k in {0..4}; do
+  for k in {1..4}; do #debug -- WLAN temp not reporting correctly
     GET_TEMP_RESULT=$(get_temp $SENSOR_INFO ${COLUMNS[k]} ${FIELDS[k]} | sed 's/_$//' | tr '_' ',')
     TEMPS[k]=${GET_TEMP_RESULT:-"--"}
   done
 
-  # save and print results
+  # write results 
   echo -e "${TEMPS[*]} $TIME" | sed 's/_$//' >> $THERMFILE
   ((NUMLINES++))
+
+  # print results
+  column -t <(cat $THERMFILE | tail --lines=$((PRINTLINES+2)) | head --lines=$PRINTLINES) <(head -2 $THERMFILE | tail -1)
   head -n 1 $THERMFILE
-  awk -v TOT=$NUMLINES '(NR==2)||(NR==TOT) {print}' $THERMFILE | column -t
-  echo
 
   # rest
   sleep $INTERVAL

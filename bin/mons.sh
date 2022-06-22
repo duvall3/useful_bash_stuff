@@ -29,8 +29,9 @@ tmux send-keys -t monitors 'top' C-m
 
 tmux last-pane -t monitors
 tmux split-window -h -t monitors
-tmux send-keys -t monitors '/home/mark/useful_bash_stuff/bin/heat_mon.sh' C-m
-tmux resize-pane -t monitors -R 30
+tmux send-keys -t monitors '/home/mark/useful_bash_stuff/bin/heat_mon.sh 5s 20' C-m
+# tmux send-keys -t monitors '/home/mark/useful_bash_stuff/bin/heat_mon.sh 1s 20' C-m #debug
+tmux resize-pane -t monitors -R 15
 
 tmux last-pane -t monitors
 tmux split-window -t monitors
