@@ -1,10 +1,11 @@
 #!/bin/bash
 # heat_mon.sh -- script to monitor system temperatures via lm_sensors
 # -- runs until terminated via <C-c>
-# USAGE: heat_mon.sh [INTERVAL] [NUM_LINES]
+# USAGE: heat_mon.sh [INTERVAL] [NUM_LINES] [COLORIZE]
 # -- INTERVAL is assumed to be in seconds; defaults to 5 if not specified
 # -- format for INTERVAL is same as "date" command -- e.g., "20m" = "twenty minutes", etc.
 # -- NUM_LINES is the number of most-recent lines to print from the log
+# -- COLORIZE is a boolean string indicating whether to use color output (default=true)
 # ~ Mark J. Duvall ~ duvall3.git@gmail.com ~ 06/2022 ~ #
 
 #Copyright (C) 2022 Mark J. Duvall / T. Rocks Science
@@ -34,6 +35,7 @@ fi
 # settings
 INTERVAL=${1:-5s}
 PRINTLINES=${2:-10}
+COLORIZE=${3:-true}
 HEADING="Thermal Info (°C)"
 COLUMN_HEADINGS="WLAN SSD CPU_pkg CPU_cores Fan(RPM) LocalTime"
 DEFAULT_THERMFILE=$HOME/useful_bash_stuff/bin/thermal.txt
@@ -95,7 +97,11 @@ while true; do
 
   # print results
   echo
-  column -t <(cat $THERMFILE | tail --lines=$PRINTLINES) <(head -2 $THERMFILE | tail -1)
+  if $COLORIZE; then
+    column -t <(cat $THERMFILE | tail --lines=$PRINTLINES | awk '{$3="\033[7m"$3"\033[0m"; print $0}') <(head -2 $THERMFILE | tail -1) # invert colors for CPU_pkg
+  else
+    column -t <(cat $THERMFILE | tail --lines=$PRINTLINES) <(head -2 $THERMFILE | tail -1) # no color
+  fi
   head -n 1 $THERMFILE
 
   # rest
