@@ -93,6 +93,10 @@ alias eq='echo $?'
 # "cdl" = "change directory -- last": cd into the most recently-changed directory
 alias cdl='cd $(ls -dt1 */ | head -1)'
 
+# "open" command, because Mac thinks it's so fancy
+# check for existing, then look for xdg-open
+if [[ ( ! $(type open 2> /dev/null) ) && ( $(type xdg-open 2> /dev/null) ) ]]; then alias open='xdg-open'; fi
+
 # "ifecho" = "echo test results": for use with BASH tests
 # -- ex.: if [ -f main.txt ]; ifecho
 alias ifecho='then echo yes; else echo no; fi'
