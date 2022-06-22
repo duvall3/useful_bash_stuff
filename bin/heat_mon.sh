@@ -44,13 +44,22 @@ else
 fi
 COLUMNS=("temp1" "Composite" "Package" "Core" "fan1")
 FIELDS=(2 2 4 3 2)
-if [ ! -f $THERMFILE ]; then
-  echo $HEADING > $THERMFILE
-  echo $COLUMN_HEADINGS >> $THERMFILE
-fi
-
-# debug
 TEMPS=("--")
+
+# reset function
+reset_therm_file () {
+  echo $HEADING > $1
+  echo $COLUMN_HEADINGS >> $1
+  for k in {0..19}; do # because formatting
+    echo "-- -- -- -- -- --" >> $1
+  done
+}
+
+# create if needed
+if [ ! -f $THERMFILE ]; then 
+  echo "Creating $THERMFILE"
+  reset_therm_file $THERMFILE
+fi
 
 # awk function
 get_temp() { # <infotext> <pattern> <field_no>
@@ -65,10 +74,9 @@ NUMLINES=$(cat $THERMFILE | 'wc' -l)
 while true; do
 
   # reset if necessary
-  if [[  $NUMLINES -gt 200 ]]; then
+  if [[ $NUMLINES -gt 200 ]]; then
     echo "Resetting $THERMFILE" #debug
-    echo $HEADING > $THERMFILE
-    echo $COLUMN_HEADINGS >> $THERMFILE
+    reset_therm_file $THERMFILE
   fi
 
   # retrieve and parse sensor data
@@ -82,10 +90,12 @@ while true; do
 
   # write results 
   echo -e "${TEMPS[*]} $TIME" | sed 's/_$//' >> $THERMFILE
-  ((NUMLINES++))
+  # ((NUMLINES++))
+  NUMLINES=$(cat $THERMFILE | 'wc' -l)
 
   # print results
-  column -t <(cat $THERMFILE | tail --lines=$((PRINTLINES+2)) | head --lines=$PRINTLINES) <(head -2 $THERMFILE | tail -1)
+  echo
+  column -t <(cat $THERMFILE | tail --lines=$PRINTLINES) <(head -2 $THERMFILE | tail -1)
   head -n 1 $THERMFILE
 
   # rest
