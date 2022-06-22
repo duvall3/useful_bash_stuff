@@ -27,6 +27,12 @@
 # quickly & easily add current folder to path:
 PATH=$(pwd):$PATH
 
+# display the path (in a human-friendly format):
+echo $PATH | tr : "\n"	# or:
+printenv PATH | tr : "\n"
+# In fact, I have the following line in my .bash_aliases:
+alias path='echo $PATH | tr : "\n"'
+
 # find broken symlinks: use option '-xtype l'
 #   -- example: find all broken symlinks under the current user's $HOME directory:
 'find ~ -xtype l'
@@ -35,6 +41,9 @@ PATH=$(pwd):$PATH
 
 # terminate other login (e.g., frozen shell session):
 pkill -9 -t <tty>
+
+# list man pages by section (e.g., section 1):
+man -s 1 -k .
 
 # "target" option for copy & move: "cp -t <target_directory> <file1> [file2 file3 ...]" (same for "mv")
 #   -- this helps prevent mixups when copying/moving multiple files (or directories)
