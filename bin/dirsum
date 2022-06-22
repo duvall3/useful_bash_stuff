@@ -28,19 +28,13 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 # init
-# TARGETDIR=${1:-"."}
-# if [[ $TARGETDIR = "." ]]; then
-    # OUTFILE=$(basename $(pwd)).dirsum
-    OUTFILENAME=$(basename $(pwd)).dirsum
-    if [ -w ../ ]; then
-      OUTFILEDIR="$PWD/.."
-    else
-      OUTFILEDIR="."
-    fi
-    OUTFILE=$OUTFILEDIR/$OUTFILENAME
-# else
-#   OUTFILE="$TARGETDIR".dirsum
-# fi
+OUTFILENAME=$(basename $(pwd)).dirsum
+if [ -w ../ ]; then
+  OUTFILEDIR="$PWD/.."
+else
+  OUTFILEDIR="."
+fi
+OUTFILE=$OUTFILEDIR/$OUTFILENAME
 if [ -f $OUTFILE ]; then OUTFILE="$OUTFILE"~; fi
 TARGETDIR="."
 SORT_LOCALE=C
@@ -52,7 +46,7 @@ elif [ $(which md5sum) ]; then
   HASHCMD=$(which md5sum)
   HASH_OPTIONS=""
 else
-  echo "Error in md5dir: No hash function found."
+  echo "Error in dirsum: No hash function found."
   exit 1
 fi
 

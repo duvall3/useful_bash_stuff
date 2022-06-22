@@ -20,7 +20,7 @@
 for k in {0..300}; do
   ls -ltrh --color=always
   date +"%H:%M:%S"
-  sleep 1
+  sleep ${1:-1}
 done
 
 # all pau!   )
