@@ -23,8 +23,8 @@
 ## init
 
 # general
-HDG="Thermal Info, All Temperatures °C"
-COL_HDGS=(Day YYYY/MM/DD TZ WLAN SSD CPU_pkg CPU_cores Fan\(RPM\) LocalTime)
+HDG="Thermal Data Log"
+COL_HDGS=(Day YYYY/MM/DD TZ WLAN\(°C\) SSD\(°C\) CPU_pkg\(°C\) CPU_cores\(°C\) Fan\(RPM\) LocalTime)
 DATECMD="'date' +%a\ %Y/%m/%d\ %Z"
 DEFAULT_DIR=$HOME/useful_bash_stuff/bin
 DEFAULT_THERMFILE=$DEFAULT_DIR/thermal.txt
