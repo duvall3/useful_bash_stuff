@@ -57,12 +57,31 @@ find ~ -cmin -15 -print0 | xargs -0 stat
 #   -- example: rename all .png files in current directory to have any spaces in their names replaced with underscores:
 rename s/" "/_/g *.png
 
-# BASH parameter expansion -- suffixes via ${%}:
-#   -- similar to "basename" command, but in param-expansion implementation
-#   -- example: make OGG Vorbis versions of all MP3 files in a directory:
-for FILE in *.mp3; do
-  ffmpeg -i $FILE ${FILE%mp3}ogg
-done
+# BASH parameter expansion: { }
+# -- This is a hugely-powerful and -versatile feature, but a few simple examples follow
+# -- List creation via {,..}:
+#    -- use commas for items and ".." for numerical sequences
+#    -- example 1 ~ operate on file1 through file10, but skip file 9:
+	for FILE in file{1..8,10}; do
+	  cat $FILE
+	done
+#    -- example 2 ~ open multiple (specific) related files:
+#	-- Suppose we want to edit the code for 'someFunction' in its .h and .cpp files,
+#	   but it also has a binary .dat file which we want to avoid opening in the editor.
+#	   Instead of typing 'vim someFunction.*' and dealing with the binary nonsense,
+#	   we can use the following:
+	vim someFunction.{h,cpp}
+#    -- example 3 ~ quick, easy backups:
+	# Create backup:
+	cp settings.conf{,.bak} # expands to 'cp settings.conf settings.conf.bak'
+	# Restore backup:
+	cp settings.conf{.bak,} # expands to 'cp settings.conf.bak settings.conf'
+# -- Suffix removal and replacement via ${%}:
+#    -- similar to "basename" command, but in param-expansion implementation
+#    -- example: make OGG Vorbis versions of all MP3 files in a directory:
+        for FILE in *.mp3; do
+          ffmpeg -i $FILE ${FILE%mp3}ogg
+        done
 
 # BASH regular-expression-matching operator (a.k.a. "BASH_REMATCH"): "<STRING> =~ <REGEX>"
 #   -- tests whether STRING matches to REGEX
