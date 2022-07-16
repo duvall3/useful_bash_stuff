@@ -27,8 +27,12 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 TARGET_DIR=~/Pictures/screenshots
-find ~/Pictures/ -maxdepth 1 -name "Screenshot\ from\ *" -print0 | xargs -0 mv -t $TARGET_DIR
-rename 's/\ /_/g' $TARGET_DIR/Screenshot\ from\ *.png
+FINDCMD="find ~/Pictures/ -maxdepth 1 -name \"Screenshot\ from\ *\""
+if [[ $(eval $FINDCMD) ]]; then
+  FINDCMD=$FINDCMD" -print0"
+  eval $FINDCMD | xargs -0 mv -t $TARGET_DIR
+  rename 's/\ /_/g' $TARGET_DIR/Screenshot\ from\ *.png
+fi
 
 # all pau!   )
 exit 0

@@ -1,0 +1,56 @@
+#!/bin/bash
+# m -- simple wrapper script for messaging using 'write'
+# Usage: m <"MESSAGE"> [USER] [TTY]
+# -- This program is mostly intended for use when
+#	'talk' is not available
+# -- As such, for convenience, set up environment variables
+#	using the following line:
+#	  export SENDTO_USER=<USER> SENDTO_TTY=<TTY>
+# -- Then simply run as 'm [MESSAGE]'
+# ~ Mark J. Duvall ~ mjduvall@hawaii.edu ~ 07/2022 ~ #
+
+#Copyright (C) 2022 Mark J. Duvall
+#
+#    This program is free software: you can redistribute it and/or modify
+#    it under the terms of the GNU General Public License as published by
+#    the Free Software Foundation, either version 3 of the License, or
+#    (at your option) any later version.
+#
+#    This program is distributed in the hope that it will be useful,
+#    but WITHOUT ANY WARRANTY; without even the implied warranty of
+#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#    GNU General Public License for more details.
+#
+#    You should have received a copy of the GNU General Public License
+#    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+# init
+MESSAGE=$1
+RECIPIENT=${SENDTO_USER:-$2}
+RECIP_TTY=${SENDTO_TTY:-$3}
+
+# parameter check
+if [[ $1 =~ ^(-h)|(--help)$ ]]; then
+  echo "Usage: m <\"MESSAGE\"> [USER] [TTY]"
+  exit 10
+fi
+if [[ -z $MESSAGE ]]; then
+  echo "Enter message:"
+  read MESSAGE
+fi
+if [ -z $RECIPIENT ]; then
+  echo "Enter recipient:"
+  read RECIPIENT
+fi
+
+# main
+WRITECMD="echo \"$MESSAGE\" | write $RECIPIENT $RECIP_TTY"
+# echo $WRITECMD #debug
+eval $WRITECMD
+EXIT_STATUS=$(echo $?)
+ERROR_MSG="Error: Message failed. Run 'who --mesg' to confirm availability."
+
+# all pau!   )
+if [ ! $EXIT_STATUS -eq 0 ]; then echo $ERROR_MSG; fi
+exit $EXIT_STATUS
+

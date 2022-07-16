@@ -23,7 +23,7 @@
 ##    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 # arg check
-PROJECT=${1:-$HOME/THESIS/MAIN} # author's default
+PROJECT=${1:-$HOME/THESIS/trunk/MAIN} # author's default
 
 # project check
 if [ ! -d $PROJECT ]; then
@@ -38,17 +38,19 @@ LINKDIR=$CHAPDIR/ordered_chapters
 if [ ! -d $LINKDIR ]; then mkdir $LINKDIR; fi
 rm $(find $LINKDIR -type l) # clear previous links
 
-# main
+# main (ignore epigraph)
 CHAPTER=0
 for FILE in $(grep "^\\\input" $DOCUMENT | grep -o "\{.*\}" | tr -d { | tr -d }); do
   CHAPTERNAME=$(basename $FILE)
   CHAPSTRING=$(printf "%02i" $CHAPTER)
   LINKNAME="$CHAPSTRING"_"$CHAPTERNAME"
-  if [[ ! -L $LINKDIR/$LINKNAME ]]; then
+  if [[ (! -L $LINKDIR/$LINKNAME) && (! $CHAPTERNAME =~ "pigraph") ]]; then
     ln -s $CHAPDIR/$CHAPTERNAME $LINKDIR/$LINKNAME
     ((CHAPTER++))
   else
-    ((CHAPTER++))
+    if [[ ! $CHAPTERNAME =~ "pigraph" ]]; then
+      ((CHAPTER++))
+    fi
   fi
 done
 

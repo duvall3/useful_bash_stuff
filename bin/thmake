@@ -21,7 +21,7 @@ VIEW_TF=${1:-true}
 
 # make clean, then make (repeatedly)
 cd $THESIS_MAIN
-if [[ $(pwd) =~ "THESIS/MAIN" ]]; then
+if [[ $(pwd) =~ "THESIS/trunk/MAIN" ]]; then
   make clean
   make
   pdflatex main.tex

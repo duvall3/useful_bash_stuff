@@ -1,7 +1,6 @@
 #!/bin/bash
 # mons.sh -- simple script to establish a tmux session running nethogs and top
 
-
 ##Copyright (C) 2021 Mark J. Duvall
 ##
 ##    This program is free software: you can redistribute it and/or modify
@@ -17,7 +16,6 @@
 ##    You should have received a copy of the GNU General Public License
 ##    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ##
-
 
 tmux new -s monitors -d
 tmux rename-window -t monitors monitors
@@ -37,7 +35,16 @@ tmux split-window -t monitors
 tmux send-keys -t monitors 'sudo nethogs' C-m
 tmux resize-pane -t monitors -U 5
 
-tmux select-pane -t 3
+tmux select-pane -t 2
+tmux split-window -t monitors
+tmux send-keys -t monitors 'watch pgrr' C-m
+tmux resize-pane -t monitors -D 1
+
+tmux split-window -h -t monitors
+tmux send-keys -t monitors 'watch pcpu' C-m
+tmux resize-pane -t monitors -L 12
+
+tmux select-pane -t 5
 
 tmux attach -t monitors
 

@@ -6,7 +6,8 @@
 # -- format for INTERVAL is same as "date" command -- e.g., "20m" = "twenty minutes", etc.
 # -- NUM_LINES is the number of most-recent lines to print from the log
 # -- COLORIZE is a boolean string indicating whether to use color output (default=true)
-# ~ Mark J. Duvall ~ duvall3.git@gmail.com ~ 06/2022 ~ #
+# ~ Mark J. Duvall ~ duvall3.git@gmail.com ~ 06/2022 ~ Updated 07/2022 ~ #
+# v2.1 #
 
 #Copyright (C) 2022 Mark J. Duvall / T. Rocks Science
 #

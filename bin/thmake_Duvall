@@ -6,7 +6,7 @@ VIEW_TF=${1:-true}
 
 # make clean, then make (repeatedly)
 cd $THESIS_MAIN
-if [[ $(pwd) =~ "THESIS/MAIN" ]]; then
+if [[ $(pwd) =~ "THESIS/trunk/MAIN" ]]; then
   make clean
   make
   pdflatex main.tex
@@ -32,6 +32,13 @@ for DIR in {$HOME,$THESIS_MAIN}; do
     fi
   fi
 done
+
+# check if draft; if not, copy out
+if grep -q "\%" <(head -1 main.tex); then
+  echo -e "\nREMINDER: Switch 'draft' option off for final build!\n"
+else
+  cp main.pdf drafts/Duvall_Directionality_Dissertation_2022.pdf
+fi
 
 # view (optionally)
 if $VIEW_TF; then
