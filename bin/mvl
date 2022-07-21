@@ -1,6 +1,9 @@
 #!/bin/bash
-# lsft -- list filetypes in current directory
-# ~ Mark J. Duvall ~ duvall3@github.com ~ 03/2022 ~ #
+# mvl -- simple script to mv the latest file
+#   from one directory (default: user's $HOME/Downloads/)
+#   to a specified directory (default current directory)
+# -- Usage: mvl [TARGET_DIR] [SOURCE_DIR]
+# ~ Mark J. Duvall ~ mjduvall@hawaii.edu ~ 07/2022 ~ #
 
 #Copyright (C) 2022 Mark J. Duvall / T. Rocks Science
 #
@@ -17,27 +20,19 @@
 #    You should have received a copy of the GNU General Public License
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-# for controlling options and formatting
-FILE_PROGRAM=$(which file)
-AWK=$(which awk)
-SED=$(which sed)
-SORT=$(which sort)
-UNIQ=$(which uniq)
+# process arg(s)
+TARGET_DIR=${1:-$(pwd)}
+SOURCE_DIR=${2:-$HOME/Downloads/}
+if [ ! -d $TARGET_DIR ]; then
+  echo -e "Error: \"$TARGET_DIR\" is not a valid directory."
+  exit 3
+fi
 
-# add option
-FILE_OPTION=$1
-FILE_CMD="$FILE_PROGRAM $FILE_OPTION *"
-
-# MAIN
-# $FILEPROGRAM $FILE_OPTION * \
-eval $FILE_CMD \
-  | $AWK -F : '{print $2}' \
-  | $SED -E s_^\ *__ \
-  | $AWK '$0 ~ /^symbolic link/ {print $1" "$2}; $0 !~ /^symbolic link/ {print}' \
-  | $SORT \
-  | $UNIQ -c \
-  | $SORT -rn
+# main
+LS=$(which ls) # to run without options
+FILE=$($LS -t $SOURCE_DIR | head -1)
+mv $SOURCE_DIR/$FILE $TARGET_DIR
+ES=$?
 
 # all pau!   )
-exit 0
-
+exit $ES
