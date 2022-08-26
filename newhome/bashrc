@@ -167,3 +167,13 @@ export LESS=" -R"
 export EDITOR=$(which vim)
 
 
+# dryrun function
+dryrun() {
+    if [[ ! -t 0 ]]
+    then
+        cat
+    fi
+    printf -v cmd_str '%q ' "$@"; echo "DRYRUN: Not executing << $cmd_str >>" >&2
+}
+
+

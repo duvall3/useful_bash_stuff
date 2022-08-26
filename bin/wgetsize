@@ -1,5 +1,6 @@
 #!/bin/bash
 # wgetsize -- simple script to query the size of a remote file
+# Usage: wgetsize <FILE_URL>
 # ~ Mark J. Duvall ~ duvall3.git@gmail.com ~ 06/2022 ~ #
 
 #Copyright (C) 2022 Mark J. Duvall / T. Rocks Science
@@ -16,6 +17,9 @@
 #
 #    You should have received a copy of the GNU General Public License
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+# arg check
+if [ $# -ne 1 ]; then echo -e "Usage: wgetsize <FILE_URL>"; fi
 
 # check for wget
 if [ ! $(which wget) ]; then
