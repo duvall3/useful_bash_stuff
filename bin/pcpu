@@ -24,21 +24,16 @@ LOOP_TF=${2:-true}
 
 # define main function
 print_cpu_usage() {
-
   # calculate
-  SUM=$(ps -eo pcpu | awk '$1 !~ /%/ {print}' | add_list.sh)
-  PCT=$(echo "$SUM / 8" | bc -l)
-  # TIME=$('date' +%H:%M:%S)
-
+  SUM=$(ps -eo pcpu | grep -Ev "[[:alpha:]]" | add_list.sh)
+  CORES=$(lscpu | awk '$1 ~ /CPU\(s\):/ {print $2}')
+  PCT=$(echo "$SUM / $CORES" | bc -l)
   # print
   if $COLORIZE_TF; then
-    # printf "\033[7mCPU: %2.2f %%\033[0m\t%s\n" $PCT $TIME
     printf "\033[7mCPU: %2.2f %%\033[0m\n" $PCT
   else
-    # printf "CPU: %2.2f %%\t%s\n" $PCT $TIME
     printf "CPU: %2.2f %%\n" $PCT
   fi
-
 }
 
 # main
