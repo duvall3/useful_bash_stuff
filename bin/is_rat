@@ -1,7 +1,22 @@
 #!/bin/bash
-# is_rat -- check whether I have any RAT-PAC jobs running
-#   and upload the result to my page at $URL/rat
-# -- intended as a cron job
+# is_rat -- count the number of RAT-PAC jobs the user is running
+#   on a specified remote host; send a Zenity notification
+#   if the count drops from multiple jobs to 1 or 0
+# -- Intended as a cron job; for example, I use the following:
+#      # monitor RAT-PAC batch job(s) on mtc-b
+#      */15 * * * * ~/useful_bash_stuff/bin/is_rat
+# -- For additional convenience, add the following lines
+#    to your ~/.bashrc *after* sourcing rat-pac/env.sh:
+#      # for ~/bin/is_rat (cron job)
+#      RATCHECK_FILE=$RATROOT/user/ratcheck
+#      RATCOUNT_FILE=$RATROOT/user/ratcount
+#      export RATCHECK_FILE RATCOUNT_FILE
+#     -- You can then easily do the following at any time:
+#        1) Check the most recent count:
+#           cat $RATCOUNT_FILE
+#        2) Turn the automated checking on / off:
+#           echo "true" > $RATCHECK_FILE
+#           echo "false" > $RATCHECK_FILE
 
 # ~ Mark J. Duvall ~ duvall3@github.com ~ 08/2022 ~ #
 
@@ -20,43 +35,46 @@
 #    You should have received a copy of the GNU General Public License
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-# check envar for whether to run
-RATCHECK_FILE=${RATCHECK_FILE:-HOME/uhunix/public_html/ratcheck}
+# set remote host (for convenience, use an entry from your ~/.ssh/config)
+REMOTE_HOST='mtc-b'
+
+# get envars / files and check whether to run
+RATCOUNT_FILE=${RATCOUNT_FILE:-RATROOT/user/ratcount}
+RATCHECK_FILE=${RATCHECK_FILE:-RATROOT/user/ratcheck}
 if [ -e $RATCHECK_FILE ]; then
   read IS_RATCHECK < $RATCHECK_FILE
 else
   IS_RATCHECK=false
 fi
-if (! $IS_RATCHECK); then exit 10; fi
-
-# init and file check
-IS_RAT_FINISHED=false
-IS_RAT_DECREASED=false
-IS_RAT_LT2=false
-NUM_RAT_CMD='pgrep -cu \$USER -x rat'
-SSH_CMD="ssh mtc-b \"$NUM_RAT_CMD\""
-SRC=$HOME/uhunix/public_html/rat
+if (! $IS_RATCHECK); then exit 10; fi		# script / cron-job is turned off
 
 # zenity init
 Z_DIR=$(which zenity)
 if [ ! $Z_DIR ]; then
   echo "Error: Zenity not found." && exit 1
 fi
-ZENITY_TIT="RAT @ mtc-b"
-ZENITY_MSG="RAT-PAC batch job(s) finished on mtc-b."
+ZENITY_TIT="RAT @ $REMOTE_HOST"
+ZENITY_MSG="RAT-PAC batch job(s) finished on $REMOTE_HOST."
 ZENITY_CMD="zenity --notification --title=$ZENITY_TIT --text=$ZENITY_MSG"
+
+# init
+IS_RAT_FINISHED=false
+IS_RAT_DECREASED=false
+IS_RAT_LT2=false
+NUM_RAT_CMD='pgrep -cu \$USER -x rat'
+SSH_CMD="ssh $REMOTE_HOST \"$NUM_RAT_CMD\""
 
 # get RAT-PAC instance counts
 # NUM_RAT_CURRENT=${1:-40} #debug
 NUM_RAT_CURRENT=$(eval $SSH_CMD)
-if [ -e $SRC ]; then
-  read NUM_RAT_PREV < $SRC
+if [ -e $RATCOUNT_FILE ]; then
+  read NUM_RAT_PREV < $RATCOUNT_FILE
 else
-  echo $NUM_RAT_CURRENT > $SRC
-  exit 11
+  echo $NUM_RAT_CURRENT > $RATCOUNT_FILE
+  exit 11					# previous count not available
 fi
 # echo -e "$NUM_RAT_PREV $NUM_RAT_CURRENT" #debug
-echo $NUM_RAT_CURRENT > $SRC
+echo $NUM_RAT_CURRENT > $RATCOUNT_FILE
 
 # MAIN
 if [ $NUM_RAT_CURRENT -lt $NUM_RAT_PREV ]; then IS_RAT_DECREASED=true; fi
