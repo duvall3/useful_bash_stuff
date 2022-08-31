@@ -20,6 +20,15 @@
 #    You should have received a copy of the GNU General Public License
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+# check envar for whether to run
+RATCHECK_FILE=${RATCHECK_FILE:-HOME/uhunix/public_html/ratcheck}
+if [ -e $RATCHECK_FILE ]; then
+  read IS_RATCHECK < $RATCHECK_FILE
+else
+  IS_RATCHECK=false
+fi
+if (! $IS_RATCHECK); then exit 10; fi
+
 # init and file check
 IS_RAT_FINISHED=false
 IS_RAT_DECREASED=false
@@ -27,7 +36,6 @@ IS_RAT_LT2=false
 NUM_RAT_CMD='pgrep -cu \$USER -x rat'
 SSH_CMD="ssh mtc-b \"$NUM_RAT_CMD\""
 SRC=$HOME/uhunix/public_html/rat
-if [ ! -e $SRC ]; then touch $SRC; fi
 
 # zenity init
 Z_DIR=$(which zenity)
@@ -39,9 +47,14 @@ ZENITY_MSG="RAT-PAC batch job(s) finished on mtc-b."
 ZENITY_CMD="zenity --notification --title=$ZENITY_TIT --text=$ZENITY_MSG"
 
 # get RAT-PAC instance counts
-read NUM_RAT_PREV < $SRC
-NUM_RAT_CURRENT=$(eval $SSH_CMD)
 # NUM_RAT_CURRENT=${1:-40} #debug
+NUM_RAT_CURRENT=$(eval $SSH_CMD)
+if [ -e $SRC ]; then
+  read NUM_RAT_PREV < $SRC
+else
+  echo $NUM_RAT_CURRENT > $SRC
+  exit 11
+fi
 # echo -e "$NUM_RAT_PREV $NUM_RAT_CURRENT" #debug
 echo $NUM_RAT_CURRENT > $SRC
 
