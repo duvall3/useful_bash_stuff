@@ -55,7 +55,7 @@ if [ ! $Z_DIR ]; then
 fi
 ZENITY_TIT="RAT @ $REMOTE_HOST"
 ZENITY_MSG="RAT-PAC batch job(s) finished on $REMOTE_HOST."
-ZENITY_CMD="zenity --notification --title=$ZENITY_TIT --text=$ZENITY_MSG"
+ZENITY_CMD="zenity --notification --title=\"$ZENITY_TIT\" --text=\"$ZENITY_MSG\""
 
 # init
 IS_RAT_FINISHED=false
@@ -80,6 +80,7 @@ echo $NUM_RAT_CURRENT > $RATCOUNT_FILE
 if [ $NUM_RAT_CURRENT -lt $NUM_RAT_PREV ]; then IS_RAT_DECREASED=true; fi
 if [ $NUM_RAT_CURRENT -lt 2 ]; then IS_RAT_LT2=true; fi
 if ( $IS_RAT_DECREASED && $IS_RAT_LT2 ); then		# batch job(s) finished
+  # echo $ZENITY_CMD #debug
   eval $ZENITY_CMD
 fi
 
