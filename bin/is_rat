@@ -1,0 +1,56 @@
+#!/bin/bash
+# is_rat -- check whether I have any RAT-PAC jobs running
+#   and upload the result to my page at $URL/rat
+# -- intended as a cron job
+
+# ~ Mark J. Duvall ~ duvall3@github.com ~ 08/2022 ~ #
+
+#Copyright (C) 2022 Mark J. Duvall
+#
+#    This program is free software: you can redistribute it and/or modify
+#    it under the terms of the GNU General Public License as published by
+#    the Free Software Foundation, either version 3 of the License, or
+#    (at your option) any later version.
+#
+#    This program is distributed in the hope that it will be useful,
+#    but WITHOUT ANY WARRANTY; without even the implied warranty of
+#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#    GNU General Public License for more details.
+#
+#    You should have received a copy of the GNU General Public License
+#    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+# init and file check
+IS_RAT_FINISHED=false
+IS_RAT_DECREASED=false
+IS_RAT_LT2=false
+NUM_RAT_CMD='pgrep -cu \$USER -x rat'
+SSH_CMD="ssh mtc-b \"$NUM_RAT_CMD\""
+SRC=$HOME/uhunix/public_html/rat
+if [ ! -e $SRC ]; then touch $SRC; fi
+
+# zenity init
+Z_DIR=$(which zenity)
+if [ ! $Z_DIR ]; then
+  echo "Error: Zenity not found." && exit 1
+fi
+ZENITY_TIT="RAT @ mtc-b"
+ZENITY_MSG="RAT-PAC batch job(s) finished on mtc-b."
+ZENITY_CMD="zenity --notification --title=$ZENITY_TIT --text=$ZENITY_MSG"
+
+# get RAT-PAC instance counts
+read NUM_RAT_PREV < $SRC
+NUM_RAT_CURRENT=$(eval $SSH_CMD)
+# NUM_RAT_CURRENT=${1:-40} #debug
+# echo -e "$NUM_RAT_PREV $NUM_RAT_CURRENT" #debug
+echo $NUM_RAT_CURRENT > $SRC
+
+# MAIN
+if [ $NUM_RAT_CURRENT -lt $NUM_RAT_PREV ]; then IS_RAT_DECREASED=true; fi
+if [ $NUM_RAT_CURRENT -lt 2 ]; then IS_RAT_LT2=true; fi
+if ( $IS_RAT_DECREASED && $IS_RAT_LT2 ); then		# batch job(s) finished
+  eval $ZENITY_CMD
+fi
+
+# all pau!   )
+exit 0
