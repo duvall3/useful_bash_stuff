@@ -1,8 +1,11 @@
 #!/bin/bash
-# mvl -- simple script to mv the latest file
+# mvld -- "move last download":
+#   simple script to mv the latest file
 #   from one directory (default: user's $HOME/Downloads/)
-#   to a specified directory (default current directory)
-# -- Usage: mvl [TARGET_DIR] [SOURCE_DIR]
+#   to a specified directory (default: current directory)
+# Usage: mvld [TARGET_DIR] [SOURCE_DIR]
+# -- Simply calling "mvld" will move the most-recently-
+#    modified file from $HOME/Downloads to $(pwd)
 # ~ Mark J. Duvall ~ mjduvall@hawaii.edu ~ 07/2022 ~ #
 
 #Copyright (C) 2022 Mark J. Duvall / T. Rocks Science
