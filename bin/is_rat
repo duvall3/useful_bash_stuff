@@ -8,9 +8,10 @@
 # -- For additional convenience, add the following lines
 #    to your ~/.bashrc *after* sourcing rat-pac/env.sh:
 #      # for ~/bin/is_rat (cron job)
-#      RATCHECK_FILE=$RATROOT/user/ratcheck
-#      RATCOUNT_FILE=$RATROOT/user/ratcount
-#      export RATCHECK_FILE RATCOUNT_FILE
+#      RATCHECK_DIR=$RATROOT/user/is_rat
+#      RATCHECK_FILE=$RATCHECK_DIR/ratcheck
+#      RATCOUNT_FILE=$RATCHECK_DIR/ratcount
+#      export RATCHECK_DIR RATCHECK_FILE RATCOUNT_FILE
 #     -- You can then easily do the following at any time:
 #        1) Check the most recent count:
 #           cat $RATCOUNT_FILE
@@ -39,8 +40,10 @@
 REMOTE_HOST='mtc-b'
 
 # get envars / files and check whether to run
-RATCOUNT_FILE=${RATCOUNT_FILE:-RATROOT/user/ratcount}
-RATCHECK_FILE=${RATCHECK_FILE:-RATROOT/user/ratcheck}
+RATCHECK_DIR=${RATCHECK_DIR:-$RATROOT/user/is_rat}
+RATCOUNT_FILE=${RATCOUNT_FILE:-$RATCHECK_DIR/ratcount}
+RATCHECK_FILE=${RATCHECK_FILE:-$RATCHECK_DIR/ratcheck}
+if [ ! -d $RATCHECK_DIR ]; then mkdir $RATCHECK_DIR; fi
 if [ -e $RATCHECK_FILE ]; then
   read IS_RATCHECK < $RATCHECK_FILE
 else
@@ -49,8 +52,8 @@ fi
 if (! $IS_RATCHECK); then exit 10; fi		# script / cron-job is turned off
 
 # zenity init
-Z_DIR=$(which zenity)
-if [ ! $Z_DIR ]; then
+Z_BIN=$(which zenity)
+if [ ! $Z_BIN ]; then
   echo "Error: Zenity not found." && exit 1
 fi
 ZENITY_TIT="RAT @ $REMOTE_HOST"
