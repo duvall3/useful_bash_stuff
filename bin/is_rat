@@ -3,7 +3,7 @@
 #   on a specified remote host; send a Zenity notification
 #   if the count drops from multiple jobs to 1 or 0
 # -- Intended as a cron job; for example, I use the following:
-#      # monitor RAT-PAC batch job(s) on mtc-b
+#      # monitor RAT-PAC batch job on mtc-b
 #      */15 * * * * ~/useful_bash_stuff/bin/is_rat
 # -- For additional convenience, add the following lines
 #    to your ~/.bashrc *after* sourcing rat-pac/env.sh:
@@ -19,7 +19,7 @@
 #           echo "true" > $RATCHECK_FILE
 #           echo "false" > $RATCHECK_FILE
 
-# ~ Mark J. Duvall ~ duvall3@github.com ~ 08/2022 ~ #
+# ~ Mark J. Duvall ~ duvall3@github.com ~ 09/2022 ~ #
 
 #Copyright (C) 2022 Mark J. Duvall
 #
@@ -40,6 +40,7 @@
 REMOTE_HOST='mtc-b'
 
 # get envars / files and check whether to run
+RATROOT=${RATROOT:-$HOME/rat-pac}
 RATCHECK_DIR=${RATCHECK_DIR:-$RATROOT/user/is_rat}
 RATCOUNT_FILE=${RATCOUNT_FILE:-$RATCHECK_DIR/ratcount}
 RATCHECK_FILE=${RATCHECK_FILE:-$RATCHECK_DIR/ratcheck}
@@ -51,16 +52,23 @@ else
 fi
 if (! $IS_RATCHECK); then exit 10; fi		# script / cron-job is turned off
 
-# zenity init
-Z_BIN=$(which zenity)
-if [ ! $Z_BIN ]; then
-  echo "Error: Zenity not found." && exit 1
-fi
-ZENITY_TIT="RAT @ $REMOTE_HOST"
-ZENITY_MSG="RAT-PAC batch job(s) finished on $REMOTE_HOST."
-ZENITY_CMD="zenity --notification --title=\"$ZENITY_TIT\" --text=\"$ZENITY_MSG\""
+# msg init
+FINISHED_MSG="RAT-PAC batch job finished on $REMOTE_HOST as of $('date' -R)."
 
-# init
+# for wall
+WALL_BIN=$(which wall)
+WALL_CMD="echo \$FINISHED_MSG | wall"
+
+# for mail
+MAIL_BIN=$(which mail)
+MAIL_CMD="echo \$FINISHED_MSG | mail --subject=\"RAT-PAC Jobs\" $USER"
+
+# for zenity
+ZENITY_BIN=$(which zenity)
+ZENITY_TIT="RAT @ $REMOTE_HOST"
+ZENITY_CMD="zenity --notification --title=\"$ZENITY_TIT\" --text=\"$FINISHED_MSG\" --display=:0.0"
+
+# main init
 IS_RAT_FINISHED=false
 IS_RAT_DECREASED=false
 IS_RAT_LT2=false
@@ -82,10 +90,21 @@ echo $NUM_RAT_CURRENT > $RATCOUNT_FILE
 # MAIN
 if [ $NUM_RAT_CURRENT -lt $NUM_RAT_PREV ]; then IS_RAT_DECREASED=true; fi
 if [ $NUM_RAT_CURRENT -lt 2 ]; then IS_RAT_LT2=true; fi
-if ( $IS_RAT_DECREASED && $IS_RAT_LT2 ); then		# batch job(s) finished
-  # echo $ZENITY_CMD #debug
-  eval $ZENITY_CMD
+if ( $IS_RAT_DECREASED && $IS_RAT_LT2 ); then		# batch job finished
+  # echo $FINISHED_MSG #debug
+  if [ -e $WALL_BIN ]; then eval $WALL_CMD; fi
+  if [ -e $MAIL_BIN ]; then eval $MAIL_CMD; fi
+  if [ $ZENITY_BIN ]; then eval $ZENITY_CMD; fi
 fi
+
+#debug
+# echo $FINISHED_MSG
+# echo $WALL_CMD
+# echo $MAIL_CMD
+# echo $ZENITY_CMD
+# eval $WALL_CMD
+# eval $MAIL_CMD
+# eval $ZENITY_CMD
 
 # all pau!   )
 exit 0
