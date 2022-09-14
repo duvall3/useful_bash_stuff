@@ -152,7 +152,7 @@ PATH="$HOME/mtc/bin:$PATH"
 # ROOT
 export ROOTSYS=$HOME/root
 export PATH=$PATH:$ROOTSYS/bin
-export ROOT_INSTALL_DIR=/home/mark/root
+export ROOT_INSTALL_DIR=$HOME/root
 source ${ROOT_INSTALL_DIR}/bin/thisroot.sh	
 export LD_LIBRARY_PATH=$ROOTSYS/lib:$LD_LIBRARY_PATH
 #export PYTHONPATH=$ROOTSYS/lib:$PYTHONPATH # PYROOT
