@@ -150,7 +150,8 @@ done
 export ROOTSYS=$HOME/root
 export PATH=$PATH:$ROOTSYS/bin
 export ROOT_INSTALL_DIR=$HOME/root
-source ${ROOT_INSTALL_DIR}/bin/thisroot.sh	
+THISROOT=${ROOT_INSTALL_DIR}/bin/thisroot.sh
+if [ -e $THISROOT ]; then source $THISROOT; fi
 export LD_LIBRARY_PATH=$ROOTSYS/lib:$LD_LIBRARY_PATH
 #export PYTHONPATH=$ROOTSYS/lib:$PYTHONPATH # PYROOT
 
