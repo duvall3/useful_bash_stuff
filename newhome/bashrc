@@ -145,9 +145,6 @@ for BIN_PATH in {~/bin, ~/rat-pac/bin, ~/useful_bash_stuff/bin}; do
   fi
 done
 
-# add mtc directory to PATH
-PATH="$HOME/mtc/bin:$PATH"
-
 
 # ROOT
 export ROOTSYS=$HOME/root
@@ -156,11 +153,6 @@ export ROOT_INSTALL_DIR=$HOME/root
 source ${ROOT_INSTALL_DIR}/bin/thisroot.sh	
 export LD_LIBRARY_PATH=$ROOTSYS/lib:$LD_LIBRARY_PATH
 #export PYTHONPATH=$ROOTSYS/lib:$PYTHONPATH # PYROOT
-
-
-# turn on syntax highlighting for less via source-highlight
-export LESSOPEN="| /usr/share/source-highlight/src-hilite-lesspipe.sh %s"
-export LESS=" -R"
 
 
 # set default editor to vim if possible
