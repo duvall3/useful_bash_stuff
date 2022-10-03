@@ -33,6 +33,12 @@ printenv PATH | tr : "\n"
 # In fact, I have the following line in my .bash_aliases:
 alias path='echo $PATH | tr : "\n"'
 
+# quick substitution (for previous command), as described in the BASH manual:
+  # ^string1^string2^
+  # Quick substitution.  Repeat the previous command, replacing string1 with string2.  Equivalent to  ``!!:s/string1/string2/''
+# relatedly, full substitution for previous command:
+# !!:s/string1/string2/g
+
 # find broken symlinks: use option '-xtype l'
 #   -- example: find all broken symlinks under the current user's $HOME directory:
 'find ~ -xtype l'
@@ -53,6 +59,11 @@ man -s 1 -k .
 #   -- books have been written on this, but as a very basic example, to find all files in your home folder
 #     that have been accessed/modified in the last 15 minutes and print their stats:
 find ~ -cmin -15 -print0 | xargs -0 stat 
+
+# 'find' using 'prune': similarly, this is a complicated topic; but a simple template is as follows:
+find <conditions to prune> -prune -o <conditions to find> -print
+# example:
+find -name "bin*" -type d -prune -o -name "*.txt" -print # skips directories named "bin*" and prints all (other) files named "*.txt"
 
 # rename tool for multiple files: rename s/<pattern1>/<pattern2>/[flags] <files>
 #   -- example: rename all .png files in current directory to have any spaces in their names replaced with underscores:
