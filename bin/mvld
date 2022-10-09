@@ -25,7 +25,7 @@
 
 # process arg(s)
 TARGET_DIR=${1:-$(pwd)}
-SOURCE_DIR=${2:-$HOME/Downloads/}
+SOURCE_DIR=${2:-$HOME/Downloads}
 if [ ! -d $TARGET_DIR ]; then
   echo -e "Error: \"$TARGET_DIR\" is not a valid directory."
   exit 3
@@ -34,7 +34,7 @@ fi
 # main
 LS=$(which ls) # to run without options
 FILE=$($LS -t $SOURCE_DIR | head -1)
-mv $SOURCE_DIR/$FILE $TARGET_DIR
+mv -t "$TARGET_DIR" "$SOURCE_DIR/$FILE"
 ES=$?
 
 # all pau!   )
