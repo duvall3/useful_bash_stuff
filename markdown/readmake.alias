@@ -1,0 +1,1 @@
+alias readmake='pandoc -s --metadata pagetitle="README" --template=github-darkdown --highlight-style=/usr/share/pandoc/data/templates/github-darkdown.theme -o README.html README.md'
