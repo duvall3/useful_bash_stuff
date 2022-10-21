@@ -166,34 +166,40 @@ alias netdev='nmcli device status'
 # Vim
 # ~~~~~~~~~~
 
-# jump to line N: in normal mode, ":N"
+# jump to line N: in Normal mode, ":N<Return>"
 
-# jump to matching bracket / quotation mark: works for all ([{"' : in normal mode, "%"
+# jump to matching bracket / quotation mark: works for all ([{"' : in Normal mode, "%"
 
-# search forward / backward for word under cursor: in normal mode, "*" / "#"
+# search forward / backward for word under cursor: in Normal mode, "*" / "#"
 
-# paragraph skip forward / backward by empty lines: in normal mode, "}" / "{"
+# paragraph skip forward / backward by empty lines: in Normal mode, "}" / "{"
 
-# repeat input: in normal mode, "." will repeat everything you typed the last time you were in input mode
+# make the active window the only window: in Normal mode, "<Ctrl+W>o"
+# -- this is especially useful for browsing the help file
+#    -- then, to return to your file: in Normal mode, "<Ctrl+^>"
+#    -- alternately, to browse the help file in a new tab: in Normal mode, ":tabnew<Return>:h<Return><Ctrl+W>o"
+#       -- reminder: to switch to the next / previous tab: in Normal mode, "t" / "T"
+
+# repeat input: in Normal mode, "." will repeat everything you typed the last time you were in Input mode
 # -- can be prefixed with a number for repetition
-# -- example: normal mode -> "i" -> type a template for some records you want to enter -> <Esc> -> "5."
+# -- example: Normal mode -> "i" -> type a template for some records you want to enter -> <Esc> -> "5."
 #     --> now you have 5 copies of your template, and you can just go fill in the blanks
 
-# autocomplete: in insert mode, "<Ctrl+N>" (next) to start at top of list or "<Ctrl+P>" (previous) to start at bottom of list
+# autocomplete: in Insert mode, "<Ctrl+N>" (next) to start at top of list or "<Ctrl+P>" (previous) to start at bottom of list
 
-# count number of matches for <pattern>: in normal mode, ":%s/<pattern>//gn"
+# count number of matches for <pattern>: in Normal mode, ":%s/<pattern>//gn"
 
-# ask for confirmation each time replacing <pattern1> with <pattern2>: in normal mode, ":%s/<pattern1>/<pattern2>/gc"
+# ask for confirmation each time replacing <pattern1> with <pattern2>: in Normal mode, ":%s/<pattern1>/<pattern2>/gc"
 
-# special characters: in insert mode, <Ctrl+k> -> mod key -> letter
+# special characters: in Insert mode, <Ctrl+k> -> mod key -> letter
 # -- example: <Ctrl+k>'e --> é
 
 # Vim block insert/delete: use 
-# block insert: in normal mode, <Ctrl+V> -> highlight block using arrow keys -> <Shift+I> -> type -> <Esc>
+# block insert: in Normal mode, <Ctrl+V> -> highlight block using arrow keys -> <Shift+I> -> type -> <Esc>
 # block delete:          "         "                       "                 -> x (delete) or d (cut)
 
-# quick command: while in insert mode, <Ctrl+O> -> "command"
-# -- vim will execute a single command, then drop you back into insert mode
+# quick command: while in Insert mode, <Ctrl+O> -> "command"
+# -- vim will execute a single command, then drop you back into Insert mode
 # -- example: this is great for saving while editing: <Ctrl+O>:w<Enter> will save your work, then you can resume instantly
 
 # indent / de-indent: in both Normal AND Visual mode: ">>" or "<<"
