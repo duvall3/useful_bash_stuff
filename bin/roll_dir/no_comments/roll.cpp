@@ -18,10 +18,11 @@ int roll( int k, int n, int b = 0 ) {
     if ( j < k-1 ) {
       printf("+ ");
     } else {
-      printf("+ {%d}  =  %d\n", b, total);
+      printf("+ {%d}  =  ", b);
     } // end if -- print "+" signs
   } // end rolls loop
   total += b;
+  printf("%d\n", total);
   return total;
 }
 int roll( int n )
