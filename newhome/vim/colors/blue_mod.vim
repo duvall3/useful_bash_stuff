@@ -21,10 +21,10 @@ hi  Normal        ctermfg=white
 hi  NonText       ctermfg=lightMagenta
 hi  comment       ctermfg=cyan          
 hi  constant      ctermfg=magenta
-hi  identifier    ctermfg=darkGreen
+hi  identifier    ctermfg=green
 hi  statement     ctermfg=yellow         			cterm=bold
 hi  preproc       ctermfg=blue
-hi  type          ctermfg=darkCyan      
+hi  type          ctermfg=darkCyan      			cterm=bold
 hi  special       ctermfg=lightGreen
 hi  Underlined    ctermfg=blue          			cterm=underline
 hi  label         ctermfg=yellow
@@ -36,7 +36,7 @@ hi  MoreMsg       ctermfg=yellow
 
 " inverted items
 " hi  Error         ctermfg=black		ctermbg=red
-hi  Error         ctermfg=red
+hi  Error         ctermfg=yellow
 hi  Todo          ctermfg=black         ctermbg=yellow
 hi  Cursor        ctermfg=black         ctermbg=white
 hi  Search        ctermfg=black         ctermbg=yellow
