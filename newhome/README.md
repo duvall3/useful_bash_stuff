@@ -4,7 +4,7 @@ These are the files that go into my home directory the minute I get a new accoun
 They include settings for aliases, command history, syntax highlighting, and more.
 Personalize them and use them whenever you get a new login!
 
-Install them by running `./install_newhome' in this directory.
+Install them by running `./install_newhome` in this directory.
 To force overwriting of destination files (i.e., to answer 'yes' to all the "overwrite?" prompts), run as `./install_newhome -f`.
 
 *Tip:* If you've already copied the files to your `$HOME` directory, you can install them with the following command:
