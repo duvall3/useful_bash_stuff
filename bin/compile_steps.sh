@@ -24,13 +24,21 @@ BASENAME=$(basename $INFILE .cpp)
 
 # main:
 # preprocess only: original source code --> preprocessed source code
-gcc $INFILE -E > "$BASENAME".pp
+PREP="gcc $INFILE -E > \"$BASENAME\".pp"
+echo "Preprocessing: $PREP"
+eval $PREP
 # compile only: preprocessed source code --> assembler code
-gcc $INFILE -S
+COMP="gcc $INFILE -S"
+echo "Compiling: $COMP"
+eval $COMP
 # assemble only: assembler code --> object file
-gcc $INFILE -c
+ASSM="gcc $INFILE -c"
+echo "Assembling: $ASSM"
+eval $ASSM
 # link: object file (plus any libs) --> binary executable
-g++ -o $BASENAME "$BASENAME".o
+LINK="g++ -o $BASENAME \"$BASENAME\".o"
+echo "Linking: $LINK"
+eval $LINK
 
 # all pau!   )
-exit 0
+exit $?
