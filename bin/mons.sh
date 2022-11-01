@@ -1,5 +1,5 @@
 #!/bin/bash
-# mons.sh -- simple script to establish a tmux session running nethogs and top
+# mons.sh -- simple script to establish a tmux session running nethogs and (h)top
 
 ##Copyright (C) 2021 Mark J. Duvall
 ##
@@ -23,7 +23,11 @@ tmux rename-window -t monitors monitors
 tmux send-keys -t monitors 'sudo intel_gpu_top' C-m
 
 tmux split-window -t monitors
-tmux send-keys -t monitors 'top' C-m
+if which htop 2>&1 > /dev/null; then
+  tmux send-keys -t monitors 'htop' C-m
+else
+  tmux send-keys -t monitors 'top' C-m
+fi
 
 tmux last-pane -t monitors
 tmux split-window -h -t monitors
