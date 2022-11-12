@@ -1,0 +1,11 @@
+#!/bin/bash
+# pips -- simple wrapper script to search PyPI over w3m
+
+URL='https://pypi.org/search/?q='
+QUERY=$(echo "$@" | sed 's_\ _+_g')
+URL+=$QUERY
+LINE=800 # currently hard-coded
+# echo $URL #debug
+w3m +$LINE $URL
+
+exit $?
