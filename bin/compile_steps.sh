@@ -1,6 +1,10 @@
 #!/bin/bash
-# compile_steps.sh -- compile and link a simple C++ program step-by-step
-# USAGE: compile_steps.sh [FILENAME]
+# compile_steps.sh -- Script to demonstrate the individual stages
+#   of making a simple c++ program:
+#   Preprocess --> Compile --> Assemble --> Link
+# Usage: compile_steps.sh [-h|-c] [SOURCE_FILE] [TARGET]"
+# -- Written and tested on 64-bit Ubuntu 20.04.5 using gcc/g++ 9.4.0
+# -- Examples: 'compile_steps.sh main.cpp myprogram'; 'compile_steps.sh -c'
 # ~ Mark J. Duvall ~ duvall3.git@gmail.com ~ 10/2022 ~ #
 
 #Copyright (C) 2022 Mark J. Duvall / T. Rocks Science
@@ -18,27 +22,74 @@
 #    You should have received a copy of the GNU General Public License
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+# define usage
+usage() {
+  echo "Usage: compile_steps.sh [-h|-c] [SOURCE_FILE] [TARGET]"
+  echo "Build TARGET in stages from SOURCE_FILE."
+  echo
+  echo "If called with only one argument, TARGET defaults to the basename of SOURCE_FILE."
+  echo "If called without arguments, SOURCE_FILE defaults to 'main.cpp'."
+  echo
+  echo "Options:"
+  echo -e "  -h\tShow this help message and exit"
+  echo -e "  -c\tClean built files (requires SOURCE_FILE and TARGET if different from default)"
+}
+
+# process options
+CLEAN_TF=false
+while getopts "hc" OPTIONS; do
+  case $OPTIONS in
+    h)
+      usage
+      exit 0
+      ;;
+    c)
+      CLEAN_TF=true
+      shift
+      ;;
+  esac
+done
+
 # init
 INFILE=${1:-main.cpp}
 BASENAME=$(basename $INFILE .cpp)
+PREP_FILE="$BASENAME".ii
+ASM_FILE="$BASENAME".s
+OBJ_FILE="$BASENAME".o
+TARGET=${2:-$BASENAME}
+
+# clean
+if $CLEAN_TF; then
+  echo -e "  /usr/bin/rm ./$BASENAME.{ii,s,o}\n  /usr/bin/rm ./$TARGET"
+  for FILE in {$BASENAME.{ii,s,o},$TARGET}; do
+    if [ -e ./$FILE ]; then /usr/bin/rm ./$FILE; fi
+  done
+  exit $?
+fi
+
+# set any desired options, flags, etc.
+GCC="$(which gcc) -Wall"
+GPP="$(which g++)"
 
 # main:
+echo "Building target '$TARGET' from source '$INFILE'..."
 # preprocess only: original source code --> preprocessed source code
-PREP="gcc $INFILE -E > \"$BASENAME\".pp"
-echo "Preprocessing: $PREP"
+PREP="$GCC $INFILE -E -o $PREP_FILE"
+echo -e "  Preprocessing:\t$PREP"
 eval $PREP
 # compile only: preprocessed source code --> assembler code
-COMP="gcc $INFILE -S"
-echo "Compiling: $COMP"
+COMP="$GCC $PREP_FILE -S"
+echo -e "  Compiling:\t\t$COMP"
 eval $COMP
 # assemble only: assembler code --> object file
-ASSM="gcc $INFILE -c"
-echo "Assembling: $ASSM"
+ASSM="$GCC $ASM_FILE -c"
+echo -e "  Assembling:\t\t$ASSM"
 eval $ASSM
 # link: object file (plus any libs) --> binary executable
-LINK="g++ -o $BASENAME \"$BASENAME\".o"
-echo "Linking: $LINK"
+LINK="$GPP -o $TARGET $OBJ_FILE"
+echo -e "  Linking:\t\t$LINK"
 eval $LINK
+if [ $? -eq 0 ]; then echo "Done."; fi
 
 # all pau!   )
-exit $?
+exit 0
