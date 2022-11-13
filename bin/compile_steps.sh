@@ -5,7 +5,7 @@
 # Usage: compile_steps.sh [-h|-c] [SOURCE_FILE] [TARGET]"
 # -- Written and tested on 64-bit Ubuntu 20.04.5 using gcc/g++ 9.4.0
 # -- Examples: 'compile_steps.sh main.cpp myprogram'; 'compile_steps.sh -c'
-# ~ Mark J. Duvall ~ duvall3.git@gmail.com ~ 10/2022 ~ #
+# ~ Mark J. Duvall ~ duvall3.git@gmail.com ~ 11/2022 ~ #
 
 #Copyright (C) 2022 Mark J. Duvall / T. Rocks Science
 #
@@ -50,9 +50,20 @@ while getopts "hc" OPTIONS; do
   esac
 done
 
+# determine source file
+if [ $# -gt 0 ]; then			# if SOURCE_FILE provided on command line
+  SOURCE_FILE=$1			#   then use it
+else					# if no args
+  SRC_FILES=(*.cpp)			#   then get list of .cpp files in current directory
+  if [ ${#SRC_FILES[*]} -eq 1 ]; then	#   if found exactly 1 .cpp file
+    SOURCE_FILE=${SRC_FILES[0]}		#     then use it
+  else					#   if found 0 or multiple .cpp files
+    SOURCE_FILE=main.cpp		#     then guess 'main.cpp'
+  fi
+fi
+
 # init
-INFILE=${1:-main.cpp}
-BASENAME=$(basename $INFILE .cpp)
+BASENAME=$(basename $SOURCE_FILE .cpp)
 PREP_FILE="$BASENAME".ii
 ASM_FILE="$BASENAME".s
 OBJ_FILE="$BASENAME".o
@@ -67,14 +78,20 @@ if $CLEAN_TF; then
   exit $?
 fi
 
+# confirm source file is present
+if [ ! -e ./$SOURCE_FILE ]; then
+  echo -e "Error: $(basename $0) could not find source file ./$SOURCE_FILE; run '$(basename $0) -h' for help"
+  exit 5
+fi
+
 # set any desired options, flags, etc.
 GCC="$(which gcc) -Wall"
 GPP="$(which g++)"
 
 # main:
-echo "Building target '$TARGET' from source '$INFILE'..."
+echo "Building target '$TARGET' from source '${SOURCE_FILE}'..."
 # preprocess only: original source code --> preprocessed source code
-PREP="$GCC $INFILE -E -o $PREP_FILE"
+PREP="$GCC $SOURCE_FILE -E -o $PREP_FILE"
 echo -e "  Preprocessing:\t$PREP"
 eval $PREP
 # compile only: preprocessed source code --> assembler code
