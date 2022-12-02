@@ -17,15 +17,22 @@
 ##    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ##
 
+# option
+if [[ $1 =~ "-H" ]]; then
+  TOP='htop'
+else
+  TOP='top'
+fi
+
 tmux new -s monitors -d
 tmux rename-window -t monitors monitors
 
 tmux send-keys -t monitors 'sudo intel_gpu_top' C-m
 
 tmux split-window -t monitors
-if which htop 2>&1 > /dev/null; then
-  tmux send-keys -t monitors 'htop' C-m
-else
+if which $TOP 2>&1 > /dev/null; then
+  tmux send-keys -t monitors $TOP C-m
+else # if 'htop'  is selected but not available
   tmux send-keys -t monitors 'top' C-m
 fi
 
