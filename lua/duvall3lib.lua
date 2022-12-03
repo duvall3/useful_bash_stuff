@@ -21,13 +21,13 @@
 
 --for use with TIC80:
 -- [[[ Choose one of the following two lines:
-local TIC80=false
+TIC80=false
 -- TIC80=true
 -- ]]]
 if TIC80 then
-  local Print=trace
+  Print=trace
 else
-  local Print=print
+  Print=print
 end
 
 
