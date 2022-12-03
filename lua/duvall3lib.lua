@@ -111,6 +111,22 @@ function TE(t1,t2)
  else return false
  end
 end
+--PTP() -- PrintTableProperties
+--   given a list of tables (L) and any sequence of (sub)properties,
+--   print the final property
+--   e.g., PTP(L,'a','b') will print L[1].a.b, L[2].a.b, L[3].a.b, etc.
+function f(L,...)
+  local N, level, props, item
+  N = select('#',...) --length of ...
+  for k,v in pairs(L) do
+    item = v
+    for level = 1,N do
+      props = table.pack(select(level,...))
+      item = item[props[1]]
+    end
+    if item then Print(tostring(item)) end
+  end
+end
 
 
 --all pau!   )
