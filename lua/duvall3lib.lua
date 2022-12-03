@@ -21,8 +21,8 @@
 
 --for use with TIC80:
 -- [[[ Choose one of the following two lines:
--- local TIC80=false
-TIC80=true
+local TIC80=false
+-- TIC80=true
 -- ]]]
 if TIC80 then
   local Print=trace
