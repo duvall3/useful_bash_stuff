@@ -115,7 +115,7 @@ end
 --   given a list of tables (L) and any sequence of (sub)properties,
 --   print the final property
 --   e.g., PTP(L,'a','b') will print L[1].a.b, L[2].a.b, L[3].a.b, etc.
-function f(L,...)
+function PTP(L,...)
   local N, level, props, item
   N = select('#',...) --length of ...
   for k,v in pairs(L) do
