@@ -39,6 +39,21 @@ function cls()
   os.execute('clear')
 end
 
+--Simple Aliases and Shortcuts
+--math.random:
+rand = math.random
+--simple Boolean test
+function test(expr)
+  if expr==true then
+    Print('YES')
+  elseif expr==false then
+    Print('NO')
+  else
+    Print('NIL')
+  end
+  return expr
+end
+
 --Type Conversions:
 --b2n() -- boolean2number
 function b2n(b)
