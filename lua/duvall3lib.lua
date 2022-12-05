@@ -74,6 +74,15 @@ end
 
 
 --Table Operations:
+--table.chain() -- chain (i.e., concatenate) a pair of tables
+function table.chain(t1,t2)
+  local T,k
+  T=t1
+  for k=1,#t2 do
+    T[#t1+k] = t2[k]
+  end
+  return T
+end
 --Dump()
 inspect = require 'inspect'
 function Dump(o, d)
