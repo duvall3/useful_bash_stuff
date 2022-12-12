@@ -32,44 +32,43 @@ if [[ $1 =~ "-H" ]]; then
 else
   TOP='top'
 fi
-echo "main $TOP" #debug
 
-# ## main
+## main
 
-# tmux new -s monitors -d
-# tmux rename-window -t monitors monitors
+tmux new -s monitors -d
+tmux rename-window -t monitors monitors
 
-# tmux send-keys -t monitors 'sudo intel_gpu_top' C-m
+tmux send-keys -t monitors 'sudo intel_gpu_top' C-m
 
-# tmux split-window -t monitors
-# if which $TOP 2>&1 > /dev/null; then
-#   tmux send-keys -t monitors $TOP C-m
-# else # if 'htop'  is selected but not available
-#   tmux send-keys -t monitors 'top' C-m
-# fi
+tmux split-window -t monitors
+if which $TOP 2>&1 > /dev/null; then
+  tmux send-keys -t monitors $TOP C-m
+else # if 'htop'  is selected but not available
+  tmux send-keys -t monitors 'top' C-m
+fi
 
-# tmux last-pane -t monitors
-# tmux split-window -h -t monitors
-# tmux send-keys -t monitors '/home/mark/useful_bash_stuff/bin/heat_mon.sh 10s 20' C-m
-# tmux resize-pane -t monitors -R 15
+tmux last-pane -t monitors
+tmux split-window -h -t monitors
+tmux send-keys -t monitors '/home/mark/useful_bash_stuff/bin/heat_mon.sh 10s 20' C-m
+tmux resize-pane -t monitors -R 15
 
-# tmux last-pane -t monitors
-# tmux split-window -t monitors
-# tmux send-keys -t monitors 'sudo nethogs' C-m
-# tmux resize-pane -t monitors -U 5
+tmux last-pane -t monitors
+tmux split-window -t monitors
+tmux send-keys -t monitors 'sudo nethogs' C-m
+tmux resize-pane -t monitors -U 5
 
-# tmux select-pane -t 2
-# tmux split-window -t monitors
-# tmux send-keys -t monitors 'watch pgrr' C-m
-# tmux resize-pane -t monitors -D 1
+tmux select-pane -t 2
+tmux split-window -t monitors
+tmux send-keys -t monitors 'watch pgrr' C-m
+tmux resize-pane -t monitors -D 1
 
-# tmux split-window -h -t monitors
-# # tmux send-keys -t monitors 'watch pcpu' C-m
-# tmux send-keys -t monitors 'pcpu' C-m
-# tmux resize-pane -t monitors -L 12
+tmux split-window -h -t monitors
+# tmux send-keys -t monitors 'watch pcpu' C-m
+tmux send-keys -t monitors 'pcpu' C-m
+tmux resize-pane -t monitors -L 12
 
-# tmux select-pane -t 5
+tmux select-pane -t 5
 
-# tmux attach -t monitors
+tmux attach -t monitors
 
 # all pau!   )
