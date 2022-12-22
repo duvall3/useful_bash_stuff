@@ -6,11 +6,15 @@
 # Favorites
 # ~~~~~~~~~
 
+# #000: control keybindings: <Ctrl+C>, <Ctrl+Z>, <Ctrl+D>, <Ctrl+[>, <Ctrl+M>
+
+# #00: editor keybindings: <Ctrl+L>, <Ctrl+A/E>, <Alt+F/B>, <Ctrl+K/U/Y>
 
 # #0: tab completion & command history: if you're reading this document, you hopefully already know about these
 
 # #1: <Alt+.> -- argument history: paste recent arguments
 #   -- example: starting work on a new shell script: "touch reallylongfilename.sh; chmod 755 <Alt+.>; vim <Alt+.>"
+#   -- related: quick substitution (^)
 
 # #2: arrow-key command history search -- <up/down> : search/scroll command history *by matching string*
 #   -- waaay better than default behavior
@@ -18,6 +22,9 @@
 #   -- e.g., get the last command you used beginning with the letter "f":   user@host:~$ f<UPARROW>
 
 # #3: <Ctrl+/> -- "undo" for your command line -- works on typing, pasting, history search, pretty much everything!
+#   -- related: <Alt+R> -- undo all (i.e., reset line)
+
+# #4: <Alt+#> -- comment current line: <Alt+Shift+3> is equivalent to <Ctrl+A>#<Return>
 
 # -- It's worth noting that all my top favorites listed so far are part of the GNU Readline library. Thanks, readline!!!
 

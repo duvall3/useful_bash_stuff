@@ -1,0 +1,1 @@
+../bin/tex_spelling.sh
