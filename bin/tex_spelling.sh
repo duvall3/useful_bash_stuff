@@ -18,7 +18,7 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 # help check
-if [[ $1 =~"-h" ]]; then
+if [[ $1 =~ "-h" ]]; then
   echo "tex_spelling.sh: Runs 'aspell --mode=tex -c' on all .tex files in the current directory."
   exit 10
 fi
@@ -28,6 +28,12 @@ ASPELL=$(which aspell 2> /dev/null)
 if [ ! $ASPELL ]; then
   echo "Error in tex_spelling.sh: Program 'aspell' not found."
   exit 127
+fi
+
+# file check
+if (! ls $(pwd)/*.tex 2> /dev/null); then
+  echo "Error in tex_spelling.sh: No .tex files found in this directory ($(pwd))."
+  exit 5
 fi
 
 # main
