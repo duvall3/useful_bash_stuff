@@ -1,0 +1,40 @@
+#!/bin/bash
+# powrate -- simple wrapper to print power consumption
+
+# ~ Mark J. Duvall ~ mjduvall@hawaii.edu ~ 01/2023 ~ #
+
+#Copyright (C) 2022 Mark J. Duvall / T. Rocks Science
+#
+#    This program is free software: you can redistribute it and/or modify
+#    it under the terms of the GNU General Public License as published by
+#    the Free Software Foundation, either version 3 of the License, or
+#    (at your option) any later version.
+#
+#    This program is distributed in the hope that it will be useful,
+#    but WITHOUT ANY WARRANTY; without even the implied warranty of
+#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#    GNU General Public License for more details.
+#
+#    You should have received a copy of the GNU General Public License
+#    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+# TODO: prog check for upower, awk
+
+# init
+UPOWER=$(which upower)
+AWK=$(which awk)
+GREP=$(which grep)
+ECHO=$(which echo)
+BATTERY_PATH=$($UPOWER -e | $GREP battery)
+
+# main
+STATE=$($UPOWER -i $BATTERY_PATH | $AWK '$1 ~ /state:/ {print $2}')
+if [[ ! $STATE =~ "discharging" ]]; then
+  $ECHO "Cannot retrieve power consumption while battery is charging."
+  exit 1
+fi
+RATE=$($UPOWER -i $BATTERY_PATH | $AWK '$1 ~ /energy-rate:/ {$1=""; print}')
+$ECHO -e "Battery Discharge Rate:\t$RATE"
+
+# all pau!   )
+exit $?
