@@ -1,6 +1,6 @@
 #!/bin/bash
 # pcpu -- get average processor usage pct
-# Usage: pcpu [COLORIZE_TF] [LOOP_TF]
+# Usage: pcpu [COLORIZE_TF] [LOOP_TF] [DELAY]
 # ~ Mark J. Duvall ~ mjduvall@hawaii.edu ~ 12/2021 ~ #
 
 #Copyright (C) 2021 Mark J. Duvall
@@ -18,9 +18,20 @@
 #    You should have received a copy of the GNU General Public License
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+# help check
+USAGE="Usage: pcpu [COLORIZE_TF] [LOOP_TF] [DELAY]"
+if [[ $1 =~ "-h" ]]; then
+  echo $USAGE
+  exit 10
+fi
+
+# include 'powrate' if available
+POWRATE=$(which powrate 2> /dev/null)
+
 # settings
 COLORIZE_TF=${1:-true}
 LOOP_TF=${2:-true}
+SEC=${3:-1s}
 
 # define main function
 print_cpu_usage() {
@@ -32,7 +43,7 @@ print_cpu_usage() {
   if $COLORIZE_TF; then
     printf "\033[7mCPU: %2.2f %%\033[0m\n" $PCT
   else
-    printf "CPU: %2.2f %%\n" $PCT
+    printf "CPU: %02.2f %%\n" $PCT
   fi
 }
 
@@ -41,10 +52,12 @@ if $LOOP_TF; then
   while true; do
     clear
     echo; echo
+    if [ $POWRATE ]; then $POWRATE 2> /dev/null; fi
     print_cpu_usage
-    sleep 1s
+    sleep $SEC
   done
 else
+  if [ $POWRATE ]; then $POWRATE 2> /dev/null; fi
   print_cpu_usage
 fi
 

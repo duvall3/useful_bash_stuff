@@ -49,7 +49,7 @@ fi
 
 tmux last-pane -t monitors
 tmux split-window -h -t monitors
-tmux send-keys -t monitors '/home/mark/useful_bash_stuff/bin/heat_mon.sh 10s 20' C-m
+tmux send-keys -t monitors '/home/mark/useful_bash_stuff/bin/heat_mon.sh 30s 20' C-m
 tmux resize-pane -t monitors -R 15
 
 tmux last-pane -t monitors
@@ -63,7 +63,7 @@ tmux send-keys -t monitors 'watch pgrr' C-m
 tmux resize-pane -t monitors -D 1
 
 tmux split-window -h -t monitors
-# tmux send-keys -t monitors 'watch pcpu' C-m
+# tmux send-keys -t monitors 'watch pcpu true false' C-m
 tmux send-keys -t monitors 'pcpu' C-m
 tmux resize-pane -t monitors -L 12
 

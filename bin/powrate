@@ -30,11 +30,11 @@ BATTERY_PATH=$($UPOWER -e | $GREP battery)
 # main
 STATE=$($UPOWER -i $BATTERY_PATH | $AWK '$1 ~ /state:/ {print $2}')
 if [[ ! $STATE =~ "discharging" ]]; then
-  $ECHO "Cannot retrieve power consumption while battery is charging."
+  $ECHO "Cannot retrieve power consumption while battery is charging." 1>&2
   exit 1
 fi
-RATE=$($UPOWER -i $BATTERY_PATH | $AWK '$1 ~ /energy-rate:/ {$1=""; print}')
-$ECHO -e "Battery Discharge Rate:\t$RATE"
+RATE=$($UPOWER -i $BATTERY_PATH | $AWK '$1 ~ /energy-rate:/ {$1=""; print $2}' | sed 's/^\ \+//g')
+printf "BAT: %02.2f W\n" $RATE
 
 # all pau!   )
 exit $?

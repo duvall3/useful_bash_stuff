@@ -11,9 +11,7 @@ fi
 
 # init
 SVN=$(which svn)
-AWK=$(which awk)
-AWK=${AWK:-$(which gawk)}
-AWK=${AWK:-$(which mawk)}
+AWK=$(which awk || which gawk || which mawk)
 
 # program check
 if ! type $SVN 2>&1 > /dev/null; then
