@@ -64,7 +64,7 @@ tmux resize-pane -t monitors -D 1
 
 tmux split-window -h -t monitors
 # tmux send-keys -t monitors 'watch pcpu true false' C-m
-tmux send-keys -t monitors 'pcpu' C-m
+tmux send-keys -t monitors 'pcpu true true 5s' C-m
 tmux resize-pane -t monitors -L 12
 
 tmux select-pane -t 5

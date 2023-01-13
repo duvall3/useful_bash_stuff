@@ -25,8 +25,8 @@ if [[ $1 =~ "-h" ]]; then
   exit 10
 fi
 
-# include 'powrate' if available
-POWRATE=$(which powrate 2> /dev/null)
+# # include 'powrate' if available
+# POWRATE=$(which powrate 2> /dev/null)
 
 # settings
 COLORIZE_TF=${1:-true}
@@ -52,12 +52,12 @@ if $LOOP_TF; then
   while true; do
     clear
     echo; echo
-    if [ $POWRATE ]; then $POWRATE 2> /dev/null; fi
+    # if [ $POWRATE ]; then $POWRATE 2> /dev/null; fi
     print_cpu_usage
     sleep $SEC
   done
 else
-  if [ $POWRATE ]; then $POWRATE 2> /dev/null; fi
+  # if [ $POWRATE ]; then $POWRATE 2> /dev/null; fi
   print_cpu_usage
 fi
 
