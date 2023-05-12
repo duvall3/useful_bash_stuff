@@ -169,4 +169,30 @@ dryrun() {
     printf -v cmd_str '%q ' "$@"; echo "DRYRUN: Not executing << $cmd_str >>" >&2
 }
 
+# describe() function for showing script header / help text
+describe() {
+  ECHO=$('which' echo)
+  FILETOOL=$('which' file)
+  AWK=$('which' awk)
+  AWK=${AWK:-$('which' gawk)}
+  AWK=${AWK:-$('which' mawk)}
+  for NAME in $@; do
+    if ! FILE=$('which' $NAME); then
+      $ECHO "Command \"$NAME\" not found in \$PATH."
+      continue
+    fi
+    TYPE=$($FILETOOL $FILE | $AWK -F : '{print $2}')
+    if ! [[ $TYPE =~ script|text ]]; then
+      $ECHO "File \"$FILE\" not recognized as script or text."
+      continue
+    fi
+    $ECHO "$NAME:"
+    $AWK -v RS='\n\n' 'NR==1' $FILE
+    $ECHO
+  done
+}
+alias helptext='describe'
+alias showscript='describe'
+
+
 

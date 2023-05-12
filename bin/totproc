@@ -1,11 +1,11 @@
 #!/bin/bash
-# totmem -- print the total memory usage of all proccesses with a given name
-# -- USAGE: totmem [PGREP_OPTION]... <PROCESSNAME|"EXPRESSION">
-# -- examples:  totmem bash; totmem "Xorg|gnome"; totmem -t pts/3 -x rat
-# -- tip: for Web usage, try: alias webmem='totmem "firefox|Web|w3m"'
-# ~ Mark J. Duvall ~ duvall3@guthub.com ~ 7/2021 ~ #
+# totproc -- print the total CPU usage of all proccesses with a given name
+# -- USAGE: totproc [PGREP_OPTION]... <PROCESSNAME|"EXPRESSION">
+# -- examples:  totproc bash; totproc "Xorg|gnome"; totproc -t pts/3 -x rat
+# -- tip: for Web usage, try: alias webproc='totproc "firefox|Web|w3m"'
+# ~ Mark J. Duvall ~ duvall3.git@gmail.com ~ 5/2023 ~ #
 
-##Copyright (C) 2021 Mark J. Duvall
+##Copyright (C) 2023 T. Rocks Science / Mark J. Duvall
 ##
 ##    This program is free software: you can redistribute it and/or modify
 ##    it under the terms of the GNU General Public License as published by
@@ -30,17 +30,17 @@ GREP=$(which grep)
 SED=$(which sed)
 BC=$(which bc)
 CUT=$(which cut)
-FREE=$(which free)
+# FREE=$(which free)
 
 # process args
 case $# in
   0)
-    echo -e "USAGE: totmem [PGREP_OPTION]... <PROCESSNAME|\"EXPRESSION\">"
+    echo -e "USAGE: totproc [PGREP_OPTION]... <PROCESSNAME|\"EXPRESSION\">"
     exit 2
     ;;
   1)
     if [[ $1 =~ -[Hh] ]]; then
-      echo -e "USAGE: totmem [PGREP_OPTION]... <PROCESSNAME|\"EXPRESSION\">"
+      echo -e "USAGE: totproc [PGREP_OPTION]... <PROCESSNAME|\"EXPRESSION\">"
       exit 0
     fi
     PATTERN=$1
@@ -64,12 +64,11 @@ else
 fi
 
 # MAIN
-MEMTOTAL=$($FREE --mega | $AWK 'NR==2 {print $2}')
-if $PGREP -i $PATTERN > /dev/null; then
-  NUM_MATCHES=$($PGREP -ic $OPTION "$PATTERN")
-  MEMUSG=$(echo "$(${PS} --no-headers -o rss $($PGREP -i $OPTION "$PATTERN") | $GREP -v "^$" | $TR "\n" "+" | $SED '$ s/.$/\n/' | $BC -l) / 1000" | $BC -l | $CUT -d . -f 1)
-  MEMPCT=$(echo "100 * $MEMUSG / $MEMTOTAL" | $BC -l)
-  printf "Memory usage of all %d processes matching \"%s\":\n%d MB\t(%02.1f %%)\n" $NUM_MATCHES $PATTERN $MEMUSG $MEMPCT
+# PROCTOTAL=$($FREE --mega | $AWK 'NR==2 {print $2}')
+if PID_LIST=$($PGREP -i $PATTERN) > /dev/null; then
+  NUM_MATCHES=$(echo $PID_LIST | 'wc' -l)
+  PROCPCT=$(${PS} -ho pcpu $PID_LIST | $TR "\n" "+" | $SED '$ s/.$/\n/' | $BC -l)
+  printf "CPU usage of all %d processes matching \"%s\":\t%02.1f %%\n" $NUM_MATCHES $PATTERN $PROCPCT
 else
   echo -e "No processes found matching \"$PATTERN\"."
 fi

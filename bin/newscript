@@ -1,0 +1,183 @@
+#!/bin/bash
+# newscript -- a simple script for creating new BASH scripts
+# Note: Set your name, email, and license file under "author info" below
+# ~ Mark J. Duvall ~ duvall3.git@gmail.com ~ 04/2023 ~ #
+#                                                                      
+# USAGE: newscript [-h | -f[D | d DESCRIPTION] ]  <SCRIPTNAME>
+# Options:
+#   -h Show help message and exit
+#   -f Force overwrite
+#   -D Skip description
+#   -d use DESCRIPTION in new script's header and help text
+
+# Examples:
+#   newscript script1.sh
+#     -- set up 'script1.sh'
+#   newscript -fD script1.sh
+#     -- create a new 'script1.sh', skip description prompt, and overwrite any existing version
+#   newscript -d "manage user directories" mnguser.sh
+#     -- set up 'mnguser.sh', using description "manage user directories"
+#   
+
+#Copyright (C) 2023 Mark J. Duvall / T. Rocks Science
+#
+#    This program is free software: you can redistribute it and/or modify
+#    it under the terms of the GNU General Public License as published by
+#    the Free Software Foundation, either version 3 of the License, or
+#    (at your option) any later version.
+#
+#    This program is distributed in the hope that it will be useful,
+#    but WITHOUT ANY WARRANTY; without even the implied warranty of
+#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#    GNU General Public License for more details.
+#
+#    You should have received a copy of the GNU General Public License
+#    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+
+## INIT
+
+# author info
+AUTHOR_NAME="Your Name Here"
+AUTHOR_EMAIL="your_email_here@example.com"
+LICENSE=$HOME/LICENSE
+
+# control for aliases
+ECHO="$(which echo) -e"
+CHMOD=$(which chmod)
+VIM=$(which vim)
+CT="$(which column) -t"
+PRINTF=$(which printf)
+DATE=$(which date)
+CAT=$(which cat)
+LC="$(which wc) -l"
+CUT=$(which cut)
+PASTE=$(which paste)
+
+# define usage
+usage() {
+  $ECHO "Usage: newscript [-h | -f[D | d DESCRIPTION] ]  <SCRIPTNAME>"
+  $ECHO "Prepare a new shell script named SCRIPTNAME and open it for editing"
+  $ECHO
+  $ECHO "Options:"
+  $ECHO "  -h\tShow this help message and exit"
+  $ECHO "  -f\tForce overwrite"
+  $ECHO "  -D\tSkip description"
+  $ECHO "  -d\tuse DESCRIPTION in new script's header and help text"
+  $ECHO
+}
+
+# process options
+SKIP_DESC=false
+while getopts "hfDd:" OPTIONS; do
+  case $OPTIONS in
+    h)
+      usage
+      exit 10
+      ;;
+    f)
+      READY=true
+      ;;
+    D)
+      SKIP_DESC=true
+      ;;
+    d)
+      DESCRIPTION=$OPTARG
+      ;;
+    *)
+      $ECHO
+      usage
+      exit 11
+      ;;
+  esac
+done
+shift $((OPTIND-1))
+
+# process args
+if [ $# -lt 1 ]; then
+  read -p "Enter a name for the new script: " SCRIPTNAME
+else				# TODO: upgrade to accept multiple scriptnames
+  SCRIPTNAME=$1
+fi
+
+# file check
+READY=${READY:-false}
+while ! $READY; do
+  if [ -e $SCRIPTNAME ]; then
+    read -p "File \"$SCRIPTNAME\" exists. Overwrite? (yes/no/exit) " OVERWRITE_YN
+    case $OVERWRITE_YN in
+      [Yy]*)
+	READY=true
+	break
+	;;
+      [Nn]*)
+	read -p "Enter a new script name: " SCRIPTNAME
+	;;
+      [Ee]*)
+	exit 5
+	;;
+      *)
+	$ECHO "Invalid response. Overwrite? (Y/N/E) "
+	;;
+    esac
+  else
+    READY=true
+  fi
+done
+
+# description check
+if [ -z $DESCRIPTION ] && ! $SKIP_DESC; then
+  read -p "Enter a brief description for the new script: " DESCRIPTION
+fi
+
+
+## MAIN
+
+# create header 
+DESCRIPTION=${DESCRIPTION:-"{Description of $SCRIPTNAME}"}
+HEADER="#!$SHELL\n"							# shebang line
+HEADER+="# $SCRIPTNAME -- $DESCRIPTION\n"				# description line
+HEADER+="# USAGE: $SCRIPTNAME [-h|OPTS] <ARGS>\n"			# usage line
+AUTHOR="# ~ $AUTHOR_NAME ~ $AUTHOR_EMAIL ~ $($DATE +%m/%Y) ~ #\n"	# authorship line
+HEADER+=$AUTHOR
+
+# prepare license
+if [ -r $LICENSE ]; then
+  LIC_LINES=$($LC $LICENSE | $CUT -d ' ' -f 1)
+  for (( K = 1; K <= $LIC_LINES; K++ )) {
+    COMMLINES+="# \n"
+  }
+fi
+
+# create body
+BODY="\n## INIT\n\n"
+BODY+="# control for aliases\nECHO=\"\$(which echo) -e\"\n\n"
+BODY+="# define usage\nusage() {\n  \$ECHO \"Usage: $SCRIPTNAME [-h|OPTS] <ARGS>\"\n  \$ECHO \"$DESCRIPTION\"\n  \$ECHO\n  \$ECHO \"Options:\"\n  \$ECHO \"  -h\\\tShow this help message and exit\"\n  \$ECHO\n}\n\n"
+BODY+="# process options\nwhile getopts \"h\" OPTIONS; do\n  case \$OPTIONS in\n    h)\n      usage\n      exit 10\n      ;;\n    *)\n      \$ECHO\n      usage\n      exit 11\n      ;;\n  esac\ndone\n# shift \$((OPTIND-1)) # uncomment for options with args\n\n"
+BODY+="\n## MAIN\n\n# script body goes here...\n\n"
+
+# create closing
+CLOSING="\n## EXIT\n\n# all pau!   )\nEXIT_STATUS=\${EXIT_STATUS:-0}\nexit \$EXIT_STATUS\n"
+
+# debug
+if [[ $SCRIPTNAME =~ ^-.* ]]; then
+  echo "\$@ = $@"
+  echo "SCRIPTNAME = $SCRIPTNAME"
+  echo "READY = $READY"
+  echo "DESCRIPTION = $DESCRIPTION"
+  exit 15
+fi
+
+# write out and make executable
+$ECHO $HEADER > $SCRIPTNAME
+if [ -r $LICENSE ]; then $PASTE -d '' <($ECHO $COMMLINES) $LICENSE >> $SCRIPTNAME; fi
+$ECHO "$BODY\n$CLOSING" >> $SCRIPTNAME
+$CHMOD 755 $SCRIPTNAME
+
+# open for editing
+EDITOR=${EDITOR:-$VIM}
+$EDITOR $SCRIPTNAME
+EXIT_STATUS=$?
+
+## all pau!   )
+exit $EXIT_STATUS
