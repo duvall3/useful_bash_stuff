@@ -51,9 +51,14 @@ fi
 
 # simple activity indicator
 #sleep $TIME | zenity --progress --pulsate --title="zentimer" --text="Waiting $TIME for $NAME..." --auto-close
-sleep $TIME | zenity --progress --pulsate --title="zentimer" --text="$NAME, estimate $TIME beginning at $(date +%H:%M:%S)..." --auto-close
+# START_TIME=$('date' +"%a %b %d %H:%M:%S %Y")
+START_TIME=$(addtime 0)
+END_TIME=$(addtime $TIME)
+TEXT="Duration:\t\t$TIME\nTimer Start:\t$START_TIME\nTimer End:\t\t$END_TIME"
+echo -e $TEXT #debug
+sleep $TIME | zenity --progress --pulsate --title="zentimer" --text="$TEXT" --auto-close
 ENDTIME=$(date +%H:%M:%S)
-zenity --warning --title="zentimer" --text="$NAME timer complete!\nFinished at $ENDTIME."
+zenity --warning --title="zentimer" --text="Timer \"$NAME\" complete!\nFinished at $ENDTIME."
 
 ## all pau!   )
 exit 0
