@@ -44,7 +44,7 @@ alias path='echo $PATH | tr : "\n"'
   # ^string1^string2^
   # Quick substitution.  Repeat the previous command, replacing string1 with string2.  Equivalent to  ``!!:s/string1/string2/''
 # relatedly, full substitution for previous command:
-# !!:s/string1/string2/g
+# !!:gs/string1/string2/
 
 # find broken symlinks: use option '-xtype l'
 #   -- example: find all broken symlinks under the current user's $HOME directory:
@@ -74,7 +74,7 @@ find -name "bin*" -type d -prune -o -name "*.txt" -print # skips directories nam
 
 # rename tool for multiple files: rename s/<pattern1>/<pattern2>/[flags] <files>
 #   -- example: rename all .png files in current directory to have any spaces in their names replaced with underscores:
-rename s/" "/_/g *.png
+rename 's/" "/_/g' *.png
 
 # BASH parameter expansion: { }
 # -- This is a hugely-powerful and -versatile feature, but a few simple examples follow
@@ -101,6 +101,9 @@ rename s/" "/_/g *.png
 	for FILE in *.mp3; do
 	  ffmpeg -i $FILE ${FILE%mp3}ogg
 	done
+
+# determine directory from which a BASH script is being invoked:
+SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 
 # BASH regular-expression-matching operator (a.k.a. "BASH_REMATCH"): "<STRING> =~ <REGEX>"
 #   -- tests whether STRING matches to REGEX
