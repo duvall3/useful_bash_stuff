@@ -28,11 +28,13 @@ if [[ ! $(pwd) =~ useful_bash_stuff/newhome ]]; then
 fi
 
 # arg check
-if [[ $1 =~ -f ]]; then
-  OPTION="-f"
-else
-  echo "USAGE: ./install_newhome.sh [-f]"
-  exit 10
+if [ $1 ]; then
+  if [[ $1 =~ -f ]]; then
+    OPTION="-f"
+  else
+    echo "USAGE: ./install_newhome.sh [-f]"
+    exit 10
+  fi
 fi
 
 # main
