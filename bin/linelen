@@ -1,6 +1,6 @@
 #!/bin/bash
 # linelen -- Return the length (in number of characters) of the longest line in each of the input FILEs
-# USAGE: linelen [-h|-v] <FILE>...
+# USAGE: linelen [-h|-sq|-v] <FILE>...
 # ~ Mark J. Duvall ~ duvall3.git@gmail.com ~ 06/2023 ~ #
 
 # Copyright (C) 2023 Mark J. Duvall / T. Rocks Science
@@ -25,7 +25,6 @@
 # general
 NULL=/dev/null
 ERR=/dev/stderr
-VERBOSE=false
 
 # control for aliases
 ECHO="$(which echo) -e"
@@ -41,21 +40,32 @@ COLUMN=$(which column 2> $NULL)
 
 # define usage
 usage() {
-  $ECHO "Usage: linelen [-h|-v] <FILE>..."
+  $ECHO "Usage: linelen [-h|-sq|-v] <FILE>..."
   $ECHO "Return the length (in number of characters) of the longest line in each of the input FILEs"
   $ECHO
   $ECHO "Options:"
   $ECHO "  -h\tShow this help message and exit"
+  $ECHO "  -s\tList output by length of longest line rather than by argument order"
+  $ECHO "  -q\tQuiet mode: suppress header"
   $ECHO "  -v\tVerbose mode: Print the character count for every line in each file"
   $ECHO
 }
 
 # process options
-while getopts "hv" OPTIONS; do
+SORT_BY_MAX_LENGTH=false
+QUIET=false
+VERBOSE=false
+while getopts "hsqv" OPTIONS; do
   case $OPTIONS in
     h)
       usage
       exit 10
+      ;;
+    s)
+      SORT_BY_MAX_LENGTH=true
+      ;;
+    q)
+      QUIET=true
       ;;
     v)
       VERBOSE=true
@@ -79,6 +89,7 @@ fi
 
 # define functions and parameters depending on bool $VERBOSE
 if $VERBOSE; then
+  # verbose mode
   HEADER=""
   DELIM=": "
   printfilename() {
@@ -91,6 +102,7 @@ if $VERBOSE; then
     $CAT
   }
 else
+  # default mode
   HEADER="FILE LINE LENGTH"
   DELIM=" "
   printfilename() {
@@ -99,24 +111,34 @@ else
   outformat() {
     $SORT -nk 2 | $UNIQ -f 1 | $TAIL -n 1
   }
-  table() {
-    $COLUMN -t
-  }
+  if $SORT_BY_MAX_LENGTH; then
+    # alternate sort (maximum length)
+    table() {
+      {
+        if ! $QUIET; then $ECHO $HEADER; fi
+	$AWK '$2 ~ "[[:digit:]]+"' | $SORT -k 3
+      } | $COLUMN -t
+    }
+  else
+    # default sort (input order)
+    table() {
+      $COLUMN -t
+    }
+  fi
 fi
 
 
 ## MAIN
 K=1
 for FILE in ${FILENAMES[*]}; do
-  if [ $# -gt 1 ]; then
-    if [ $K -eq 1 ]; then $ECHO $HEADER; fi
-    printfilename
-  fi
+  if ( [ $K -eq 1 ] ) && (! $QUIET); then $ECHO $HEADER; fi
+  printfilename
   $AWK -v delim=$DELIM '{match($0, ".*"); printf "%6d%s%6d\n",NR,delim,RLENGTH}' $FILE | outformat
   EXIT_STATUS=$?
   if $VERBOSE; then $ECHO; fi
   ((K++))
 done | table
+
 
 ## EXIT
 
