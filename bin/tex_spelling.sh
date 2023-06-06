@@ -17,22 +17,25 @@
 #    You should have received a copy of the GNU General Public License
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+# init
+ERR=/dev/stderr
+
 # help check
 if [[ $1 =~ "-h" ]]; then
-  echo "tex_spelling.sh: Runs 'aspell --mode=tex -c' on all .tex files in the current directory."
+  echo "tex_spelling.sh: Runs 'aspell --mode=tex -c' on all .tex files in the current directory." > $ERR
   exit 10
 fi
 
 # aspell check
 ASPELL=$(which aspell 2> /dev/null)
 if [ ! $ASPELL ]; then
-  echo "Error in tex_spelling.sh: Program 'aspell' not found."
+  echo "Error in tex_spelling.sh: Program 'aspell' not found." > $ERR
   exit 127
 fi
 
 # file check
 if (! ls $(pwd)/*.tex 2> /dev/null); then
-  echo "Error in tex_spelling.sh: No .tex files found in this directory ($(pwd))."
+  echo "Error in tex_spelling.sh: No .tex files found in this directory ($(pwd))." > $ERR
   exit 5
 fi
 
