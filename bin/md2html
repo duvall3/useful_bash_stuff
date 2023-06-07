@@ -61,13 +61,28 @@ done
 
 # author's defaults
 TITLE=$($BASENAME $INFILE .md)
+PANDOC_TEMPLATE_DIR=/usr/share/pandoc/data/templates
 TEMPLATE=github-darkdown
-HSSTYLE=/usr/share/pandoc/data/templates/github-darkdown.theme
-CSSSTYLE=/usr/share/pandoc/data/templates/github-darkdown-additional.css
+TEMPLATE_FILES=( "$PANDOC_TEMPLATE_DIR/$TEMPLATE.css" "$PANDOC_TEMPLATE_DIR/$TEMPLATE.html")
+HSSTYLE="$PANDOC_TEMPLATE_DIR/$TEMPLATE.theme"
+CSSSTYLE="$PANDOC_TEMPLATE_DIR/$TEMPLATE-additional.css"
 
 
 ## MAIN
-$PANDOC -s --metadata pagetitle="$TITLE" --template=$TEMPLATE --highlight-style=$HSSTYLE -o $OUTFILE $CSSSTYLE $INFILE
+STYLEDEFS=true
+for STYLEFILE in {${TEMPLATE_FILES[*]},$HSSTYLE,$CSSSTYLE}; do
+  if [ ! -r $STYLEFILE ]; then
+    $ECHO "$STYLEFILE failed" > $ERR
+    STYLEDEFS=false
+  fi
+done
+# $ECHO "STYLEDEFS = $STYLEDEFS" > $ERR #debug
+if $STYLEDEFS; then
+  $PANDOC -s --metadata pagetitle="$TITLE" --template=$TEMPLATE --highlight-style=$HSSTYLE -o $OUTFILE $CSSSTYLE $INFILE
+else
+  $ECHO "Style definition file(s) missing; using default HTML style." > $ERR
+  $PANDOC -s --metadata pagetitle="$TITLE" -o $OUTFILE $INFILE
+fi
 EXIT_STATUS=$?
 
 
