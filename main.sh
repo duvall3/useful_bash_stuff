@@ -199,6 +199,10 @@ alias netdev='nmcli device status'
 
 # count number of matches for <pattern>: in Normal mode, ":%s/<pattern>//gn"
 
+# find help:
+# 1) search the Help index for <pattern>: in Normal mode, ":h <pattern><Ctrl+D>"
+# 1) open the user manual's Table of Contents: in Normal mode, ":h user-manual"
+
 # ask for confirmation each time replacing <pattern1> with <pattern2>: in Normal mode, ":%s/<pattern1>/<pattern2>/gc"
 
 # special characters: in Insert mode, <Ctrl+k> -> mod key -> letter

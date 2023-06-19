@@ -151,6 +151,7 @@ fi
 
 # create body
 BODY="\n## INIT\n\n"
+BODY+="# general\nNULL=/dev/null\nERR=/dev/stderr\n\n"
 BODY+="# control for aliases\nECHO=\"\$(which echo) -e\"\n\n"
 BODY+="# define usage\nusage() {\n  \$ECHO \"Usage: $SCRIPTNAME [-h|OPTS] <ARGS>\"\n  \$ECHO \"$DESCRIPTION\"\n  \$ECHO\n  \$ECHO \"Options:\"\n  \$ECHO \"  -h\\\tShow this help message and exit\"\n  \$ECHO\n}\n\n"
 BODY+="# process options\nwhile getopts \"h\" OPTIONS; do\n  case \$OPTIONS in\n    h)\n      usage\n      exit 10\n      ;;\n    *)\n      \$ECHO\n      usage\n      exit 11\n      ;;\n  esac\ndone\n# shift \$((OPTIND-1)) # uncomment for options with args\n\n"
