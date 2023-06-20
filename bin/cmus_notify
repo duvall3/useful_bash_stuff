@@ -1,0 +1,116 @@
+#!/bin/bash
+# cmus_notify -- Display title, album, and artist information about the current cmus track in a Zenity notification
+# USAGE: cmus_notify [-h]
+# ~ Mark J. Duvall ~ duvall3.git@gmail.com ~ 06/2023 ~ #
+
+# Copyright (C) 2023 Mark J. Duvall / T. Rocks Science
+# 
+#     This program is free software: you can redistribute it and/or modify
+#     it under the terms of the GNU General Public License as published by
+#     the Free Software Foundation, either version 3 of the License, or
+#     (at your option) any later version.
+# 
+#     This program is distributed in the hope that it will be useful,
+#     but WITHOUT ANY WARRANTY; without even the implied warranty of
+#     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#     GNU General Public License for more details.
+# 
+#     You should have received a copy of the GNU General Public License
+#     along with this program.  If not, see <http://www.gnu.org/licenses/>.
+# 
+
+
+## INIT
+
+# general
+NULL=/dev/null
+ERR=/dev/stderr
+
+# control for aliases
+ECHO="$('which' echo) -e"
+AWK=$('which' awk)
+AWK=${AWK:-$('which' gawk)}
+AWK=${AWK:-$('which' mawk)}
+CMUS_REMOTE=$('which' cmus-remote)
+GREP="$('which' grep) --color=AUTO -iIE"
+
+# other init
+TEMPFILE=$HOME/temp/cmus_current.txt
+
+# define usage
+usage() {
+  $ECHO "Usage: cmus_notify [-h]"
+  $ECHO "Display title, album, and artist information about the current cmus track in a Zenity notification"
+  $ECHO
+  $ECHO "Options:"
+  $ECHO "  -h\tShow this help message and exit"
+  $ECHO
+}
+
+# process options
+while getopts "h" OPTIONS; do
+  case $OPTIONS in
+    h)
+      usage
+      exit 10
+      ;;
+    *)
+      $ECHO
+      usage
+      exit 11
+      ;;
+  esac
+done
+# shift $((OPTIND-1)) # uncomment for options with args
+
+
+## MAIN
+
+# create zenity notification
+exec 3> >(zenity --notification --display=:0.0 --listen)
+
+# MAIN LOOP
+while true; do
+
+  # # cmus check
+  # if ! pgrep cmus &> /dev/null; then exit 0; fi
+
+# retrieve old track info
+  PREV_TRACK=$($AWK '$2 ~ /title/ {$1=""; $2=""; print $0}' $TEMPFILE | sed 's/^\ \+//')
+  PREV_ALBUM=$($AWK '$2 ~ /album/ {$1=""; $2=""; print $0}' $TEMPFILE | sed 's/^\ \+//')
+  PREV_ARTIST=$($AWK '$2 ~ /artist/ {$1=""; $2=""; print $0}' $TEMPFILE | sed 's/^\ \+//')
+  if [[ $PREV_TRACK = "" ]]; then PREV_TRACK="Unknown"; fi
+  if [[ $PREV_ALBUM = "" ]]; then PREV_ALBUM="Unknown"; fi
+  if [[ $PREV_ARTIST = "" ]]; then PREV_ARTIST="Unknown"; fi
+  # echo -e "Last Playing: \"$PREV_TRACK\" by \"$PREV_ARTIST\" on \"$PREV_ALBUM\"" #debug
+
+  # retrieve new track info
+  $CMUS_REMOTE -Q | $GREP -w "title|album|artist" > $TEMPFILE
+  NEW_TRACK=$($AWK '$2 ~ /title/ {$1=""; $2=""; print $0}' $TEMPFILE | sed 's/^\ \+//')
+  NEW_ALBUM=$($AWK '$2 ~ /album/ {$1=""; $2=""; print $0}' $TEMPFILE | sed 's/^\ \+//')
+  NEW_ARTIST=$($AWK '$2 ~ /artist/ {$1=""; $2=""; print $0}' $TEMPFILE | sed 's/^\ \+//')
+  if [[ $NEW_TRACK = "" ]]; then NEW_TRACK="Unknown"; fi
+  if [[ $NEW_ALBUM = "" ]]; then NEW_ALBUM="Unknown"; fi
+  if [[ $NEW_ARTIST = "" ]]; then NEW_ARTIST="Unknown"; fi
+  # echo -e "Now Playing: \"$NEW_TRACK\" by \"$NEW_ARTIST\" on \"$NEW_ALBUM\"" #debug
+
+  # create track-info string
+  NEW_INFO="$NEW_TRACK\n$NEW_ARTIST  |  $NEW_ALBUM"
+
+  # update Zenity notification
+  ZENMSG="message: $NEW_INFO"
+  if [[ $PREV_TRACK != $NEW_TRACK ]]; then
+    echo $ZENMSG >&3
+  fi
+
+  sleep 10s
+
+done	# end main loop
+
+
+## EXIT
+
+# all pau!   )
+EXIT_STATUS=${EXIT_STATUS:-0}
+exit $EXIT_STATUS
+
