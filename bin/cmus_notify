@@ -76,16 +76,19 @@ while true; do
   # if ! pgrep cmus &> /dev/null; then exit 0; fi
 
 # retrieve old track info
+  PREV_FILE=$($AWK '$1 ~ /file/ {$1=""; $2=""; print $2}' $TEMPFILE | sed 's/^\ \+//')
   PREV_TRACK=$($AWK '$2 ~ /title/ {$1=""; $2=""; print $0}' $TEMPFILE | sed 's/^\ \+//')
   PREV_ALBUM=$($AWK '$2 ~ /album/ {$1=""; $2=""; print $0}' $TEMPFILE | sed 's/^\ \+//')
   PREV_ARTIST=$($AWK '$2 ~ /artist/ {$1=""; $2=""; print $0}' $TEMPFILE | sed 's/^\ \+//')
+  if [[ $PREV_FILE = "" ]]; then PREV_FILE="Unknown"; fi
   if [[ $PREV_TRACK = "" ]]; then PREV_TRACK="Unknown"; fi
   if [[ $PREV_ALBUM = "" ]]; then PREV_ALBUM="Unknown"; fi
   if [[ $PREV_ARTIST = "" ]]; then PREV_ARTIST="Unknown"; fi
   # echo -e "Last Playing: \"$PREV_TRACK\" by \"$PREV_ARTIST\" on \"$PREV_ALBUM\"" #debug
 
   # retrieve new track info
-  $CMUS_REMOTE -Q | $GREP -w "title|album|artist" > $TEMPFILE
+  $CMUS_REMOTE -Q | $GREP -w "file|title|album|artist" > $TEMPFILE
+  NEW_FILE=$($AWK '$1 ~ /file/ {print $2}' $TEMPFILE | sed 's/^\ \+//')
   NEW_TRACK=$($AWK '$2 ~ /title/ {$1=""; $2=""; print $0}' $TEMPFILE | sed 's/^\ \+//')
   NEW_ALBUM=$($AWK '$2 ~ /album/ {$1=""; $2=""; print $0}' $TEMPFILE | sed 's/^\ \+//')
   NEW_ARTIST=$($AWK '$2 ~ /artist/ {$1=""; $2=""; print $0}' $TEMPFILE | sed 's/^\ \+//')
@@ -95,7 +98,11 @@ while true; do
   # echo -e "Now Playing: \"$NEW_TRACK\" by \"$NEW_ARTIST\" on \"$NEW_ALBUM\"" #debug
 
   # create track-info string
-  NEW_INFO="$NEW_TRACK\n$NEW_ARTIST  |  $NEW_ALBUM"
+  if [[ $NEW_TRACK = "Unknown" ]]; then
+    NEW_INFO="File: $NEW_FILE"
+  else
+    NEW_INFO="$NEW_TRACK\n$NEW_ARTIST  |  $NEW_ALBUM"
+  fi
 
   # update Zenity notification
   ZENMSG="message: $NEW_INFO"
