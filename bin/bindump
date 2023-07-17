@@ -1,0 +1,100 @@
+#!/bin/bash
+# bindump -- Convert ASCII to binary or vice versa
+# USAGE: bindump -[h|sr] FILE
+# ~ Adapted by Mark J. Duvall ~ duvall3.git@gmail.com ~ 07/2023 ~ #
+# Adapted from this post: https://unix.stackexchange.com/questions/98948/ascii-to-binary-and-binary-to-ascii-conversion-tools
+# Answer from user: https://unix.stackexchange.com/users/22565/st%C3%A9phane-chazelas
+
+# See unix.stackexchange.com for copyright relating to public posts.
+# My modifications are subject to the copyright below.
+
+#Copyright (C) 2023 Mark J. Duvall / T. Rocks Science
+#
+#    This program is free software: you can redistribute it and/or modify
+#    it under the terms of the GNU General Public License as published by
+#    the Free Software Foundation, either version 3 of the License, or
+#    (at your option) any later version.
+#
+#    This program is distributed in the hope that it will be useful,
+#    but WITHOUT ANY WARRANTY; without even the implied warranty of
+#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#    GNU General Public License for more details.
+#
+#    You should have received a copy of the GNU General Public License
+#    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+
+## INIT
+
+# general
+NULL=/dev/null
+ERR=/dev/stderr
+
+# control for aliases
+ECHO="$(which echo) -e"
+CAT="$(which cat)"
+PERL="$(which perl) -lpe"
+
+# define usage
+usage() {
+  $ECHO "Usage: bindump -[h|sr] FILE"
+  $ECHO "Convert ASCII to binary (default) or vice versa"
+  $ECHO
+  $ECHO "Options:"
+  $ECHO "  -h\tShow this help message and exit"
+  $ECHO "  -s\tPrint (or read) a space between each byte"
+  $ECHO "  -r\tRevert from binary to ASCII"
+  $ECHO
+}
+
+# process options
+SPACES=false
+REVERT=false
+while getopts "hsr" OPTIONS; do
+  case $OPTIONS in
+    h)
+      usage
+      exit 10
+      ;;
+    s)
+      SPACES=true
+      ;;
+    r)
+      REVERT=true
+      ;;
+    *)
+      $ECHO
+      usage
+      exit 11
+      ;;
+  esac
+done
+shift $((OPTIND-1)) # uncomment for options with args
+
+
+## MAIN
+
+FILE=$1
+if $SPACES; then
+  ASC2BIN="'\$_=join \" \", unpack\"(B8)*\"'"
+  BIN2ASC="'\$_=pack\"(B8)*\",@F'"
+else
+  ASC2BIN="'\$_=unpack\"B*\"'"
+  BIN2ASC="'\$_=pack\"B*\",\$_'"
+fi
+if ! $REVERT; then		# ASCII to binary
+  PERLCMD="$CAT $FILE | $PERL $ASC2BIN"
+else				# binary to ASCII
+  if $SPACES; then PERL="$(which perl) -lape"; fi
+  PERLCMD="$CAT $FILE | $PERL $BIN2ASC"
+fi
+# echo $PERLCMD #debug
+eval $PERLCMD
+
+
+## EXIT
+
+# all pau!   )
+EXIT_STATUS=${EXIT_STATUS:-0}
+exit $EXIT_STATUS
+
