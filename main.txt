@@ -50,6 +50,9 @@ pkill -9 -t <tty>
 # list man pages by section (e.g., section 1):
 man -s 1 -k .
 
+# list shell builtins (using only a shell builtin):
+compgen -b
+
 # "target" option for copy & move: "cp -t <target_directory> <file1> [file2 file3 ...]" (same for "mv")
 #   -- this helps prevent mixups when copying/moving multiple files (or directories)
 #   -- especially useful when piping multiple files into cp/mv, since some piping syntaxes will screw up the order
