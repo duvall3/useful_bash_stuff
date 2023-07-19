@@ -37,7 +37,7 @@ fi
 INTERVAL=${1:-5s}
 PRINTLINES=${2:-10}
 COLORIZE=${3:-true}
-HEADING="Thermal Info (°C)"
+HEADING="# Thermal Info (°C) #"
 COLUMN_HEADINGS="WLAN SSD CPU_pkg CPU_cores Fan(RPM) LocalTime"
 DEFAULT_THERMFILE=$HOME/useful_bash_stuff/bin/thermal.txt
 if [ -d $HOME/useful_bash_stuff ]; then
@@ -103,7 +103,10 @@ while true; do
   else
     column -t <(cat $THERMFILE | tail --lines=$PRINTLINES) <(head -2 $THERMFILE | tail -1) # no color
   fi
+  echo
+  echo "#####################"
   head -n 1 $THERMFILE
+  echo "#####################"
 
   # rest
   sleep $INTERVAL
