@@ -234,3 +234,7 @@ alias netdev='nmcli device status'
 # - edit last open file/buffer: in Normal mode, ':e #' or 'CTRL-^'
 # - edit next (previous) file/buffer: in Normal mode, ':bn' (':bN')
 # - edit Nth open file/buffer: in Normal mode, ':Nb' or 'NCTRL-^'
+
+# start a script that is executable from the shell prompt: use the following line at the beginning of your script:
+#!/usr/bin/vim -nNesc:source%
+
