@@ -1,6 +1,7 @@
 #!/usr/bin/vim -nNesc:source%
 " single_manuscript -- convert a LaTeX project into a single .tex file
-" -- USAGE (from shell prompt): ./single_manuscript.vim [OUTFILE=manuscript.tex]
+" -- USAGE (from shell prompt): single_manuscript.vim [OUTFILE]
+" -- OUTFILE defaults to 'manuscript.tex'
 " -- I'm sure there are more elegant ways to do most or all of this; but it works,
 "  	so here it is.
 " ~ Mark J. Duvall ~ duvall3.git@gmail.com ~ 07/2023 ~ "
