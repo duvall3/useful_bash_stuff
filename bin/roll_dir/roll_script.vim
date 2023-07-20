@@ -1,6 +1,6 @@
 #!/usr/bin/vim -nNesc:source%
 " roll_script -- same as the others
-"' Usage: roll.vim 000000000000000000
+"' Usage (from shell prompt): roll_script.vim [K] <N> [B]
 " ~ Mark J. Duvall ~ mjduvall@hawaii.edu ~ 11/2021 ~ "
 
 "Copyright (C) 2021 Mark J. Duvall / T. Rocks Science
@@ -24,8 +24,7 @@ set verbose=1
 
 " args
 if ( (argc()<2) || (argc()>4) )
-  echon "Usage: roll_script.vim <K> <N> [B]\n"
-  echon "  or   roll_script.vim <N>\n"
+  echon "Usage: roll_script.vim [K] <N> [B]\n"
   qall!
 endif
 let s:k = str2nr(argv(1))

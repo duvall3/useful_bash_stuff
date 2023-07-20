@@ -1,5 +1,5 @@
 " roll -- same as the others
-"' Usage: :source roll.vim, then call as any other function
+"' Usage: `:source roll.vim`, then call using `:echom Roll(...)`
 " ~ Mark J. Duvall ~ mjduvall@hawaii.edu ~ 11/2021 ~ "
 
 "Copyright (C) 2021 Mark J. Duvall / T. Rocks Science
