@@ -30,7 +30,9 @@
 
 " args
 if ( argc()>2 )
-  echo "Usage: single_manuscript.vim [OUTFILE=manuscript.tex]"
+  set viminfo=""
+  set verbose=1
+  echo "Usage: single_manuscript.vim [OUTFILE=manuscript.tex]\n"
   qall!
 endif
 if ( argc()==2 )
