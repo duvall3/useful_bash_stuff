@@ -5,13 +5,27 @@
 " -- I'm sure there are more elegant ways to do most or all of this; but it works,
 "  	so here it is.
 " ~ Mark J. Duvall ~ duvall3.git@gmail.com ~ 07/2023 ~ "
-" NOTES -- After running this script, use the following to back up and test
+" NOTES
+" -- After running this script, use the following to back up and test
 " 	your project:
 " 		cp main.tex main.tex.orig
 " 		cp manuscript.tex main.tex
 " 		make clean && make
 " 	To restore the original main.tex:
 " 		cp main.tex.orig main.tex
+" -- This script assumes a project structure similar to the following:
+" 	project_main/
+" 	├── figures
+" 	│   └── figure1.png
+" 	│   └── figure2.png
+" 	├── main.tex
+" 	├── Makefile
+" 	├── Refs.bib
+" 	└── sections
+" 	    ├── section1.tex
+" 	    ├── section2.tex
+" 	    └── section3.tex
+
 
 "Copyright (C) 2023 Mark J. Duvall / T. Rocks Science
 "
