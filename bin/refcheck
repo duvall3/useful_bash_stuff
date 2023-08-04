@@ -1,0 +1,83 @@
+#!/bin/bash
+# refcheck -- Scan a PDF for possible missing citations, assuming AIP-style formatting (i.e., citations appear as [1], [2], etc.)
+# USAGE: refcheck [-h|-p RANGE] <FILE>...
+# ~ Mark J. Duvall ~ duvall3.git@gmail.com ~ 08/2023 ~ #
+
+# Copyright (C) 2023 Mark J. Duvall / T. Rocks Science
+# 
+#     This program is free software: you can redistribute it and/or modify
+#     it under the terms of the GNU General Public License as published by
+#     the Free Software Foundation, either version 3 of the License, or
+#     (at your option) any later version.
+# 
+#     This program is distributed in the hope that it will be useful,
+#     but WITHOUT ANY WARRANTY; without even the implied warranty of
+#     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#     GNU General Public License for more details.
+# 
+#     You should have received a copy of the GNU General Public License
+#     along with this program.  If not, see <http://www.gnu.org/licenses/>.
+# 
+
+
+## INIT
+
+# general
+NULL=/dev/null
+ERR=/dev/stderr
+
+# control for aliases
+ECHO="$(which echo) -e"
+PDFG=$(which pdfgrep)
+if [ ! $PDFG ]; then $ECHO "The program 'pdfgrep' is required by this script." > $ERR; exit 3; fi
+
+# define usage
+usage() {
+  $ECHO "Usage: refcheck [-h|-p RANGE] <FILE>..."
+  $ECHO "Scan a PDF for possible missing citations, assuming AIP-style formatting (i.e., citations appear as [1], [2], etc.)"
+  $ECHO
+  $ECHO "Options:"
+  $ECHO "  -h\t\tShow this help message and exit"
+  $ECHO "  -p RANGE\tSpecify a page range; e.g., '-p 2-5'"
+  $ECHO
+}
+
+# process options
+declare RANGE
+while getopts "hp:" OPTIONS; do
+  case $OPTIONS in
+    h)
+      usage
+      exit 10
+      ;;
+    p)
+      RANGE=$OPTARG
+      ;;
+    *)
+      $ECHO
+      usage
+      exit 11
+      ;;
+  esac
+done
+shift $((OPTIND-1)) # uncomment for options with args
+
+
+## MAIN
+
+FILELIST=$@
+if [ $RANGE ]; then
+  PDFG+=" --page-range=$RANGE"
+  shift
+fi
+$PDFG "\?" ${FILELIST[*]}
+$PDFG "\[[^[:digit:]]*\]" ${FILELIST[*]}
+EXIT_STATUS=$?
+
+
+## EXIT
+
+# all pau!   )
+EXIT_STATUS=${EXIT_STATUS:-0}
+exit $EXIT_STATUS
+
