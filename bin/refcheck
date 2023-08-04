@@ -28,8 +28,11 @@ ERR=/dev/stderr
 
 # control for aliases
 ECHO="$(which echo) -e"
+GREP="$(which grep) -E --color=auto"
 PDFG=$(which pdfgrep)
 if [ ! $PDFG ]; then $ECHO "The program 'pdfgrep' is required by this script." > $ERR; exit 3; fi
+SORT=$(which sort)
+UNIQ=$(which uniq)
 
 # define usage
 usage() {
@@ -70,8 +73,8 @@ if [ $RANGE ]; then
   PDFG+=" --page-range=$RANGE"
   shift
 fi
-$PDFG "\?" ${FILELIST[*]}
-$PDFG "\[[^[:digit:]]*\]" ${FILELIST[*]}
+REGEX="\[(\?|[^[:digit:]]*)\]"
+$PDFG $REGEX ${FILELIST[*]} | $SORT -n | $UNIQ | $GREP $REGEX
 EXIT_STATUS=$?
 
 
