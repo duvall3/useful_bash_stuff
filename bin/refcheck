@@ -1,6 +1,6 @@
 #!/bin/bash
 # refcheck -- Scan a PDF for possible missing citations, assuming AIP-style formatting (i.e., citations appear as [1], [2], etc.)
-# USAGE: refcheck [-h|-p RANGE] <FILE>...
+# USAGE: refcheck [-h|-p RANGE -l LASTLINE] <FILE>...
 # ~ Mark J. Duvall ~ duvall3.git@gmail.com ~ 08/2023 ~ #
 
 # Copyright (C) 2023 Mark J. Duvall / T. Rocks Science
@@ -29,25 +29,29 @@ ERR=/dev/stderr
 # control for aliases
 ECHO="$(which echo) -e"
 GREP="$(which grep) -E --color=auto"
+AWK=$(which awk)
+AWK=${AWK:-$(which gawk)}
+AWK=${AWK:-$(which mawk)}
+if [ ! $AWK ]; then $ECHO "The program 'awk' is required by this script." > $ERR; exit 3; fi
 PDFG=$(which pdfgrep)
 if [ ! $PDFG ]; then $ECHO "The program 'pdfgrep' is required by this script." > $ERR; exit 3; fi
-SORT=$(which sort)
-UNIQ=$(which uniq)
 
 # define usage
 usage() {
-  $ECHO "Usage: refcheck [-h|-p RANGE] <FILE>..."
+  $ECHO "Usage: refcheck [-h|-p RANGE -l LASTLINE] <FILE>..."
   $ECHO "Scan a PDF for possible missing citations, assuming AIP-style formatting (i.e., citations appear as [1], [2], etc.)"
   $ECHO
   $ECHO "Options:"
   $ECHO "  -h\t\tShow this help message and exit"
   $ECHO "  -p RANGE\tSpecify a page range; e.g., '-p 2-5'"
+  $ECHO "  -l LASTLINE\tIf the PDF has line numbers, specify the final line to check"
+  $ECHO "  \t\t  (this makes it easy to avoid printing the bibliography)"
   $ECHO
 }
 
 # process options
-declare RANGE
-while getopts "hp:" OPTIONS; do
+declare RANGE LASTLINE
+while getopts "hp:l:" OPTIONS; do
   case $OPTIONS in
     h)
       usage
@@ -55,6 +59,9 @@ while getopts "hp:" OPTIONS; do
       ;;
     p)
       RANGE=$OPTARG
+      ;;
+    l)
+      LASTLINE=$OPTARG
       ;;
     *)
       $ECHO
@@ -74,7 +81,9 @@ if [ $RANGE ]; then
   shift
 fi
 REGEX="\[(\?|[^[:digit:]]*)\]"
-$PDFG $REGEX ${FILELIST[*]} | $SORT -n | $UNIQ | $GREP $REGEX
+for FILE in ${FILELIST[*]}; do
+  $PDFG $REGEX $FILE | $AWK -v lastline=$LASTLINE '$1<=lastline' | $GREP $REGEX
+done
 EXIT_STATUS=$?
 
 
