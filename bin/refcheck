@@ -82,7 +82,11 @@ if [ $RANGE ]; then
 fi
 REGEX="\[(\?|[^[:digit:]]*)\]"
 for FILE in ${FILELIST[*]}; do
-  $PDFG $REGEX $FILE | $AWK -v lastline=$LASTLINE '$1<=lastline' | $GREP $REGEX
+  if [ $LASTLINE ]; then
+    $PDFG $REGEX $FILE | $AWK -v lastline=$LASTLINE '$1<=lastline' | $GREP $REGEX
+  else
+    $PDFG $REGEX $FILE
+  fi
 done
 EXIT_STATUS=$?
 
