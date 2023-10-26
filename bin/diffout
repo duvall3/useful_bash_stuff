@@ -1,0 +1,85 @@
+#!/bin/bash
+# diffout -- Compare the outputs of a pair of commands and report whether they differ
+# USAGE: diffout [-h] <COMMAND1> <COMMAND2>
+# ~ Mark J. Duvall ~ duvall3.git@gmail.com ~ 10/2023 ~ #
+
+# Copyright (C) 2023 Mark J. Duvall / T. Rocks Science
+# 
+#     This program is free software: you can redistribute it and/or modify
+#     it under the terms of the GNU General Public License as published by
+#     the Free Software Foundation, either version 3 of the License, or
+#     (at your option) any later version.
+# 
+#     This program is distributed in the hope that it will be useful,
+#     but WITHOUT ANY WARRANTY; without even the implied warranty of
+#     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#     GNU General Public License for more details.
+# 
+#     You should have received a copy of the GNU General Public License
+#     along with this program.  If not, see <http://www.gnu.org/licenses/>.
+# 
+
+
+## INIT
+
+# general
+NULL=/dev/null
+ERR=/dev/stderr
+
+# control for aliases
+ECHO="$(which echo) -e"
+DIFF="$(which diff) -q"
+
+# define usage
+usage() {
+  $ECHO "Usage: diffout [-h] <COMMAND1> <COMMAND2>"
+  $ECHO "Compare the outputs of a pair of commands and report whether they differ"
+  $ECHO "Note: Multi-word commands must be quoted"
+  $ECHO
+  $ECHO "Options:"
+  $ECHO "  -h\tShow this help message and exit"
+  $ECHO
+}
+
+# process options
+while getopts "h" OPTIONS; do
+  case $OPTIONS in
+    h)
+      usage
+      exit 10
+      ;;
+    *)
+      $ECHO
+      usage
+      exit 11
+      ;;
+  esac
+done
+# shift $((OPTIND-1)) # uncomment for options with args
+
+# process args
+if [ $# -ne 2 ]; then usage; exit 3; fi
+
+
+## MAIN
+
+# run commands and compare output
+$DIFF <($1) <($2) > $NULL
+EXIT_STATUS=$?
+
+# report results
+if [ $EXIT_STATUS -eq 0 ]; then
+  $ECHO "Outputs match."
+elif [ $EXIT_STATUS -eq 1 ]; then
+  $ECHO "Outputs differ."
+else
+  $ECHO "Error: '$DIFF' returned exit status $EXIT_STATUS." > $ERR
+fi
+
+
+## EXIT
+
+# all pau!   )
+EXIT_STATUS=${EXIT_STATUS:-0}
+exit $EXIT_STATUS
+
