@@ -1,6 +1,6 @@
 #!/bin/bash
 # diffout -- Compare the outputs of a pair of commands and report whether they differ
-# USAGE: diffout [-h] <COMMAND1> <COMMAND2>
+# USAGE: diffout [-hq] <COMMAND1> <COMMAND2>
 # ~ Mark J. Duvall ~ duvall3.git@gmail.com ~ 10/2023 ~ #
 
 # Copyright (C) 2023 Mark J. Duvall / T. Rocks Science
@@ -29,24 +29,30 @@ ERR=/dev/stderr
 # control for aliases
 ECHO="$(which echo) -e"
 DIFF="$(which diff) -q"
+CUT=$(which cut)
 
 # define usage
 usage() {
-  $ECHO "Usage: diffout [-h] <COMMAND1> <COMMAND2>"
-  $ECHO "Compare the outputs of a pair of commands and report whether they differ"
-  $ECHO "Note: Multi-word commands must be quoted"
-  $ECHO
+  $ECHO "Usage: diffout [-hq] <COMMAND1> <COMMAND2>"
+  $ECHO "Compare the outputs of a pair of commands and report whether they differ."
+  $ECHO "  Multi-word commands must be quoted."
+  $ECHO "  Returns 0 if outputs match and 1 if outputs differ."
   $ECHO "Options:"
   $ECHO "  -h\tShow this help message and exit"
+  $ECHO "  -q\tSuppress output (useful in scripts that only need the exit status"
   $ECHO
 }
 
 # process options
-while getopts "h" OPTIONS; do
+PRINT_REPORT=true
+while getopts "hq" OPTIONS; do
   case $OPTIONS in
     h)
       usage
       exit 10
+      ;;
+    q)
+      PRINT_REPORT=FALSE
       ;;
     *)
       $ECHO
@@ -63,18 +69,67 @@ if [ $# -ne 2 ]; then usage; exit 3; fi
 
 ## MAIN
 
-# run commands and compare output
-$DIFF <($1) <($2) > $NULL
-EXIT_STATUS=$?
+# # DIFF VERSION
+# # define report()
+# report() {
+#   if [ $1 -eq 0 ]; then
+#     $ECHO "Outputs match."
+#   elif [ $1 -eq 1 ]; then
+#     $ECHO "Outputs differ."
+#   else
+#     $ECHO "Error: '$DIFF' returned exit status $1." > $ERR
+#   fi
+# }
+# # run commands and compare output
+# $DIFF <($1) <($2) > $NULL
+# DIFF_EXIT=$?
+# # report results
+# if $PRINT_REPORT; then report $DIFF_EXIT; fi
 
-# report results
-if [ $EXIT_STATUS -eq 0 ]; then
-  $ECHO "Outputs match."
-elif [ $EXIT_STATUS -eq 1 ]; then
-  $ECHO "Outputs differ."
-else
-  $ECHO "Error: '$DIFF' returned exit status $EXIT_STATUS." > $ERR
+# TEST VERSION
+# define report()
+report() {
+  if [ $1 -eq 0 ]; then
+    $ECHO "Outputs match."
+  else
+    $ECHO "Outputs differ."
+  fi
+}
+# run commands and compare output
+CMD1_OUT=$($1 2> $NULL)
+CMD1_EXIT=$?
+CMD2_OUT=$($2 2> $NULL)
+CMD2_EXIT=$?
+# check for missing commands
+MISSINGCO=false
+if [ $CMD1_EXIT -eq 127 ]; then
+  MISSING_WORD=$($ECHO $1 | $CUT -d ' ' -f 1)
+  $ECHO "Error: Command \"$MISSING_WORD\" not found." > $ERR
+  MISSINGCO=true
 fi
+if [ $CMD2_EXIT -eq 127 ]; then
+  MISSING_WORD=$($ECHO $2 | $CUT -d ' ' -f 1)
+  $ECHO "Error: Command \"$MISSING_WORD\" not found." > $ERR
+  MISSINGCO=true
+fi
+if $MISSINGCO; then exit 127; fi
+# check for empty outputs
+if [[ $CMD1_OUT ]]; then
+  if [[ ! $CMD2_OUT ]]; then $ECHO "Warning: Second output is empty." > $ERR; fi
+elif [[ $CMD2_OUT ]]; then
+  $ECHO "Warning: First output is empty." > $ERR
+else
+  $ECHO "Both outputs are empty."
+  exit 0
+fi
+# compare outputs
+if [[ $CMD1_OUT = $CMD2_OUT ]]; then
+  EXIT_STATUS=0
+else
+  EXIT_STATUS=1
+fi
+# report results
+if $PRINT_REPORT; then report $EXIT_STATUS; fi
 
 
 ## EXIT
