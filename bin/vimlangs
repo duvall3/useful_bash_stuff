@@ -28,11 +28,18 @@ ERR=/dev/stderr
 
 # control for aliases
 ECHO="$(which echo) -e"
+VIM=$(which vim)
+AWK=$(which awk)
+AWK=${AWK:-$(which gawk)}
+AWK=${AWK:-$(which mawk)}
+if [ ! $AWK ]; then $ECHO "Error: This script requires one of the Awk programs (awk, gawk, or mawk). Exiting." > $ERR; fi
 
 # define usage
 usage() {
-  $ECHO "Usage: vimlangs"
-  $ECHO "Simple script to list (system-wide) language syntaxes availiable to Vim"
+  $ECHO "Usage: vimlangs [-h]"
+  $ECHO "Simple script to list (system-wide) language syntaxes availiable to Vim."
+  $ECHO "  Lists are usually long, so you may want to write to a file"
+  $ECHO "  or pipe to a pager such as 'less' or 'more'."
   $ECHO
   $ECHO "Options:"
   $ECHO "  -h\tShow this help message and exit"
@@ -59,11 +66,11 @@ done
 ## MAIN
 
 # path info
-VIMRT=/usr/share/vim/vim81 ## FIXME : HC for now
-VIMSYNDIR="$VIMRT"/syntax
+VIMRT=$($VIM -e --cmd 'echo $VIMRUNTIME | q' 2>&1 > $NULL | sed 's@\r@@')
+VIMSYNDIR=$VIMRT/syntax
 
 # print list
-awk '$2 ~ /Language:/ {split(FILENAME, FILEID, /\//);$1=""; $2=""; printf("%16s\t%s\n",FILEID[length(FILEID)],$0)}'  $VIMSYNDIR/*.vim
+$AWK '$2 ~ /Language:/ {split(FILENAME, FILEID, /\//); $1=""; $2=""; printf("%16s\t%s\n",FILEID[length(FILEID)],$0)}'  $VIMSYNDIR/*.vim
 
 
 ## EXIT

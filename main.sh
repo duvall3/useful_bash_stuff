@@ -175,6 +175,14 @@ alias ndw='nmcli device wifi'
 alias netdev='nmcli device status'
 
 
+# BASH-Vim Combo
+# ~~~~~~~~~~~~~~~~
+
+# print output of vim command to stdout of invoking shell:
+vim -e --cmd '<VIMCOMMAND> | q' 2>&1 > /dev/null | sed 's@\r@@'
+# example -- extract $VIMRUNTIME from vim into BASH variable:
+VIMRT=$(vim -e --cmd 'echo $VIMRUNTIME | q' 2>&1 > /dev/null | sed 's@\r@@')
+
 
 # Vim
 # ~~~~~~~~~~
