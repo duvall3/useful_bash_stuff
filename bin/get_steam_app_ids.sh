@@ -35,6 +35,7 @@ BASENAME=$(which basename)
 DIRNAME=$(which dirname)
 CAT=$(which cat)
 SORT=$(which sort)
+UNIQ=$(which uniq)
 COL="$(which column) -t"
 
 # define usage
@@ -93,7 +94,7 @@ for DIR in $DIR_LIST; do
     $ECHO
   done
 
-done | $SORT | $COL
+done | $SORT | $UNIQ | $COL
 EXIT_STATUS=$?
 
 
