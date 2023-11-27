@@ -1,0 +1,76 @@
+#!/bin/bash
+# pathgrep -- Search for commands matching a (regex) PATTERN in your current $PATH
+# USAGE: pathgrep [-h|OPTS] <PATTERN>...
+# ~ Mark J. Duvall / T. Rocks Science ~ duvall3.git@gmail.com ~ 11/2023 ~ #
+
+
+## INIT
+
+# general
+NULL=/dev/null
+ERR=/dev/stderr
+
+# control for aliases
+ECHO="$(which echo) -e"
+TR=$(which tr)
+LC="$(which wc) -l"
+GREP="$(which grep) -iIE --color=auto"
+
+# define usage
+usage() {
+  $ECHO "Usage: pathgrep [-h|OPTS] <PATTERN>..."
+  $ECHO 'Search for commands matching a (regex) PATTERN in your current $PATH'
+  $ECHO
+  $ECHO "Options:"
+  $ECHO "  -h\tShow this help message and exit"
+  $ECHO
+}
+
+# process options
+while getopts "h" OPTIONS; do
+  case $OPTIONS in
+    h)
+      usage
+      exit 10
+      ;;
+    *)
+      $ECHO
+      usage
+      exit 11
+      ;;
+  esac
+done
+# shift $((OPTIND-1)) # uncomment for options with args
+
+# arg check
+if [ $# -lt 1 ]; then
+  usage
+  exit 5
+fi
+
+
+## MAIN
+
+# get directories in $PATH
+DIRS=( $($ECHO $PATH | $TR : "\n") )
+
+# loop over patterns
+for PAT in $@; do
+  # loop over directories
+  for DIR in ${DIRS[*]}; do
+    # $ECHO $DIR #debug
+    NFILES=$('ls' $DIR | $LC)
+    # $ECHO $NFILES #debug
+    if [ $NFILES -gt 0 ]; then
+      'ls' -d $DIR/* | $GREP "$PAT"
+    fi
+  done
+done
+
+
+## EXIT
+
+# all pau!   )
+EXIT_STATUS=${EXIT_STATUS:-0}
+exit $EXIT_STATUS
+
