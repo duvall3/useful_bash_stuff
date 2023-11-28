@@ -1,6 +1,10 @@
 #!/bin/bash
-# diffout -- Compare the outputs of a pair of commands and report whether they differ
-# USAGE: diffout [-hq] <COMMAND1> <COMMAND2>
+# diffout -- Compare the outputs of a pair of commands and report whether they differ.
+# NOTE: This simple script is best used for quick checks with light programs;
+#   it is NOT RECOMMENDED for commands that will run extensive computations
+#   or produce large amounts of output.
+# NOTE: Depending on options, this script may run your commands twice.
+# USAGE: diffout -[h|d|y|q] <COMMAND1> <COMMAND2>
 # ~ Mark J. Duvall ~ duvall3.git@gmail.com ~ 10/2023 ~ #
 
 # Copyright (C) 2023 Mark J. Duvall / T. Rocks Science
@@ -28,31 +32,43 @@ ERR=/dev/stderr
 
 # control for aliases
 ECHO="$(which echo) -e"
-DIFF="$(which diff) -q"
+DIFF=$(which diff)
 CUT=$(which cut)
 
 # define usage
 usage() {
-  $ECHO "Usage: diffout [-hq] <COMMAND1> <COMMAND2>"
+  $ECHO "Usage: diffout -[h|d|y|q] <COMMAND1> <COMMAND2>"
   $ECHO "Compare the outputs of a pair of commands and report whether they differ."
   $ECHO "  Multi-word commands must be quoted."
   $ECHO "  Returns 0 if outputs match and 1 if outputs differ."
   $ECHO "Options:"
   $ECHO "  -h\tShow this help message and exit"
+  $ECHO "  -d\tShow results in standard 'diff' format"
+  $ECHO "  -y\tShow results in 'diff -y' (side-by-side) format"
   $ECHO "  -q\tSuppress output (useful in scripts that only need the exit status"
   $ECHO
 }
 
 # process options
 PRINT_REPORT=true
-while getopts "hq" OPTIONS; do
+PRINT_FORMAT=""
+while getopts "hdyq" OPTIONS; do
   case $OPTIONS in
     h)
       usage
       exit 10
       ;;
+    d)
+      PRINT_FORMAT="-d"
+      shift
+      ;;
+    y)
+      PRINT_FORMAT="-y"
+      shift
+      ;;
     q)
-      PRINT_REPORT=FALSE
+      PRINT_REPORT=false
+      shift
       ;;
     *)
       $ECHO
@@ -64,29 +80,11 @@ done
 # shift $((OPTIND-1)) # uncomment for options with args
 
 # process args
-if [ $# -ne 2 ]; then usage; exit 3; fi
+if [ $# -gt 3 ]; then usage; exit 3; fi
 
 
 ## MAIN
 
-# # DIFF VERSION
-# # define report()
-# report() {
-#   if [ $1 -eq 0 ]; then
-#     $ECHO "Outputs match."
-#   elif [ $1 -eq 1 ]; then
-#     $ECHO "Outputs differ."
-#   else
-#     $ECHO "Error: '$DIFF' returned exit status $1." > $ERR
-#   fi
-# }
-# # run commands and compare output
-# $DIFF <($1) <($2) > $NULL
-# DIFF_EXIT=$?
-# # report results
-# if $PRINT_REPORT; then report $DIFF_EXIT; fi
-
-# TEST VERSION
 # define report()
 report() {
   if [ $1 -eq 0 ]; then
@@ -95,11 +93,20 @@ report() {
     $ECHO "Outputs differ."
   fi
 }
+
+##DEBUG: check args and options
+#echo "\$1 = \"$1\"" #debug
+#echo "\$2 = \"$2\"" #debug
+#echo "\$PRINT_REPORT = $PRINT_REPORT"
+#echo "\$PRINT_FORMAT = $PRINT_FORMAT"
+#exit 100 #debug
+
 # run commands and compare output
 CMD1_OUT=$($1 2> $NULL)
 CMD1_EXIT=$?
 CMD2_OUT=$($2 2> $NULL)
 CMD2_EXIT=$?
+
 # check for missing commands
 MISSINGCO=false
 if [ $CMD1_EXIT -eq 127 ]; then
@@ -113,6 +120,7 @@ if [ $CMD2_EXIT -eq 127 ]; then
   MISSINGCO=true
 fi
 if $MISSINGCO; then exit 127; fi
+
 # check for empty outputs
 if [[ $CMD1_OUT ]]; then
   if [[ ! $CMD2_OUT ]]; then $ECHO "Warning: Second output is empty." > $ERR; fi
@@ -122,14 +130,23 @@ else
   $ECHO "Both outputs are empty."
   exit 0
 fi
+
 # compare outputs
 if [[ $CMD1_OUT = $CMD2_OUT ]]; then
   EXIT_STATUS=0
 else
   EXIT_STATUS=1
 fi
+
 # report results
-if $PRINT_REPORT; then report $EXIT_STATUS; fi
+# if $PRINT_REPORT; then report $EXIT_STATUS; fi 	#ORIGINAL
+if $PRINT_REPORT; then
+  if [ -z $PRINT_FORMAT ]; then
+    report $EXIT_STATUS
+  else
+    $DIFF $PRINT_FORMAT <($1) <($2)
+  fi
+fi
 
 
 ## EXIT
