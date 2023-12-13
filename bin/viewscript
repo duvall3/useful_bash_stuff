@@ -1,0 +1,106 @@
+#!/bin/bash
+# viewscript -- View the source for any COMMAND that is a script
+# USAGE: viewscript [-h|OPTS] <COMMAND>...
+# ~ Mark J. Duvall ~ duvall3.git@gmail.com ~ 12/2023 ~ #
+
+# Copyright (C) 2023 Mark J. Duvall / T. Rocks Science
+# 
+#     This program is free software: you can redistribute it and/or modify
+#     it under the terms of the GNU General Public License as published by
+#     the Free Software Foundation, either version 3 of the License, or
+#     (at your option) any later version.
+# 
+#     This program is distributed in the hope that it will be useful,
+#     but WITHOUT ANY WARRANTY; without even the implied warranty of
+#     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#     GNU General Public License for more details.
+# 
+#     You should have received a copy of the GNU General Public License
+#     along with this program.  If not, see <http://www.gnu.org/licenses/>.
+# 
+
+
+## INIT
+
+# general
+NULL=/dev/null
+ERR=/dev/stderr
+
+# control for aliases
+ECHO="$(which echo) -e"
+
+# define usage
+usage() {
+  $ECHO "Usage: viewscript [-h|OPTS] <COMMAND>..."
+  $ECHO "View the source for any COMMAND that is a script"
+  $ECHO
+  $ECHO "Options:"
+  $ECHO "  -h\tShow this help message and exit"
+  $ECHO
+}
+
+# process options
+while getopts "h" OPTIONS; do
+  case $OPTIONS in
+    h)
+      usage
+      exit 10
+      ;;
+    *)
+      $ECHO
+      usage
+      exit 11
+      ;;
+  esac
+done
+# shift $((OPTIND-1)) # uncomment for options with args
+
+
+## MAIN
+
+# get filetypes of executables; create list of those viewable as text
+declare EXEC TYPE
+SCRIPTS=()
+for CMD in $@; do
+  unset EXEC TYPE
+  EXEC=$(which $CMD)
+  if [ -z $EXEC ]; then
+    $ECHO "Command not found: $CMD." 2> $ERR
+  else
+    TYPE=$(file -L $EXEC | cut -d ':' -f 2)
+  fi
+  if [[ $TYPE =~ text|script ]]; then
+    SCRIPTS=( ${SCRIPTS[*]} $EXEC )
+  fi
+done
+
+# guess option for read-only mode
+EDITOR=${EDITOR:-$(which vim)}
+case $EDITOR in
+  *vim*)
+    READ_OPTION="-R"
+    ;;
+  *nano*)
+    READ_OPTION="-v"
+    ;;
+  *)
+    READ_OPTION=""
+    ;;
+esac
+
+# open in editor
+# echo "$EDITOR $READ_OPTION ${SCRIPTS[*]}" #debug
+if [ ${#SCRIPTS} -gt 0 ]; then
+  $EDITOR $READ_OPTION ${SCRIPTS[*]}
+else
+  $ECHO "No text-viewable scources found." > $ERR
+  exit 5
+fi
+
+
+## EXIT
+
+# all pau!   )
+EXIT_STATUS=${EXIT_STATUS:-0}
+exit $EXIT_STATUS
+
