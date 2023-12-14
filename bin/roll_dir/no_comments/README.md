@@ -1,6 +1,6 @@
 ### no\_comments
 
-Just for fun, alternate versions of all the `roll,*` functions with comment and whitespace lines removed, resulting in the line counts given below.
+Just for fun, alternate versions of all the `roll.*` functions with comment and whitespace lines removed, resulting in the line counts given below.
 
 ;D
 

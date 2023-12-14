@@ -1,1 +1,293 @@
-/home/mark/useful_bash_stuff/bin/newclass.sh
+#!/bin/bash
+# newclass.sh -- a simple script for creating new a ROOT classs
+# USAGE: newclass [-h | -fH[D | d DESCRIPTION] ]  <CLASSNAME>
+# ~ Mark J. Duvall ~ duvall3.git@gmail.com ~ 04/2023 ~ #
+
+#Copyright (C) 2023 Mark J. Duvall / T. Rocks Science
+#
+#    This program is free software: you can redistribute it and/or modify
+#    it under the terms of the GNU General Public License as published by
+#    the Free Software Foundation, either version 3 of the License, or
+#    (at your option) any later version.
+#
+#    This program is distributed in the hope that it will be useful,
+#    but WITHOUT ANY WARRANTY; without even the implied warranty of
+#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#    GNU General Public License for more details.
+#
+#    You should have received a copy of the GNU General Public License
+#    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+
+## INIT
+
+# look for license
+LICENSE=$HOME/LICENSE
+if [ ! -r $LICENSE ]; then
+  LICENSE=$HOME/Documents/LICENSE
+fi
+
+# control for aliases
+ECHO="$(which echo) -e"
+CHMOD=$(which chmod)
+VIM=$(which vim)
+CT="$(which column) -t"
+PRINTF=$(which printf)
+DATE=$(which date)
+CAT=$(which cat)
+LC="$(which wc) -l"
+CUT=$(which cut)
+PASTE=$(which paste)
+
+# define usage
+usage() {
+  $ECHO "Usage: newclass [-h | -fH[D | d DESCRIPTION] ]  <CLASSNAME>"
+  $ECHO "Prepare a new shell class named CLASSNAME and open it for editing"
+  $ECHO
+  $ECHO "Options:"
+  $ECHO "  -h\tShow this help message and exit"
+  $ECHO "  -f\tForce overwrite"
+  $ECHO "  -H\tUse UH authorship"
+  $ECHO "  -D\tSkip description"
+  $ECHO "  -d\tUse DESCRIPTION in new class's header"
+  $ECHO
+}
+
+# process options
+HAWAII=false
+SKIP_DESC=false
+while getopts "hfHDd:" OPTIONS; do
+  case $OPTIONS in
+    h)
+      usage
+      exit 10
+      ;;
+    f)
+      READY=true
+      ;;
+    H)
+      HAWAII=true
+      ;;
+    D)
+      SKIP_DESC=true
+      ;;
+    d)
+      DESCRIPTION=$OPTARG
+      ;;
+    *)
+      $ECHO
+      usage
+      exit 11
+      ;;
+  esac
+done
+shift $((OPTIND-1))
+
+# process args
+if [ $# -lt 1 ]; then
+  read -p "Enter a name for the new class: " CLASSNAME
+else				# TODO: upgrade to accept multiple classnames
+  CLASSNAME=$1
+fi
+
+# file check
+READY=${READY:-false}
+while ! $READY; do
+  if [ -e $CLASSNAME ]; then
+    read -p "File \"$CLASSNAME\" exists. Overwrite? (yes/no/exit) " OVERWRITE_YN
+    case $OVERWRITE_YN in
+      [Yy]*)
+	READY=true
+	break
+	;;
+      [Nn]*)
+	read -p "Enter a new class name: " CLASSNAME
+	;;
+      [Ee]*)
+	exit 5
+	;;
+      *)
+	$ECHO "Invalid response. Overwrite? (Y/N/E) "
+	;;
+    esac
+  else
+    READY=true
+  fi
+done
+
+# description check
+if [ -z $DESCRIPTION ] && ! $SKIP_DESC; then
+  read -p "Enter a brief description for the new class: " DESCRIPTION
+fi
+
+
+## MAIN
+
+
+# HEADER FILE
+HEADER_FILENAME="${CLASSNAME}.h"
+
+# create top comments 
+DESCRIPTION=${DESCRIPTION:-"{Description of $CLASSNAME}"}
+TOPCOM="//$CLASSNAME\n"						# title
+TOPCOM+="/// $DESCRIPTION\n"					# description line
+if $HAWAII; then						# author and date line
+  AUTHOR="// ~ Mark J. Duvall ~ mjduvall@hawaii.edu ~ $($DATE +%m/%Y) ~ //\n"
+  LICENSE=$HOME/Documents/GPLv3.txt
+else
+  AUTHOR="// ~ Mark J. Duvall ~ duvall3.git@gmail.com ~ $($DATE +%m/%Y) ~ //\n"
+fi
+TOPCOM+=$AUTHOR
+
+# prepare license
+if [ -r $LICENSE ]; then
+  LIC_LINES=$($LC $LICENSE | $CUT -d ' ' -f 1)
+  for (( K = 1; K <= $LIC_LINES; K++ )) {
+    COMMLINES+="// \n"
+  }
+fi
+
+# # create body
+# BODY="\n## INIT\n\n"
+# BODY+="# general\nNULL=/dev/null\nERR=/dev/stderr\n\n"
+# BODY+="# control for aliases\nECHO=\"\$(which echo) -e\"\n\n"
+# BODY+="# define usage\nusage() {\n  \$ECHO \"Usage: $CLASSNAME [-h|OPTS] <ARGS>\"\n  \$ECHO \"$DSCRIPTsION\"\n  \$ECHO\n  \$ECHO \"Options:\"\n  \$ECHO \"  -h\\\tShow this help message and exit\"\n  \$ECHO\n}\n\n"
+# BODY+="# process options\nwhile getopts \"h\" OPTIONS; do\n  case \$OPTIONS in\n    h)\n      usage\n      exit 10\n      ;;\n    *)\n      \$ECHO\n      usage\n      exit 11\n      ;;\n  esac\ndone\n# shift \$((OPTIND-1)) # uncomment for options with args\n\n"
+# BODY+="\n## MAIN\n\n# class body goes here...\n\n"
+
+# create closing
+CLOSING="// all pau!   )\n"
+
+# debug
+if [[ $CLASSNAME =~ ^-.* ]]; then
+  echo "\$@ = $@"
+  echo "CLASSNAME = $CLASSNAME"
+  echo "HAWAII = $HAWAII"
+  echo "READY = $READY"
+  echo "DESCRIPTION = $DESCRIPTION"
+  exit 15
+fi
+
+# write out
+$ECHO $TOPCOM > $HEADER_FILENAME
+if [ -r $LICENSE ]; then $PASTE -d '' <($ECHO $COMMLINES) $LICENSE >> $HEADER_FILENAME; fi
+$ECHO "\
+#ifndef $CLASSNAME
+#define $CLASSNAME
+
+class $CLASSNAME : public TClass {
+
+private:
+  // members
+  Double_t		fSomeData;							///< Data member
+
+private:
+  // internal methods
+  void			SomePrivateMethod();						///< Private method
+
+public:
+  // public methods
+  $CLASSNAME();										///< Default ctor
+  $CLASSNAME( const char* someArg1, Double_t someArg2 );				///< Normal ctor
+  // setters and getters
+  void			SetData( Double_t someArg ) { fSomeData = someArg; }		///< Setter
+  Double_t		GetData() { return fSomeData; }					///< Getter
+  // general
+  Double_t		SomeCalculation( Int_t someArg1 = 0 );				///< Regular function with default argument
+
+// Integrating the $CLASSNAME class into ROOT
+ClassDef($CLASSNAME,1) ///< with class version number
+
+}; //end class
+
+// all pau!   )
+#endif
+" >> $HEADER_FILENAME
+
+$ECHO "$CLOSING" >> $HEADER_FILENAME
+
+
+# SOURCE FILE
+SOURCE_FILENAME=${CLASSNAME}.cxx
+
+$ECHO "// $CLASSNAME -- $DESCRIPTION\n" > $SOURCE_FILENAME
+
+$ECHO "\
+#include \"$CLASSNAME.h\"
+
+// Call the ClassImp() macro to give the $CLASSNAME class RTTI and full I/O capabilities
+#if !defined(__CLING__)
+  ClassImp($CLASSNAME);
+#endif
+
+//______________________________________________________________________________
+// default ctor
+$CLASSNAME::$CLASSNAME()
+{
+/**
+ * Universal initial assignments / settings.
+ */
+  // define here
+  fSomeData = 0.;
+}
+
+//______________________________________________________________________________
+// normal ctor
+/**
+ * Initial assignments / settings with some parameters specified.
+ * \param someArg1 -- e.g., a filename
+ * \param someArg2 -- e.g., a tolerance
+ */
+$CLASSNAME::$CLASSNAME( const char* someArg1, Double_t someArg2 )
+{
+  // define here
+  fSomeData = 0.;
+}
+
+//______________________________________________________________________________
+// SomePrivateMethod
+void $CLASSNAME::SomePrivateMethod()
+/**
+ * For example, an Init() method that is called by some public method(s)
+ *   but never directly invoked by the user.
+ */
+{
+  // define here
+  return;
+}
+
+//______________________________________________________________________________
+// SomeCalculation
+Double_t $CLASSNAME::SomeCalculation( Int_t someArg1 )
+/**
+ * For example, a function that performs some calculation on the member data,
+ *   with parameter(s) provided by the argument(s).
+ * \param someArg1 -- a parameter for the calculation
+ * \retval retVal -- the result of the calculation
+ */
+{
+  // define here
+  return retVal;
+}
+
+////______________________________________________________________________________
+//$CLASSNAME::
+//{
+//}
+
+////______________________________________________________________________________
+//$CLASSNAME::
+//{
+//}
+" >> $SOURCE_FILENAME
+
+
+## OPEN
+EDITOR=${EDITOR:-$VIM}
+if [ $EDITOR = $VIM ]; then EDITOR+=" -p"; fi
+$EDITOR $CLASSNAME.{h,cxx}
+EXIT_STATUS=$?
+
+
+## all pau!   )
+exit $EXIT_STATUS
