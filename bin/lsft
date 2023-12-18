@@ -34,6 +34,7 @@ eval $FILE_CMD \
   | $AWK -F : '{print $2}' \
   | $SED -E s_^\ *__ \
   | $AWK '$0 ~ /^symbolic link/ {print $1" "$2}; $0 !~ /^symbolic link/ {print}' \
+  | $AWK -F ',' '{print $1}' \
   | $SORT \
   | $UNIQ -c \
   | $SORT -rn
