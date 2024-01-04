@@ -70,7 +70,7 @@ if PID_LIST=$($PGREP -i $PATTERN) > /dev/null; then
   NUM_MATCHES=$(echo $PID_LIST | 'awk' '{print NF}')
   # $PS -ho pcpu $PID_LIST #debug
   PROCPCT=$(${PS} -ho pcpu $PID_LIST | $TR "\n" "+" | $SED '$ s/.$/\n/' | $BC -l)
-  printf "CPU usage of all %d processes matching \"%s\":\t%02.1f %%\n" $NUM_MATCHES $PATTERN $PROCPCT
+  printf "CPU usage of all %d processes matching \"%s\":   %02.1f%%\n" $NUM_MATCHES $PATTERN $PROCPCT
 else
   echo -e "No processes found matching \"$PATTERN\"."
 fi

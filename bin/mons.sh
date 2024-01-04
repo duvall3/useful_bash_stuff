@@ -35,11 +35,14 @@ fi
 
 ## main
 
+# establish tmux session
 tmux new -s monitors -d
 tmux rename-window -t monitors monitors
 
+# gpu
 tmux send-keys -t monitors 'sudo intel_gpu_top' C-m
 
+# top
 tmux split-window -t monitors
 if which $TOP 2>&1 > /dev/null; then
   tmux send-keys -t monitors $TOP C-m
@@ -47,28 +50,34 @@ else # if 'htop'  is selected but not available
   tmux send-keys -t monitors 'top' C-m
 fi
 
+# thermal
 tmux last-pane -t monitors
 tmux split-window -h -t monitors
 tmux send-keys -t monitors '/home/mark/useful_bash_stuff/bin/heat_mon.sh 30s 20' C-m
 tmux resize-pane -t monitors -R 15
 
+# network
 tmux last-pane -t monitors
 tmux split-window -t monitors
 tmux send-keys -t monitors 'sudo nethogs' C-m
 tmux resize-pane -t monitors -U 5
 
+# RAT-PAC and ROOT
 tmux select-pane -t 2
 tmux split-window -t monitors
 tmux send-keys -t monitors 'watch pgrr' C-m
 tmux resize-pane -t monitors -D 1
 
+# cpu
 tmux split-window -h -t monitors
 # tmux send-keys -t monitors 'watch pcpu true false' C-m
 tmux send-keys -t monitors 'pcpu true true 5s' C-m
 tmux resize-pane -t monitors -L 12
 
+# make top active
 tmux select-pane -t 5
 
+# attach session
 tmux attach -t monitors
 
 # all pau!   )

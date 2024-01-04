@@ -69,7 +69,7 @@ if $PGREP -i $PATTERN > /dev/null; then
   NUM_MATCHES=$($PGREP -ic $OPTION "$PATTERN")
   MEMUSG=$(echo "$(${PS} --no-headers -o rss $($PGREP -i $OPTION "$PATTERN") | $GREP -v "^$" | $TR "\n" "+" | $SED '$ s/.$/\n/' | $BC -l) / 1000" | $BC -l | $CUT -d . -f 1)
   MEMPCT=$(echo "100 * $MEMUSG / $MEMTOTAL" | $BC -l)
-  printf "Memory usage of all %d processes matching \"%s\":\n%d MB\t(%02.1f %%)\n" $NUM_MATCHES $PATTERN $MEMUSG $MEMPCT
+  printf "Memory usage of all %d processes matching \"%s\":   %d MB (%02.1f%%)\n" $NUM_MATCHES $PATTERN $MEMUSG $MEMPCT
 else
   echo -e "No processes found matching \"$PATTERN\"."
 fi
