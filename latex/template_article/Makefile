@@ -2,17 +2,31 @@
 #	 make
 PROJECT=main
 SOURCES=$(*.tex)
-TEX=pdflatex
+TEX=latex
+PDFTEX=pdflatex
 BIBTEX=bibtex
 BUILDTEX=$(TEX) $(PROJECT).tex
+BUILDPDFTEX=$(PDFTEX) $(PROJECT).tex
 
 all: $(PROJECT).pdf
 
 $(PROJECT).pdf: $(SOURCES)
 
-.PHONY: all clean list
+.PHONY: all pdf dvi clean list
 
-all:
+all:	# default output: PDF
+	$(BUILDPDFTEX)
+	$(BIBTEX) $(PROJECT)
+	$(BUILDPDFTEX)
+	$(BUILDPDFTEX)
+
+pdf:
+	$(BUILDPDFTEX)
+	$(BIBTEX) $(PROJECT)
+	$(BUILDPDFTEX)
+	$(BUILDPDFTEX)
+
+dvi:
 	$(BUILDTEX)
 	$(BIBTEX) $(PROJECT)
 	$(BUILDTEX)

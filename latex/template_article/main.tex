@@ -19,7 +19,7 @@
 
 
 %% preamble
-\documentclass[twocolumn]{revtex4-2}	% APS/AIP article
+\documentclass{article}			% generic article -- \documentclass moved to Makefile
 \usepackage[utf8]{inputenc}		% input encoding
 \usepackage{graphicx}			% use graphics
 \usepackage{lipsum}			% for placeholder text
@@ -65,8 +65,8 @@
 
 % author(s)
 \author{A.~B.~LastnameOne} % F(irst initial) M(iddle initial) Lastname
-\email{author1@domain.suffix}
-\affiliation{Department, Institution, City, Country}
+% \email{author1@domain.suffix}
+% \affiliation{Department, Institution, City, Country}
 \author{C.~D.~LastnameTwo}
 \author{E.~F.~LastnameThree}
 \author{G.~H.~LastnameFour}
@@ -81,8 +81,8 @@
 \end{abstract}
 
 % make title and TOC
-\maketitle %\maketitle must follow \title, \authors, \abstract and \pacs, as applicable
-\tableofcontents
+% \maketitle %\maketitle must follow \title, \authors, \abstract and \pacs, as applicable
+% \tableofcontents
 
 
 %% MAIN -- sections and bibliography
