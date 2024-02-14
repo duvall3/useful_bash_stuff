@@ -123,6 +123,10 @@ fi
 # -- especially useful for things like softare documentation
 wget -rkE <URL>
 
+# force w3m to interpret a file as HTML
+# -- useful for files that do not have a '.html' extension
+w3m -T text/html <FILENAME>
+
 # just for fun: regex that finds c++ function declarations / definitions:
 #      ^\s*\([[:alnum:]]\+\**\s\+\)\+[[:alnum:]]\+(
  

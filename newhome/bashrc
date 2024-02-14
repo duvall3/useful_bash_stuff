@@ -156,8 +156,37 @@ export LD_LIBRARY_PATH=$ROOTSYS/lib:$LD_LIBRARY_PATH
 #export PYTHONPATH=$ROOTSYS/lib:$PYTHONPATH # PYROOT
 
 
+# Vim
 # set default editor to vim if possible
-export EDITOR=$(which vim)
+if [ $(which vim) ]; then
+  VIMBIN=$(which vim)
+  export EDITOR=$VIMBIN
+  export VISUAL=$VIMBIN
+fi
+# get VIMRUNTIME
+export VIMRT=$(vim -e --cmd 'echo $VIMRUNTIME | q' 2>&1 > /dev/null | sed 's@@@')
+# items for vim colorschemes
+export VIMCOLORS=blue_mod
+toggle_vim_colors() {
+  if [ -z $VIMCOLORS ]; then echo 'Error: $VIMCOLORS not set.' > $ERR; return 5; fi
+  if [ $VIMCOLORS = blue_mod ]; then
+    VIMCOLORS=summerfruit256
+  elif [ $VIMCOLORS = summerfruit256 ]; then
+    VIMCOLORS=blue_mod
+  else
+    echo "Error: \$VIMCOLORS not one of {blue_mod, summerfruit256}." > $ERR
+    return 6
+  fi
+  export VIMCOLORS
+  return $?
+}
+
+# set default pager to less if possible
+if [ $(which less) ]; then
+  export PAGER="$(which less) -iS"
+  export SYSTEMD_PAGER="$(which less) -iS"
+fi
+
 
 
 # dryrun function

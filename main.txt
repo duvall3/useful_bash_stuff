@@ -111,6 +111,10 @@ else
   echo "Connected to non-Home WiFi network."
 fi
 
+# force w3m to interpret a file as HTML
+# -- useful for files that do not have a '.html' extension
+w3m -T text/html <FILENAME>
+
 # download a Web site and set it up for local viewing
 # -- especially useful for things like softare documentation
 wget -rkE <URL>

@@ -1,8 +1,11 @@
 " vimrc -- startup customization options for vim
 
 " basic options
+filetype on
 set background=dark	" set syntax highlighting for dark terminal backgrounds
 syn on			" activate syntax highlighting
+" colo blue_mod		" set colorscheme
+" colo default		" set colorscheme
 set shiftwidth=2	" indentation defaults to 2 spaces
 set autoindent		" automatic indentation
 set ignorecase		" ignore case in searches
@@ -11,14 +14,66 @@ set shortmess-=S	" include count in search
 set hlsearch		" turn on search highlighting
 set breakindent		" indent wrapped lines
 let &briopt="shift:3"	" adjust breakindent
-set nowrap
+set nowrap		" disable line wrapping
+set foldcolumn=4	" enable fold bar
+
+" color schemes
+" on startup:
+let s:vimcolors = getenv('VIMCOLORS')
+if s:vimcolors != v:null
+  let s:colorcmd = printf("colo %s", s:vimcolors)
+  execute s:colorcmd
+  if s:vimcolors == "summerfruit256" | set bg=light | endif
+else
+  colo blue_mod
+endif
+" toggle:
+function ToggleColors()
+  if ! exists("g:colors_name") | echoerr "Error: 'g:colors_name' is unset." | return 5 | endif
+  if g:colors_name == "blue_mod"
+    colo summerfruit256
+  elseif g:colors_name == "summerfruit256"
+    colo blue_mod
+  else
+    echoerr "Value of g:colors_name is not one of {\"blue_mod\", \"summerfruit256\"}."
+  endif
+endfunction
+" mapping
+nnoremap :O :call ToggleColors()
+
+" " for lemonpi
+" let &t_SI="\e[6 q"
+" let &t_EI="\e[2 q"
+" augroup myCmds
+"   au!
+"   autocmd VimEnter * silent !echo -ne "\e[2 q"
+" augroup END
+
+" default to saved view of file if available
+au BufWinEnter *.c*,*.h*,*.lua,*.md silent loadview
+
+" vim-plug
+call plug#begin()
+Plug 'preservim/nerdtree', { 'on': 'NERDTreeToggle' }
+Plug 'ap/vim-css-color'
+Plug 'rust-lang/rust.vim'
+call plug#end()
+
+" disable miniBufExplorer
+let g:loaded_minibufexplorer = 1
 
 " sort files by time in :Explore (netrw browser)
 let g:netrw_sort_by = "time"
-" except for ordered_chapters
-if getcwd()=~"ordered_chapters"
+" except for ordered_chapters and any document with a 'sections/' folder
+if ( getcwd()=~"ordered_chapters" || getcwd()=~"sections" )
   let g:netrw_sort_by="name"
 endif
+
+" enable /usr/share/vim-scripts
+set runtimepath+=/usr/share/vim-scripts
+
+" enable /usr/share/vim-scripts color schemes
+set runtimepath+=/usr/share/vim-scripts/colors
 
 " set 'p' as 'prev', so that ':n' and ':p' scroll forwards & backwards through open files:
 cabbrev p prev
@@ -30,19 +85,26 @@ command! Wrap set wrap linebreak nolist " 'list' is off by default; just making 
 "" alternate option: set wrap linebreak nolist -- hopefully, this will display breaks at words w/o altering the actual file
 "Wrap
 
+" highglight group(s)
+command! Todos hi ToDos ctermbg=lightMagenta ctermfg=black | match ToDos 'TODO'
+command! NoTodos hi ToDos NONE
+
 " mapping:
 " moving lines
 noremap - ddp
 noremap _ ddkP
 " spacebar to insert single character (from Normal mode)
 nnoremap <Space> i_<C-[>r
-" editing and sourcing vimrc live
+" viewing, editing, and sourcing vimrc live
+nnoremap :vv :split<cr>:view $MYVIMRC<cr>
 nnoremap :ev :split $MYVIMRC<cr>
 nnoremap :sv :source $MYVIMRC<cr>
+" open a new tab
+nnoremap :tn :tabnew<cr>
 " toggle search highlighting with Ctrl-H
 nnoremap <c-h> :set hlsearch! hlsearch?<cr>
 " count number of matching words under the cursor:
-nnoremap ,* *<C-O>:%s///gn<CR>
+nnoremap = *<C-O>:%s///gn<CR>
 " center view on cursor,
 "   avoiding danger of entering 'ZZ' rather than 'zz'
 nnoremap v zz
@@ -50,12 +112,81 @@ nnoremap v zz
 nnoremap :re :Rexplore<cr>
 " replace at beginning of line
 nnoremap R 0r
+" use VIM 'Commentary' package
+nnoremap e :Commentary
+vnoremap e :Commentary
+" tab switching
+nnoremap t :tabn
+nnoremap T :tabp
+" toggle NERDTree
+nnoremap :tt :NERDTreeToggle<CR>
+" toggle TagList
+nnoremap <C-t> :TlistToggle<CR>
+" save view (mostly to avoid auto-completing :MkVimball)
+nnoremap :mkv :mkview
+
+" show only the word count
+function WordCount()
+  echo "Words: " wordcount().words
+endfunction
+" " command
+" command! C call WordCount()
+" mapping
+nnoremap :# :call WordCount()
+
+" get/insert date
+function Today()
+  let g:TODAY = getenv('TODAY')
+  " a<C-r>=g:TODAY<CR>
+endfunction
+
+" workaround function(s) for too much bold (espec. in LaTeX and Markdown files)
+" set:
+function SetBold(B=v:true)
+  if a:B==v:true
+    set t_md&
+  else
+    set t_md=
+  endif
+  redraw!
+endfunction
+" toggle:
+function ToggleBold()
+  if empty(&t_md)
+    set t_md&
+  else
+    set t_md=
+  endif
+  redraw!
+endfunction
+" mapping:
+nnoremap :B :call ToggleBold()
+" auto for certain files:
+au BufNewFile,BufRead *.tex,*.bib,*.md,*.txt call SetBold(0)
+
+" workaround for Doxygen's habit of converting certain characters in code
+" blocks to html sequences
+function FixDoxyChars()
+  %s_&amp;quot;_\\"_g
+  %s_&amp;#39;_'_g
+endfunction
+
+" help-tab macro
+let @h=':tabnew:ho'
 
 " set syntax highlighting for screen:
 au BufNewFile,BufRead *.scr set filetype=screen
 
 " override default syntax highlighting ("config") for .bash_aliases:
 au BufNewFile,BufRead bash_aliases set filetype=sh
+
+" ditto for .octaverc, etc:
+au BufNewFile,BufRead *ctave* set filetype=matlab
+au FileType octave setlocal commentstring=%\ %s
+
+" and for pythonrc:
+au BufNewFile,BufRead *pythonrc* set filetype=python
+
 
 " syntax highlighting for lilypond:
 filetype off
@@ -70,12 +201,36 @@ au BufNewFile,BufRead *.geo_* set filetype=cpp
 
 " set syntax highlighting for ROOT:
 function SetROOTsyntax()
-  if and( getcwd()=~"root", &ft=="cpp" )
+  if and( or(getcwd()=~"root",getcwd()=~"rat-pac"), &ft=="cpp" )
     set filetype+=.root
   endif
 endfunction
-au BufNewFile,BufRead *.cxx call SetROOTsyntax()
-au BufNewFile,BufRead *.hh call SetROOTsyntax()
+" au BufNewFile,BufRead *.cxx,*.hh,*.h call SetROOTsyntax()
+au filetypedetect FileType cpp call SetROOTsyntax()
+
+" set syntax highlighting for RAT-PAC / GEANT4 macros (Python highlighting
+"   is a decent builtin substitute):
+function SetRATsyntax()
+  if getcwd()=~"rat-pac"
+    set filetype=python
+  endif
+endfunction
+au BufNewFile,BufRead *.mac call SetRATsyntax()
+
+" settings for Unreal:
+function SetUnreal()
+  if and( getcwd()=~"Unreal", &ft=="cpp" )
+    set shiftwidth=4
+    runtime! syntax/unrealcpp.vim
+  endif
+endfunction
+au filetypedetect FileType cpp call SetUnreal()
+
+" enable additional syntax highlighting for C++ files:
+function SetExtraCPP()
+  runtime! syntax/extracpp.vim
+endfunction
+au filetypedetect FileType cpp call SetExtraCPP()
 
 " set syntax highlighting for asymptote:
 augroup filetypedetect
@@ -83,28 +238,49 @@ au BufNewFile,BufRead *.asy setf asy
 augroup END
 filetype plugin on
 
+" set syntax highlighting for Rust manifests:
+au BufNewFile,BufRead *.toml set filetype=conf
+
+" set syntax highlighting for brainfuck:
+au BufNewFile,BufRead *.b set filetype=brainfuck
+
 " items for .tex files
 au BufNewFile,BufRead *.tex Wrap
 let @f='o% \begin{figure}\end{figure}O  \begin{center}\end{center}O  \includegraphics[width=\linewidth]{}\caption{}\label{fig:}2k$i'
 let @t='o% \begin{table}\end{table}O  \begin{tabular}{cc}\end{tabular}O  \caption{}\label{tab:}kO'
-let @r='o\begin{frame}\end{frame}O  \frametitle{}i'
+let @r='o% \begin{frame}\end{frame}kO  \frametitle{}i'
 let @i='o\begin{itemize}\end{itemize}O  \item '
+let @e='o\begin{envx}\end{envx}O  jV2k:s/envx/'
 
 " create authorship macro
-let @a='i ~ Mark J. Duvall ~ duvall3@github.com ~ "=strftime("%m/%Y")pa ~ '
+let @a='i ~ Mark J. Duvall ~ mjduvall@hawaii.edu ~ "=strftime("%m/%Y")pa ~ '
 
 " create license macro
-let @l=':r ~/GPLv3.txt3}2jI'
+let @l=':r ~/t-rocks/GPLv3.txt3}2jI'
+
+" create all-pau macro
+let @p='o  all pau!   )0r'
 
 " create macro for paragraph/block 'uncomment'
 let @u='^/^\s*$kx'
 
+" create macros for c++ single-line (un)comment
+"let @n='02i/^[<80><fd>a' "KEEPME for reference
+"let @n='02i/' "KEEPME because I worked
+let @n='mn02i/`n2l' "WINNER!
+"let @b='mn02r ^[`n' "KEEPME because I worked
+let @b=':s_\/\/_  _:s_\(^ {2,3}\)\(.*\)_\2_'
+
+"" create macro for using VIM 'Commentary' package
+"let @n='gcc'
+
 " create macros for various filetypes
+
 " paragraph/block 'comment' and end-of-line 'debug':
 " # languages
 au filetypedetect FileType sh,awk,python let @c='^/^\s*$kI#' | let @d='A #debug' | let @g='@l#' | let @m='i##@a'
 " % languages
-au filetypedetect FileType tex,matlab,lilypond let @c='^/^\s*$kI%' | let @d='A %debug' | let @g='@l%' | let @m='i%%@a'
+au filetypedetect FileType tex,matlab,octave,lilypond let @c='^/^\s*$kI%' | let @d='A %debug' | let @g='@l%' | let @m='i%%@a'
 " " languages
 au filetypedetect FileType vim let @c='^/^\s*$kI"' | let @d='A "debug' | let @g='@l"' | let @m='i""@a'
 " ! languages
@@ -112,5 +288,32 @@ au filetypedetect FileType fortran let @c='^/^\s*$kI!' | let @d='A !debug' |
 " // languages
 au filetypedetect FileType c,cpp,cpp.root,asy let @c='^/^\s*$kI//' | let @d='A //debug' | let @g='@l//' | let @m='i////h@a' | nnoremap R 02r
 "au filetypedetect FileType c,cpp let @u='^/^\s*$klx'	" double-character uncomment
+" html line-by-line
+" au filetypedetect FileType html,xhtml let @c='I/*A*/' | let @u='^2x$h2x' | let @d='A //debug' | let @g='@l//' | let @m='i////h@a' | nnoremap R 02r
+au BufNewFile,BufRead *.html,*.xhtml let @c='I/*A*/' | let @u='^2x$h2x' | let @d='A //debug' | let @g='@l//' | let @m='i////h@a' | nnoremap R 02r
+" au filetypedetect FileType markdown let @k='i<mark>2f`a</mark>'
+au filetypedetect FileType markdown let @k='a<mark>``</mark>F`i'
+" -- languages
+" au filetypedetect FileType lua let @c=^/^\s*$kI--' | let @d='A --debug' | let @g='@l--' | let @m='i----h@a' | nnoremap R 02r
+au filetypedetect FileType lua let @d='A --debug'
+
+
+" other FileType settings
+" python indentation
+au filetypedetect FileType python set shiftwidth=4
+au BufNewFile,BufRead *.py set shiftwidth=4
+" Markdown todos
+au filetypedetect FileType markdown Todos
+au BufNewFile,BufRead *.md Todos
+
+" for Octave in general:
+augroup filetypedetect 
+  au! BufRead,BufNewFile *.m,*.oct,.octave* set filetype=octave 
+augroup END 
+
+" just for fun: regex to find c++ function declarations / definitions:
+" ^\s*\([[:alnum:]]\+\**\s\+\)\+[[:alnum:]]\+(
+
+" set background=dark	" set syntax highlighting for dark terminal backgrounds
 
 " all pau!   )
