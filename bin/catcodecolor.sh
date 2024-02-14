@@ -12,7 +12,7 @@ fi
 
 FILE_LINES=$(wc -l $1 | awk '{print $1}')
 for (( LINE_NO = 1; LINE_NO < $FILE_LINES; LINE_NO++ )) {
-  awk -v lineNo=$LINE_NO 'NR == lineNo {print}' $1 | pygmentize -s -O style=monokai -l $2
+  awk -v lineNo=$LINE_NO 'NR == lineNo {print}' $1 | pygmentize -s -O style=lovelace -l $2
 sleep .10s
 }
 

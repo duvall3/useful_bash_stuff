@@ -1,0 +1,33 @@
+#!/bin/bash
+# catcodecolor_loop -- EWISOtT
+# USAGE: catcodecolor_loop [PATTERN]
+# -- PATTERN: shell-style glob pattern or filename
+# ~ Mark J. Duvall ~ mjduvall@hawaii.edu ~ 01/2024 ~ #
+
+# define function for listing text files
+lst() {
+  file -L * | 'grep' text | awk -F : '{print $1}'
+}
+
+# arg check
+if [ $# -lt 1 ]; then
+  FILE_LIST=$(lst)
+else
+  FILE_LIST=$(ls $@)
+fi
+
+# main
+while true; do
+  for FILE in $FILE_LIST; do
+    unset LEX
+    LEX=$(pygmentize -N $FILE)
+    if [[ $(head -n 1 $FILE) =~ \#\!/bin/(ba)?sh ]]; then LEX=bash; fi
+    LEX=${LEX:-text}
+    echo -e "\n<<<<<<<< $FILE ~ $LEX >>>>>>>>\n"
+    catcodecolor.sh $FILE $LEX
+    echo -e "\n"
+  done
+done
+
+# all pau!   )
+exit $?

@@ -111,6 +111,10 @@ else
   echo "Connected to non-Home WiFi network."
 fi
 
+# download a Web site and set it up for local viewing
+# -- especially useful for things like softare documentation
+wget -rkE <URL>
+
 # just for fun: regex that finds c++ function declarations / definitions:
 #      ^\s*\([[:alnum:]]\+\**\s\+\)\+[[:alnum:]]\+(
  

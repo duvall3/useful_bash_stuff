@@ -59,10 +59,12 @@ for PAT in $@; do
   # loop over directories
   for DIR in ${DIRS[*]}; do
     # $ECHO $DIR #debug
-    NFILES=$('ls' $DIR | $LC)
-    # $ECHO $NFILES #debug
-    if [ $NFILES -gt 0 ]; then
-      'ls' -d $DIR/* | $GREP "$PAT"
+    if [ -r $DIR ]; then
+      NFILES=$('ls' $DIR | $LC)
+      # $ECHO $NFILES #debug
+      if [ $NFILES -gt 0 ]; then
+	'ls' -d $DIR/* | $GREP "$PAT"
+      fi
     fi
   done
 done
