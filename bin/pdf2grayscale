@@ -31,19 +31,17 @@ ECHO="$(which echo) -e"
 
 # define usage
 usage() {
-  $ECHO "Usage: pdf2grayscale [-h|-o OUTFILE] <FILE>"
+  $ECHO "Usage: pdf2grayscale [-h|-o <OUTFILE>] <FILE>"
   $ECHO "Convert a PDF to grayscale"
   $ECHO
   $ECHO "Options:"
-  $ECHO "  -h\tShow this help message and exit"
+  $ECHO "  -h\t\tShow this help message and exit"
+  $ECHO "  -o <OUTFILE>\tSet output filename"
   $ECHO
 }
 
 # process options
-INFILE=$1
-BASENAME=$('basename' $INFILE .pdf)
-OUTFILE=${BASENAME}_grayscale.pdf
-while getopts "ho" OPTIONS; do
+while getopts "ho:" OPTIONS; do
   case $OPTIONS in
     h)
       usage
@@ -60,6 +58,12 @@ while getopts "ho" OPTIONS; do
   esac
 done
 shift $((OPTIND-1)) # uncomment for options with args
+INFILE=$1
+BASENAME=$('basename' $INFILE .pdf)
+OUTFILE=${OUTFILE:-${BASENAME}_grayscale.pdf}
+
+# arg check
+if [ $# -lt 1 ]; then usage; exit 12; fi
 
 
 ## MAIN
