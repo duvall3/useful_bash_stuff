@@ -36,6 +36,14 @@
 # dirsum()
 dirsum() {
 
+  # help check
+  if [[ $1 =~ -h ]]; then
+    echo -e "USAGE:\n1) Navigate to directory to sum."
+    echo -e "2) Run 'dirsum'."
+    echo -e "3) Go up one directory ('cd ..')."
+    echo -e "4) The newest file will contain the hashes."
+  fi
+
   # init
   OUTFILENAME=$(basename $(pwd)).dirsum
   if [ -w ../ ]; then
@@ -60,13 +68,14 @@ dirsum() {
   fi
 
   # get and sort file list
-  FILE_LIST=$(find $TARGETDIR -type f | LC_ALL=$SORT_LOCALE sort)
+  # FILE_LIST=$(find $TARGETDIR -type f | LC_ALL=$SORT_LOCALE sort)
+  FILE_LIST=$(find $TARGETDIR -type f -printf "\"%p\"\n"  | LC_ALL=$SORT_LOCALE sort)
 
   # compute file hashes, then compute hash of result
   #$HASHCMD $HASH_OPTIONS $FILE_LIST | $HASHCMD $HASH_OPTIONS #KEEPME
-    $HASHCMD $HASH_OPTIONS $FILE_LIST > $OUTFILE
-    echo "###" >> $OUTFILE
-    $HASHCMD $HASH_OPTIONS $OUTFILE | tee -a $OUTFILE
+  $HASHCMD $HASH_OPTIONS $FILE_LIST > $OUTFILE
+  echo "###" >> $OUTFILE
+  $HASHCMD $HASH_OPTIONS $OUTFILE | tee -a $OUTFILE
 
   # all pau!   )
   return $?
