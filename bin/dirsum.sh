@@ -67,13 +67,13 @@ dirsum() {
     exit 1
   fi
 
-  # get and sort file list
+  # # get and sort file list
   # FILE_LIST=$(find $TARGETDIR -type f | LC_ALL=$SORT_LOCALE sort)
-  FILE_LIST=$(find $TARGETDIR -type f -printf "\"%p\"\n"  | LC_ALL=$SORT_LOCALE sort)
 
   # compute file hashes, then compute hash of result
   #$HASHCMD $HASH_OPTIONS $FILE_LIST | $HASHCMD $HASH_OPTIONS #KEEPME
-  $HASHCMD $HASH_OPTIONS $FILE_LIST > $OUTFILE
+  # $HASHCMD $HASH_OPTIONS $FILE_LIST > $OUTFILE
+  find $TARGETDIR -type f -print0 | xargs -0 $HASHCMD $HASH_OPTIONS $FILE_LIST > $OUTFILE
   echo "###" >> $OUTFILE
   $HASHCMD $HASH_OPTIONS $OUTFILE | tee -a $OUTFILE
 
