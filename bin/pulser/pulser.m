@@ -25,9 +25,29 @@
 ##
 ## If one output is requested, @var{V} is a vector containing the signal's normalized sample values.
 ##
-## If a second output is requested, @var{T} is a the corresponding time vector in seconds.
+## If a second output is requested, @var{T} is the corresponding time vector in seconds.
 ##
 ## If a third output is requested, @var{HAX} is a vector containing the axes handles of the two plots.
+##
+## NOTE: The signal can be looped for longer output:
+##
+## At the @qcode{Octave} prompt:
+## @example
+## @group
+## for k = 1:10; sound(@var{V}, @var{FS}); done	% loop 10 times
+## % or
+## while true; sound(@var{V}, @var{FS}); done	% loop indefinitely
+## @end group
+## @end example
+##
+## At the system prompt, using @qcode{ffplay} from @qcode{ffmpeg}:
+## @example
+## @group
+## ffplay -loop 10 -loglevel quiet pulser.wav	# loop 10 times
+## # or
+## ffplay -loop 0 -loglevel quiet pulser.wav	# loop indefinitely
+## @end group
+## @end example
 ##
 ## ~ Copyright Mark J. Duvall ~ mjduvall at hawaii.edu ~ 03/2024 ~
 ##
@@ -81,11 +101,11 @@ end
 f = figure;
 HAX(1) = subplot(2, 1, 1);
 HAX(2) = subplot(2, 1, 2);
-p(1) = plot(ax(1), t*1.e3, v);
-p(2) = plot(ax(2), ts(1:NSamples_pulse*10)*1.e3, V(1:NSamples_pulse*10));
-xla(1) = xlabel(ax(1), 't (ms), Single Pulse');
-xla(2) = xlabel(ax(2), 't (ms), First 10 Pulses');
-TITLE = title(ax(1), '"Pulser" Signal');
+p(1) = plot(HAX(1), t*1.e3, v);
+p(2) = plot(HAX(2), ts(1:NSamples_pulse*10)*1.e3, V(1:NSamples_pulse*10));
+xla(1) = xlabel(HAX(1), 't (ms), Single Pulse');
+xla(2) = xlabel(HAX(2), 't (ms), First 10 Pulses');
+TITLE = title(HAX(1), '"Pulser" Signal');
 drawnow
 
 % play
@@ -94,7 +114,7 @@ sound(V, FS);
 % save if desired
 if SAVE
   printf('\n')
-  disp 'Writing plots to .svg/.png and writing signal to .wav...'
+  disp 'Writing signal to .wav and writing plots to .svg/.png...'
   print(f, 'pulser.svg')
   print(f, 'pulser.png')
   audiowrite('pulser.wav', V, FS)
