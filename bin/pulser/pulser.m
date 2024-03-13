@@ -105,7 +105,7 @@ p(1) = plot(HAX(1), t*1.e3, v);
 p(2) = plot(HAX(2), ts(1:NSamples_pulse*10)*1.e3, V(1:NSamples_pulse*10));
 xla(1) = xlabel(HAX(1), 't (ms), Single Pulse');
 xla(2) = xlabel(HAX(2), 't (ms), First 10 Pulses');
-TITLE = title(HAX(1), '"Pulser" Signal');
+TITLE = title(HAX(1), 'Output Signal');
 drawnow
 
 % play
@@ -115,9 +115,10 @@ sound(V, FS);
 if SAVE
   printf('\n')
   disp 'Writing signal to .wav and writing plots to .svg/.png...'
+  audiowrite('pulser.wav', V, FS)
+  set(HAX, 'fontsize', 10)
   print(f, 'pulser.svg')
   print(f, 'pulser.png')
-  audiowrite('pulser.wav', V, FS)
   disp 'Done.'
   printf('\n')
 endif
