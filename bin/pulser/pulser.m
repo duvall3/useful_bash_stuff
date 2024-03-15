@@ -1,5 +1,5 @@
 ## -*- texinfo -*-
-## @deftypefn {} {[@var{V}, @var{T}, @var{HAX}] = } pulser(@var{F}, @var{W}, @var{NP}, @var{SAVE}, @var{FS})
+## @deftypefn {} {[@var{V}, @var{T}, @var{HAX}] = } pulser(@var{F}, @var{W}, @var{NP}, @var{SAVE}, @var{FS}, @var{OUTFILE})
 ## Generate, play, and (optionally) save a train of Gaussian pulses.
 ##
 ## All arguments are optional; their types, default values, and descriptions are as follows:
@@ -21,6 +21,9 @@
 ## The sampling frequency in Hertz. Common values include 22050, 44100,
 ## and 96000. SUPPORT FOR NON-STANDARD VALUES IS NOT GUARANTEED.
 ##
+## @item @qcode(string OUTFILE = 'pulser'}
+## The desired name (prefix) of the output files.
+## 
 ## @end table
 ##
 ## If one output is requested, @var{V} is a vector containing the signal's normalized sample values.
@@ -53,7 +56,7 @@
 ##
 ## @end deftypefn
 
-function [ V HAX ] = pulser( F = 1., W = 100., NP = 1000, SAVE = true, FS = 44100. )
+function [ V HAX ] = pulser( F = 1., W = 100., NP = 1000, SAVE = true, FS = 44100., OUTFILE = 'pulser' )
 
 %Copyright (C) 2024 Mark J. Duvall / T. Rocks Science
 %
@@ -74,6 +77,7 @@ function [ V HAX ] = pulser( F = 1., W = 100., NP = 1000, SAVE = true, FS = 4410
 mustBeGreaterThan(1/(1000.*F), W*1.e-6)
 mustBeLessThan(F, FS/2.)
 mustBeInteger(NP)
+mustBeInteger(FS)
 T = 1/(1000.*F);
 NSamples_pulse = round(T*FS);
 NSamples_total = NSamples_pulse * NP;
@@ -112,13 +116,14 @@ drawnow
 sound(V, FS);
 
 % save if desired
+coldisp( F, W, NP, SAVE, FS, OUTFILE ) %debug
 if SAVE
   printf('\n')
   disp 'Writing signal to .wav and writing plots to .svg/.png...'
-  audiowrite('pulser.wav', V, FS)
+  audiowrite(sprintf('%s.wav', OUTFILE), V, FS)
   set(HAX, 'fontsize', 10)
-  print(f, 'pulser.svg')
-  print(f, 'pulser.png')
+  print(f, sprintf('%s.svg',OUTFILE))
+  print(f, sprintf('%s.png',OUTFILE))
   disp 'Done.'
   printf('\n')
 endif
