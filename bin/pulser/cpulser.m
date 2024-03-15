@@ -77,6 +77,15 @@ isfile(FILENAME) || error('Specified file not found.');
 % apply settings
 source(FILENAME);
 
+% apply defaults if needed
+if ~exist('F')       ; then F = 1.;              endif
+if ~exist('W')       ; then W = 100.;            endif
+if ~exist('NP')      ; then NP = 1000;           endif
+if ~exist('SAVE')    ; then SAVE = true;         endif
+if ~exist('FS')      ; then FS = 44100.;         endif
+if ~exist('OUTFILE') ; then OUTFILE = 'cpulser'; endif
+
+
 % call pulser
 [ V HAX ] = pulser( F, W, NP, SAVE, FS, OUTFILE );
 
