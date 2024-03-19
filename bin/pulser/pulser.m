@@ -21,7 +21,7 @@
 ## The sampling frequency in Hertz. Common values include 22050, 44100,
 ## and 96000. SUPPORT FOR NON-STANDARD VALUES IS NOT GUARANTEED.
 ##
-## @item @qcode(string OUTFILE = 'pulser'}
+## @item @qcode{string OUTFILE = 'pulser'}
 ## The desired name (prefix) of the output files.
 ## 
 ## @end table
@@ -92,23 +92,25 @@ v = v/max(v) * (0.5)^2;						% normalize and reduce volume to 50%
 
 % main -- pulse train
 ts = linspace(0, NP*T, NP*NSamples_pulse);			% time vector for complete signal
-% V = zeros(1, NP*L);						% allocate signal vector
-% for k = 0:(NP-1)						% build complete signal by duplicating the single pulse
-%   V(k*L+1:(k+1)*L) = v;
-% end
-V = [];								% initialize signal vector
-for k = 1:NP							% build complete signal by duplicating the single pulse
-  V = [V v];
+V = zeros(1, NP*L);						% allocate signal vector
+for k = 0:(NP-1)						% build complete signal by duplicating the single pulse
+  V(1+k*L:(k+1)*L) = v;
 end
 
 % plot
+NPulses_to_show = min([10 NP]);
 f = figure;
 HAX(1) = subplot(2, 1, 1);
 HAX(2) = subplot(2, 1, 2);
 p(1) = plot(HAX(1), t*1.e3, v);
-p(2) = plot(HAX(2), ts(1:NSamples_pulse*10)*1.e3, V(1:NSamples_pulse*10));
+p(2) = plot(HAX(2), ts(1:NSamples_pulse*NPulses_to_show)*1.e3, V(1:NSamples_pulse*NPulses_to_show));
 xla(1) = xlabel(HAX(1), 't (ms), Single Pulse');
-xla(2) = xlabel(HAX(2), 't (ms), First 10 Pulses');
+if NP <= 10
+  xla2str = sprintf('t (ms), All %d Pulses', NPulses_to_show);
+else
+  xla2str = sprintf('t (ms), First %d Pulses', NPulses_to_show);
+endif
+xla(2) = xlabel(HAX(2), xla2str);
 TITLE = title(HAX(1), 'Output Signal');
 drawnow
 
@@ -116,7 +118,7 @@ drawnow
 sound(V, FS);
 
 % save if desired
-coldisp( F, W, NP, SAVE, FS, OUTFILE ) %debug
+% coldisp( F, W, NP, SAVE, FS, OUTFILE ) %debug
 if SAVE
   printf('\n')
   disp 'Writing signal to .wav and writing plots to .svg/.png...'

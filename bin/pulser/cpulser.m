@@ -78,12 +78,12 @@ isfile(FILENAME) || error('Specified file not found.');
 source(FILENAME);
 
 % apply defaults if needed
-if ~exist('F')       ; then F = 1.;              endif
-if ~exist('W')       ; then W = 100.;            endif
-if ~exist('NP')      ; then NP = 1000;           endif
-if ~exist('SAVE')    ; then SAVE = true;         endif
-if ~exist('FS')      ; then FS = 44100.;         endif
-if ~exist('OUTFILE') ; then OUTFILE = 'cpulser'; endif
+if ~exist('F')       ; F = 1.;              endif
+if ~exist('W')       ; W = 100.;            endif
+if ~exist('NP')      ; NP = 1000;           endif
+if ~exist('SAVE')    ; SAVE = true;         endif
+if ~exist('FS')      ; FS = 44100.;         endif
+if ~exist('OUTFILE') ; OUTFILE = 'cpulser'; endif
 
 
 % call pulser
