@@ -35,7 +35,7 @@ The biggest enhancement is a facility for convenient manual syntax highlighting 
 ### Notes
 - *<mark>md2html</mark>* is a part of [Useful BASH Stuff](https://github.com/duvall3/useful_bash_stuff/)
 - Credit for the GitHub "Darkdown" theme goes to Kevin Burke
-- *If you are reading this within GitHub*, some items will not render correctly; try viewing [this version](trocksscience.com/md2html/README.html) instead.
+- *If you are reading this within GitHub*, some items will not render correctly; try viewing [this version](http://trocksscience.com/md2html/README.html) instead.
 
 ---
 
