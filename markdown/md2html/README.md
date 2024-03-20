@@ -1,3 +1,28 @@
+<style type="text/css">
+  mark {
+    color: white;
+    background-color: #1D2127;
+  }
+  mark.pad {
+    width: 60em;
+    white-space: pre-wrap;
+    padding-left: 2em;
+    display: inline-block;
+  }
+  mark.command {
+    color: #33EE33;
+  }
+  mark.var {
+    color: #ffa657;
+  }
+  mark.const {
+    color: #79c0ff;
+  }
+  mark.str {
+    color: #c53bcf;
+  }
+</style>
+
 # README -- md2html
 
 ---
