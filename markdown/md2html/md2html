@@ -1,6 +1,6 @@
 #!/bin/bash
-# md2html -- Convert a Markdown file to HTML
-# USAGE: md2html [-h|OPTS] <FILE>
+# md2html -- Convert a Markdown file to HTML. See README for more information.
+# USAGE: md2html [-h] [-o <OUTFILE>] [-t <TITLE>] <FILENAME>"
 # ~ Mark J. Duvall ~ duvall3.git@gmail.com ~ 06/2023 ~ #
 
 # Copyright (C) 2023 Mark J. Duvall / T. Rocks Science
@@ -24,27 +24,29 @@
 
 # general
 INFILE=$1
-OUTFILE=${INFILE%.md}.html
 NULL=/dev/null
 ERR=/dev/stderr
-
-# control for aliases
 ECHO="$(which echo 2> $NULL) -e"
-BASENAME=$(which basename 2> $NULL)
-PANDOC=$(which pandoc 2> $NULL)
+
+# check for pandoc and realpath
+if ! PANDOC=$(which pandoc 2> $NULL); then $ECHO "Error: This program requires Pandoc." 2> $ERR; exit 127; fi
+if ! DIRNAME=$(which dirname 2> $NULL); then $ECHO "Error: This program requires the 'dirname' command." 2> $ERR; exit 127; fi
+if ! REALPATH=$(which realpath 2> $NULL); then $ECHO "Error: This program requires the 'realpath' command." 2> $ERR; exit 127; fi
 
 # define usage
 usage() {
-  $ECHO "Usage: md2html [-h|OPTS] <FILE>"
+  $ECHO "Usage: md2html [-h] [-o <OUTFILE>] [-t <TITLE>] <FILENAME>"
   $ECHO "Convert a Markdown file to HTML"
   $ECHO
   $ECHO "Options:"
-  $ECHO "  -h\tShow this help message and exit"
+  $ECHO "  -h\t\tShow this help message and exit"
+  $ECHO "  -o OUTFILE\tSet output filename"
+  $ECHO "  -t TITLE\tSet title of output HTML page"
   $ECHO
 }
 
 # process options
-while getopts "h" OPTIONS; do
+while getopts "ho:t:" OPTIONS; do
   case $OPTIONS in
     h)
       usage > $ERR
@@ -57,11 +59,12 @@ while getopts "h" OPTIONS; do
       ;;
   esac
 done
-# shift $((OPTIND-1)) # uncomment for options with args
+shift $((OPTIND-1)) # uncomment for options with args
 
-# author's defaults
-TITLE=$($BASENAME $INFILE .md)
-PANDOC_TEMPLATE_DIR=/usr/share/pandoc/data/templates
+# set parameters
+TITLE=${TITLE:-${INFILE%.md}}
+OUTFILE=${OUTFILE:-$TITLE".html"}
+PANDOC_TEMPLATE_DIR=$($DIRNAME $($REALPATH ${BASH_SOURCE[0]}))
 TEMPLATE=github-darkdown
 TEMPLATE_FILES=( "$PANDOC_TEMPLATE_DIR/$TEMPLATE.css" "$PANDOC_TEMPLATE_DIR/$TEMPLATE.html")
 HSSTYLE="$PANDOC_TEMPLATE_DIR/$TEMPLATE.theme"
