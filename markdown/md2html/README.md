@@ -113,7 +113,7 @@ FILENAME="test.txt"
 This program was primarily created for writing software READMEs and tutorials, and it will probably be most useful as such.
 However, it could be helpful any time you want to generate a simple HTML document with class-based color highlighting.
 I'd be delighted to hear about any uses you find for it.
-Questions and comments are welcome at [duvall3 dot git at gmail dot com](duvall3.git@gmail.com) or [mark at trocksscience dot com](mark@trocksscience.com).
+Questions and comments are welcome at [duvall3 dot git at gmail dot com](mailto:duvall3.git@gmail.com) or [mark at trocksscience dot com](mailto:mark@trocksscience.com).
 
 Happy hacking!<br>
 -- MJD
