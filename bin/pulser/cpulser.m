@@ -1,5 +1,5 @@
 ## -*- texinfo -*-
-## @deftypefn {} {[@var{V}, @var{T}, @var{HAX}] = } cpulser(@var{FILENAME} = 'cpulser.conf')
+## @deftypefn {} {[@var{V}, @var{TS}, @var{FFT}, @var{HAX}] = } cpulser(@var{FILENAME} = 'cpulser.conf')
 ## Generate, play, and (optionally) save a train of Gaussian pulses,
 ## reading settings from a configuration file.
 ##
@@ -26,9 +26,12 @@
 ##
 ## If one output is requested, @var{V} is a vector containing the signal's normalized sample values.
 ##
-## If a second output is requested, @var{T} is the corresponding time vector in seconds.
+## If a second output is requested, @var{TS} is the corresponding time vector in seconds.
 ##
-## If a third output is requested, @var{HAX} is a vector containing the axes handles of the two plots.
+## If a third output is requested, @var{FFT} is a struct containing the frequency vector
+##   @var{FFT.f} and relative normalized amplitudes @var{FFT.A} from the discrete Fourier transform.
+##
+## If a fourth output is requested, @var{HAX} is a vector containing the axes handles of the two plots.
 ##
 ## NOTE: The signal can be looped for longer output:
 ##
@@ -54,7 +57,7 @@
 ##
 ## @end deftypefn
 
-function [ V HAX ] = cpulser( FILENAME = 'cpulser.conf' )
+function [ V TS FFT HAX ] = cpulser( FILENAME = 'cpulser.conf' )
 
 %Copyright (C) 2024 Mark J. Duvall / T. Rocks Science
 %
@@ -83,11 +86,12 @@ if ~exist('W')       ; W = 100.;            endif
 if ~exist('NP')      ; NP = 1000;           endif
 if ~exist('SAVE')    ; SAVE = true;         endif
 if ~exist('FS')      ; FS = 44100.;         endif
-if ~exist('OUTFILE') ; OUTFILE = 'cpulser'; endif
+% if ~exist('OUTFILE') ; OUTFILE = 'cpulser'; endif
+if ~exist('OUTFILE') ; OUTFILE = ''; endif
 
 
 % call pulser
-[ V HAX ] = pulser( F, W, NP, SAVE, FS, OUTFILE );
+[ V TS FFT HAX ] = pulser( F, W, NP, SAVE, FS, OUTFILE );
 
 % all pau!   )
 endfunction
