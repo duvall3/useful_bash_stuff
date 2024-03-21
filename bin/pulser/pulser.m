@@ -103,6 +103,7 @@ mu = T/2;							% simplify parameters for Gaussian
 sigma = W*1.e-6;						% simplify parameters for Gaussian
 v = 1/(sigma*sqrt(2*pi)) * exp( -(t-mu).^2/(2*sigma^2) );	% generate Gaussian pulse
 v = v/max(v) * (0.5)^2;						% normalize and reduce volume to 50%
+v = v - mean(v);						% DC offset
 
 % main -- pulse train
 TS = linspace(0, NP*T, NP*NSamples_pulse);			% time vector for complete signal
@@ -143,7 +144,7 @@ p(3) = plot(HAX(3), FFT.f/1000., FFT.A, 'linewidth', 3);
 xla(3) = xlabel(HAX(3), 'Frequency (kHz)');
 yla(3) = ylabel(HAX(3), 'Normalized Relative Amplitude');
 grid on
-Fmax = min([ FFT.f(end)/1000. F*10 ]);
+Fmax = min([ FFT.f(end)/1000. F*6.5 ]);
 xlim([0 Fmax])
 % show figures
 drawnow
