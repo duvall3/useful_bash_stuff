@@ -56,10 +56,39 @@ Options:
 ```
 
 
+### Manual Highlighting
+
+*Note: See [README.md](README.md) to view the source
+  for the examples here.*<br>
+This is used in the body of the Markdown file to format 
+  words or phrases of code <mark>like this</mark>, or
+<mark class="pad">indented code sections like this.</mark>
+Highlighting works <mark class="var">like 
+  </mark><mark class="str">this</mark>, and
+  highlighting within indented sections
+<mark class="pad">
+  works<br>
+  <mark class="var">like</mark><br>
+  <mark class="str">this</mark>.
+</mark>
+As stated above, highlighting within Markdown code blocks
+  (as opposed to the regular body environment) is provided
+  automagically by <mark>pandoc</mark>, as in the
+  <mark>BASH</mark> example shown here:
+
+```bash
+cd $HOME/Documents
+declare PI=3.14
+echo $PI
+echo 'Hello, world!'
+```
+
 ### Highlight Classes
 
-| Tag					| Intended Use		|
+| Class					| Intended Use		|
 | ------------------------------------- | --------------------- |
+| *<mark>none</mark>*			| general code		|
+| <mark>pad</mark>			| indented code block	|
 | <mark class="command">command</mark>	| shell commands	|
 | <mark class="var">var</mark>		| variable names	|
 | <mark class="const">const</mark>	| numeric constanst	|
@@ -78,19 +107,20 @@ Options:
 
 ## EXAMPLES
 
-### Locations
+### Basic Example -- Both Manual (<mark>md2html</mark>) and Automatic (<mark>pandoc</mark>)
 
-This README was itself created using <mark>md2html</mark>, so it provides a fairly full example.
-There is a basic inline example given here below.
-For more, see [examples](examples/).
-
-### Basic Inline Example
-
-If <mark>md2html</mark> is run on a Markdown file containing the literal Markdown source below marked <mark>INPUT</mark>, it should produce an output HTML file that will render as in the section marked <mark>OUTPUT</mark>.
+If <mark>md2html</mark> is run on a Markdown file containing the literal
+  Markdown source below marked <mark>INPUT</mark>, it should produce
+  an output HTML file that will render as in the section marked
+  <mark>OUTPUT</mark>.
 
 INPUT:<br>
 ````
-First, <mark class="command">cd</mark> into your <mark class="var">$HOME</mark> directory, then set the values of <mark class="var">PI</mark> and <mark class="var">FILENAME</mark> to <mark class="const">3.14</mark> and <mark class="str">"test.txt"</mark>, respectively:
+First, <mark class="command">cd</mark> into your
+  <mark class="var">$HOME</mark> directory, then set the values
+  of <mark class="var">PI</mark> and <mark class="var">FILENAME</mark>
+  to <mark class="const">3.14</mark> and <mark class="str">"test.txt"</mark>,
+  respectively, as follows:
 ```bash
 cd $HOME
 PI=3.14
@@ -106,6 +136,12 @@ PI=3.14
 FILENAME="test.txt"
 ```
 
+### Further Examples
+
+This README was itself created using <mark>md2html</mark>,
+  so see the source file [README.md](README.md)
+  for additional examples of usage.
+
 ---
 
 ## Closing Thoughts
@@ -120,4 +156,4 @@ Happy hacking!<br>
 
 ---
 
-*Last updated 2024-03-19*
+*Last updated 2024-03-22*

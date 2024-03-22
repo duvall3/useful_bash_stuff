@@ -59,7 +59,7 @@ while getopts "ho:t:" OPTIONS; do
       ;;
   esac
 done
-shift $((OPTIND-1)) # uncomment for options with args
+shift $((OPTIND-1))
 
 # set parameters
 TITLE=${TITLE:-${INFILE%.md}}

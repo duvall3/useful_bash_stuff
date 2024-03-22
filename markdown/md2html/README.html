@@ -96,6 +96,7 @@
 <body>
 <style type="text/css">
   mark {
+    font-family: monospace;
     color: white;
     background-color: #1D2127;
   }
@@ -155,15 +156,29 @@ Options:
   -h    Show this help message and exit
   -o    OUTFILE     Set output filename
   -t    TITLE       Set title of output HTML page</code></pre>
+<h3 id="manual-highlighting">Manual Highlighting</h3>
+<p><em>Note: See <a href="README.md">README.md</a> to view the source for the examples here.</em><br> This is used in the body of the Markdown file to format words or phrases of code <mark>like this</mark>, or <mark class="pad">indented code sections like this.</mark> Highlighting works <mark class="var">like </mark><mark class="str">this</mark>, and highlighting within indented sections <mark class="pad"> works<br> <mark class="var">like</mark><br> <mark class="str">this</mark>. </mark> As stated above, highlighting within Markdown code blocks (as opposed to the regular body environment) is provided automagically by <mark>pandoc</mark>, as in the <mark>BASH</mark> example shown here:</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true"></a><span class="bu">cd</span> <span class="va">$HOME</span>/Documents</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true"></a><span class="bu">declare</span> <span class="va">PI=</span>3.14</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true"></a><span class="bu">echo</span> <span class="va">$PI</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true"></a><span class="bu">echo</span> <span class="st">&#39;Hello, world!&#39;</span></span></code></pre></div>
 <h3 id="highlight-classes">Highlight Classes</h3>
 <table>
 <thead>
 <tr class="header">
-<th>Tag</th>
+<th>Class</th>
 <th>Intended Use</th>
 </tr>
 </thead>
 <tbody>
+<tr class="odd">
+<td><em><mark>none</mark></em></td>
+<td>general code</td>
+</tr>
+<tr class="even">
+<td><mark>pad</mark></td>
+<td>indented code block</td>
+</tr>
 <tr class="odd">
 <td><mark class="command">command</mark></td>
 <td>shell commands</td>
@@ -187,29 +202,33 @@ Options:
 <li>Users can modify these defaults or add their own classes by editing <mark>github-darkdown-additional.css</mark> in this directory.</li>
 <li>All class tags except the basic <code>mark</code> have the following syntax:</li>
 </ul>
-<div class="sourceCode" id="cb4"><pre class="sourceCode html"><code class="sourceCode html"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true"></a><span class="kw">&lt;mark</span><span class="ot"> class=</span><span class="st">&quot;CLASSNAME&quot;</span><span class="kw">&gt;</span>Highlighted Text<span class="kw">&lt;/mark&gt;</span></span></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode html"><code class="sourceCode html"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true"></a><span class="kw">&lt;mark</span><span class="ot"> class=</span><span class="st">&quot;CLASSNAME&quot;</span><span class="kw">&gt;</span>Highlighted Text<span class="kw">&lt;/mark&gt;</span></span></code></pre></div>
 <hr />
 <h2 id="examples">EXAMPLES</h2>
-<h3 id="locations">Locations</h3>
-<p>This README was itself created using <mark>md2html</mark>, so it provides a fairly full example. There is a basic inline example given here below. For more, see <a href="examples/">examples</a>.</p>
-<h3 id="basic-inline-example">Basic Inline Example</h3>
+<h3 id="basic-example-both-manual-md2html-and-automatic-pandoc">Basic Example – Both Manual (<mark>md2html</mark>) and Automatic (<mark>pandoc</mark>)</h3>
 <p>If <mark>md2html</mark> is run on a Markdown file containing the literal Markdown source below marked <mark>INPUT</mark>, it should produce an output HTML file that will render as in the section marked <mark>OUTPUT</mark>.</p>
 <p>INPUT:<br></p>
-<pre><code>First, &lt;mark class=&quot;command&quot;&gt;cd&lt;/mark&gt; into your &lt;mark class=&quot;var&quot;&gt;$HOME&lt;/mark&gt; directory, then set the values of &lt;mark class=&quot;var&quot;&gt;PI&lt;/mark&gt; and &lt;mark class=&quot;var&quot;&gt;FILENAME&lt;/mark&gt; to &lt;mark class=&quot;const&quot;&gt;3.14&lt;/mark&gt; and &lt;mark class=&quot;str&quot;&gt;&quot;test.txt&quot;&lt;/mark&gt;, respectively:
+<pre><code>First, &lt;mark class=&quot;command&quot;&gt;cd&lt;/mark&gt; into your
+  &lt;mark class=&quot;var&quot;&gt;$HOME&lt;/mark&gt; directory, then set the values
+  of &lt;mark class=&quot;var&quot;&gt;PI&lt;/mark&gt; and &lt;mark class=&quot;var&quot;&gt;FILENAME&lt;/mark&gt;
+  to &lt;mark class=&quot;const&quot;&gt;3.14&lt;/mark&gt; and &lt;mark class=&quot;str&quot;&gt;&quot;test.txt&quot;&lt;/mark&gt;,
+  respectively, as follows:
 ```bash
 cd $HOME
 PI=3.14
 FILENAME=&quot;test.txt&quot;
 ```</code></pre>
 <p>OUTPUT:<br> First, <mark class="command">cd</mark> into your <mark class="var">$HOME</mark> directory, then set the values of <mark class="var">PI</mark> and <mark class="var">FILENAME</mark> to <mark class="const">3.14</mark> and <mark class="str">“test.txt”</mark>, respectively:</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true"></a><span class="bu">cd</span> <span class="va">$HOME</span></span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true"></a><span class="va">PI=</span>3.14</span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true"></a><span class="va">FILENAME=</span><span class="st">&quot;test.txt&quot;</span></span></code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true"></a><span class="bu">cd</span> <span class="va">$HOME</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true"></a><span class="va">PI=</span>3.14</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true"></a><span class="va">FILENAME=</span><span class="st">&quot;test.txt&quot;</span></span></code></pre></div>
+<h3 id="further-examples">Further Examples</h3>
+<p>This README was itself created using <mark>md2html</mark>, so see the source file <a href="README.md">README.md</a> for additional examples of usage.</p>
 <hr />
 <h2 id="closing-thoughts">Closing Thoughts</h2>
 <p>This program was primarily created for writing software READMEs and tutorials, and it will probably be most useful as such. However, it could be helpful any time you want to generate a simple HTML document with class-based color highlighting. I’d be delighted to hear about any uses you find for it. Questions and comments are welcome at <a href="mailto:duvall3.git@gmail.com">duvall3 dot git at gmail dot com</a> or <a href="mailto:mark@trocksscience.com">mark at trocksscience dot com</a>.</p>
 <p>Happy hacking!<br> – MJD</p>
 <hr />
-<p><em>Last updated 2024-03-19</em></p>
+<p><em>Last updated 2024-03-22</em></p>
 </body>
 </html>
