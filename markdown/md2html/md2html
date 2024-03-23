@@ -64,29 +64,35 @@ shift $((OPTIND-1))
 # set parameters
 TITLE=${TITLE:-${INFILE%.md}}
 OUTFILE=${OUTFILE:-$TITLE".html"}
-PANDOC_TEMPLATE_DIR=$($DIRNAME $($REALPATH ${BASH_SOURCE[0]}))
+PTD=$($DIRNAME $($REALPATH ${BASH_SOURCE[0]}))		# P(andoc) T(emplate) D(irectory)
 TEMPLATE=github-darkdown
-TEMPLATE_FILES=( "$PANDOC_TEMPLATE_DIR/$TEMPLATE.css" "$PANDOC_TEMPLATE_DIR/$TEMPLATE.html")
-HSSTYLE="$PANDOC_TEMPLATE_DIR/$TEMPLATE.theme"
-CSSSTYLE="$PANDOC_TEMPLATE_DIR/$TEMPLATE-additional.css"
+TEMPLATE_FILES=( "$TEMPLATE.css" "$TEMPLATE.html")
+HSSTYLE="$TEMPLATE.theme"
+CSSSTYLE="$TEMPLATE-additional.css"
 
 
 ## MAIN
 STYLEDEFS=true
-for STYLEFILE in {${TEMPLATE_FILES[*]},$HSSTYLE,$CSSSTYLE}; do
+STYLEFILE_LIST=( ${TEMPLATE_FILES[*]} $HSSTYLE $CSSSTYLE )
+for STYLEFILE in ${STYLEFILE_LIST[*]/#/$PTD/}; do
   if [ ! -r $STYLEFILE ]; then
     $ECHO "$STYLEFILE failed" > $ERR
     STYLEDEFS=false
   fi
 done
-# $ECHO "STYLEDEFS = $STYLEDEFS" > $ERR #debug
+$ECHO "Converting $INFILE to $OUTFILE..."
 if $STYLEDEFS; then
-  $PANDOC -s --metadata pagetitle="$TITLE" --template=$TEMPLATE --highlight-style=$HSSTYLE -o $OUTFILE $CSSSTYLE $INFILE
+  $PANDOC -s --metadata pagetitle="$TITLE" --template=$PTD/$TEMPLATE --highlight-style=$PTD/$HSSTYLE -o $OUTFILE $PTD/$CSSSTYLE $INFILE
 else
   $ECHO "Style definition file(s) missing; using default HTML style." > $ERR
   $PANDOC -s --metadata pagetitle="$TITLE" -o $OUTFILE $INFILE
 fi
 EXIT_STATUS=$?
+if [ $EXIT_STATUS -eq 0 ]; then
+  $ECHO "Done."
+else
+  $ECHO "Conversion attempt returned exit status $EXIT_STATUS."
+fi
 
 
 ## EXIT
