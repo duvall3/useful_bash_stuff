@@ -150,7 +150,11 @@ xlim([0 Fmax])
 drawnow
 
 % play
-sound(V, FS);
+try
+  sound(V, FS);
+catch
+  disp('Error in playback.')
+end_try_catch
 
 % save if desired
 if SAVE

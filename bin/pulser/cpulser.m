@@ -1,5 +1,5 @@
 ## -*- texinfo -*-
-## @deftypefn {} {[@var{V}, @var{TS}, @var{FFT}, @var{HAX}] = } cpulser(@var{FILENAME} = 'cpulser.conf')
+## @deftypefn {} {[@var{V}, @var{TS}, @var{FFT}, @var{HAX}] = } cpulser(@var{FILENAME} = 'cpulser.conf.m')
 ## Generate, play, and (optionally) save a train of Gaussian pulses,
 ## reading settings from a configuration file.
 ##
@@ -57,7 +57,7 @@
 ##
 ## @end deftypefn
 
-function [ V TS FFT HAX ] = cpulser( FILENAME = 'cpulser.conf' )
+function [ V TS FFT HAX ] = cpulser( FILENAME = 'cpulser.conf.m' )
 
 %Copyright (C) 2024 Mark J. Duvall / T. Rocks Science
 %

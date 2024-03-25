@@ -1,15 +1,15 @@
-########################################################
-# PULSE GENERATOR CODE (PYTHON3) - pulse.py
-#
-#   This code is equivalent to Mark's pulse generator
-#   code but this version is written and run in python3.
-#
-#   Jeffrey Gabriel Yepez
-#   Dated: 19 March 2024
-#
-#   Minor modifications by Mark J. Duvall
-#   Dated: 22 March 2024
-########################################################
+"""
+PULSE GENERATOR CODE (PYTHON3) - pulse.py
+
+  This code is equivalent to Mark's pulse generator
+  code but this version is written and run in python3.
+
+  Jeffrey Gabriel Yepez
+  Dated: 19 March 2024
+
+  Minor modifications by Mark J. Duvall
+  Dated: 22 March 2024
+"""
 
 import pyaudio
 import time
@@ -141,4 +141,4 @@ if SAVE_WAV_FILE:
 # All pau!   )
 
 print("Finished. Exiting...")
-exit()
+# exit()
