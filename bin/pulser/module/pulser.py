@@ -29,7 +29,7 @@ for modname in MODULE_LIST_plain:
         mod = import_module(modname)
     except:
         # print(sys.exc_info())
-        raise ModuleNotFoundError(name = modname, msg = f'Module {modname} not found.')
+        raise ModuleNotFoundError(name = modname, msg = f'Required module {modname} not found; please run `pip3 install {modname}`.')
     else:
         globals()[modname] = mod
 MODULE_LIST_abbr = [('numpy', 'np'), ('matplotlib.pyplot', 'plt')]
@@ -38,10 +38,11 @@ for (modname, modabbr) in MODULE_LIST_abbr:
         mod = import_module(modname)
     except:
         # print(sys.exc_info())
-        raise ModuleNotFoundError(name = modname, msg = f'Module {modname} not found.')
+        raise ModuleNotFoundError(name = modname, msg = f'Required module {modname} not found; please run `pip3 install {modname}`.')
     else:
         globals()[modabbr] = mod
 
+## MAIN
 class pulser:
 
     ########################################################
@@ -80,14 +81,6 @@ class pulser:
                 'N': int(DUR * self.PARAMETERS['fs']),                            # Total number of samples in signal
                 'a': self.PARAMETERS['vol']**2}                                   # Pulse amplitude
 
-    def __update_derived__(self):
-        """
-        Update the derived parameters.
-        """
-        self.DERIVED['duration'] = self.PARAMETERS['n_pulses'] * self.PARAMETERS['pulse_dur']            # Total signal duration in seconds
-        self.DERIVED['N'] = int(self.DERIVED['duration'] * self.PARAMETERS['fs'])                        # Total number of samples in signal
-        self.DERIVED['a'] = self.PARAMETERS['vol']**2                                                    # Pulse amplitude
-
     # for printing
     def __str__(self):
         s = f'\nPULSER ATTRIBUTES:\n\n'
@@ -105,8 +98,43 @@ class pulser:
         if 'signal' in dir(self):
             s += f'\nSignal:\n' + self.signal.__str__() + f'\n'
         else:
-            s += f'\nRun the generate() method to create the signal.\n'
+            s += f'\nCall the generate() method to create the signal.\n'
         return s
+
+    # parameter update
+    def __update_derived__(self):
+        """
+        Update the derived parameters.
+        """
+        self.DERIVED['duration'] = self.PARAMETERS['n_pulses'] * self.PARAMETERS['pulse_dur']            # Total signal duration in seconds
+        self.DERIVED['N'] = int(self.DERIVED['duration'] * self.PARAMETERS['fs'])                        # Total number of samples in signal
+        self.DERIVED['a'] = self.PARAMETERS['vol']**2                                                    # Pulse amplitude
+
+    # change settings
+    def set(self, setting: str, value):
+        if setting in self.OPTIONS:
+            category = self.OPTIONS
+            if type(value) == bool:
+                self.OPTIONS[setting] = value
+            else:
+                raise TypeError(f'Value for {setting} must be of type `bool`.')
+        elif setting in self.PARAMETERS:
+            category = self.PARAMETERS
+            _value = self.PARAMETERS[setting]
+            vtype = type(_value)
+            if type(value) == vtype:
+                self.PARAMETERS[setting] = value
+                self.__update_derived__()
+            else:
+                raise TypeError(f'Value for {setting} must be of type `{vtype}`.')
+        elif setting in self.DERIVED:
+            raise Exception(f'`{setting}` is a derived parameter and cannot be set directly; change the relevant PARAMETER(s) instead.')
+        else:
+            raise Exception(f'Setting {setting} not found.')
+        if category[setting] == value:
+            print(f'{setting} = {value}')
+        else:
+            raise Exception(f'Set unsuccessful; encountered unknown error.')
 
     ########################################################
     # STEP 1: PULSE TRAIN
