@@ -11,6 +11,16 @@ PULSE GENERATOR CODE (PYTHON3) - pulse.py
   Dated: 22 March 2024
 """
 
+# TODO
+# Major:
+# - finish steps, obvs
+# - update description, including:
+#   - add basic instructions
+#   - add list of required modules
+# Minor:
+# - improve exceptions
+# - modify behavior on missing deps instead of just exiting
+
 
 ########################################################
 # IMPORTS
