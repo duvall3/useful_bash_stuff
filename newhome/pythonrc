@@ -10,6 +10,7 @@ import numpy as np
 # import matplotlib as mpl          #TODO: temp disable
 # import matplotlib.pyplot as plt   #TODO: temp disable
 import pprint
+# from inspect import getmembers, signature
 import inspect
 
 # aliases
@@ -31,6 +32,11 @@ def exist( name: str=str() ) -> bool:
         print(r'Please enter a variable name.')
         return None
     return ( name in locals() or name in globals() )
+# ppd -- pretty print an object's "dir()" list
+def ppd( obj = None ):
+    """ Verbose pretty-print using inspect.getmembers()"""
+    pprint.pp( dir(obj) )
+    return None
 # ppv -- pretty print, verbose
 def ppv( obj = None ):
     """ Verbose pretty-print using inspect.getmembers()"""
