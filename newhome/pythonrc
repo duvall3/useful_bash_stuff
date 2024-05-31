@@ -3,15 +3,14 @@ Startup / profile script for Python
 """
 
 # modules
-import os
-import sys
-import re
+import os, sys, re, pprint, inspect
 import numpy as np
-# import matplotlib as mpl          #TODO: temp disable
 # import matplotlib.pyplot as plt   #TODO: temp disable
-import pprint
-# from inspect import getmembers, signature
-import inspect
+try:
+    from tabulate import tabulate as tab
+    HAS_TABULATE = True
+except ModuleNotFoundError:
+    HAS_TABULATE = False
 
 # aliases
 pwd = os.getcwd
@@ -34,8 +33,16 @@ def exist( name: str=str() ) -> bool:
     return ( name in locals() or name in globals() )
 # ppd -- pretty print an object's "dir()" list
 def ppd( obj = None ):
-    """ Verbose pretty-print using inspect.getmembers()"""
-    pprint.pp( dir(obj) )
+    """ Pretty print an object's 'dir()' list """
+    # pprint.pp( dir(obj) )
+    if HAS_TABULATE:
+        TABLE = [ ['Attribute', 'Type'] ]
+        for dirobj in dir(obj):
+            TABLE.append([dirobj.__str__(), type(obj.__getattribute__(dirobj))])
+        print(tab(TABLE, headers='firstrow'))
+    else:
+        for dirobj in dir(obj):
+            print(dirobj, type(obj.__getattribute__(dirobj)))
     return None
 # ppv -- pretty print, verbose
 def ppv( obj = None ):
