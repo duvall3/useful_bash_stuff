@@ -1,4 +1,4 @@
-#!/data/data/com.termux/files/usr/bin/bash
+#!/bin/bash
 # sampletable.sh -- Generate an extremely simple data table
 # USAGE: sampletable.sh [-h|-f] [OUTFILENAME]
 # Default OUTFILENAME is "sample.dat"
