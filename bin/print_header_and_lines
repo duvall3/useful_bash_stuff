@@ -1,0 +1,87 @@
+#!/bin/bash
+# print_header_and_lines -- Extract requested line(s) from an ASCII data file and print along with header
+# USAGE: print_header_and_lines [-h|OPTS] <ARGS>
+# ~ Mark J. Duvall / T. Rocks Science ~ mjduvall@hawaii.edu ~ 06/2024 ~ #
+
+## INIT
+
+# general
+NULL=/dev/null
+ERR=/dev/stderr
+
+# control for aliases
+ECHO="$(which echo) -e"
+
+# define usage
+usage() {
+  $ECHO "Usage: print_header_and_lines [-h|OPTS] <ARGS>"
+  $ECHO "Extract requested line(s) from an ASCII data file and print along with header"
+  $ECHO
+  $ECHO "Options:"
+  $ECHO "  -h\tShow this help message and exit"
+  $ECHO
+}
+
+# process options and args
+CSV=false
+DO_PAGER=true
+# while getopts "hcn" OPTIONS; do
+while getopts "hc" OPTIONS; do
+  case $OPTIONS in
+    h)
+      usage
+      exit 10
+      ;;
+    c)
+      CSV=true
+      shift
+      ;;
+    # n)
+    #   DO_PAGER=false
+    #   shift
+    #   ;;
+    *)
+      $ECHO
+      usage
+      exit 11
+      ;;
+  esac
+done
+INFILE=$1
+shift
+# shift $((OPTIND-1)) # uncomment for options with args
+
+
+## MAIN
+
+# echo "$INFILE:" #debug
+
+# build output
+# inefficient (scans infile multiple times), but workable
+if $CSV; then
+  DELIMOPT="-s ','"
+fi
+OUTPUT=$(head -n 1 $INFILE)
+OUTPUT+='\n'
+for LINE in $@; do
+  # echo $LINE #debug
+  OUTPUT+=$(awk -v line=$LINE 'NR==line' $INFILE)
+  OUTPUT+='\n'
+done
+
+# print output
+PAGER=${PAGER:-/usr/bin/more}
+if $DO_PAGER; then
+  echo -e $OUTPUT | column -t $DELIMOPT | $PAGER
+else
+  echo -e $OUTPUT | column -t $DELIMOPT
+fi
+EXIT_STATUS=$?
+
+
+## EXIT
+
+# all pau!   )
+EXIT_STATUS=${EXIT_STATUS:-0}
+exit $EXIT_STATUS
+
